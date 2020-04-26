@@ -44,15 +44,14 @@ namespace KerbalAlarmClock
                         onAppLaunchToggleOn, onAppLaunchToggleOff,
                         onAppLaunchHoverOn, onAppLaunchHoverOff,
                         null, null,
-                        ApplicationLauncher.AppScenes.SPACECENTER,
+                        ApplicationLauncher.AppScenes.ALWAYS,
                         MODID,
                         "kacBtn",
-                        KACUtils.PathToolbarIcons + "KACIconBig-Norm.png",
+                        KACUtils.PathToolbarTexturePath + "/KACIconBig-Norm",
                         KACUtils.PathToolbarTexturePath + "/KACIcon-Norm",
                         MODNAME
                     );
                 }
-
             }
             catch (Exception ex)
             {
