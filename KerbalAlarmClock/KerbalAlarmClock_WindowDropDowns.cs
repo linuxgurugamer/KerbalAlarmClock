@@ -162,6 +162,7 @@ namespace KerbalAlarmClock
             settings.ButtonStyleChosen = (Settings.ButtonStyleEnum)NewIndex;
             settings.Save();
 
+#if false
             //destroy Old Objects
             switch ((Settings.ButtonStyleEnum)OldIndex)
             {
@@ -172,7 +173,10 @@ namespace KerbalAlarmClock
                     DestroyAppLauncherButton();
                     break;
             }
-
+#endif
+            DestroyToolbarControllerButton(btnToolbarControl);
+            btnToolbarControl = InitToolbarControlButton();
+#if false
             //Create New ones
             switch ((Settings.ButtonStyleEnum)NewIndex)
             {
@@ -188,6 +192,7 @@ namespace KerbalAlarmClock
                         
                     break;
             }
+#endif
         }
         void ddlSettingsAlarmSpecs_OnSelectionChanged(KerbalAlarmClock.DropDownList sender, int OldIndex, int NewIndex)
         {
@@ -241,7 +246,7 @@ namespace KerbalAlarmClock
         }
 
 
-        #endregion
+#endregion
 
 
 

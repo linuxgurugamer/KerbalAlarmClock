@@ -1,16 +1,19 @@
-﻿using System;
+﻿#if false
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using KACToolbarWrapper;
+//using KACToolbarWrapper;
+using ToolbarControl_NS;
 
 namespace KerbalAlarmClock
 {
     public partial class KerbalAlarmClock
     {
-        internal IButton btnToolbarKAC = null;
-        internal Boolean BlizzyToolbarIsAvailable = false;
+
+        //internal KACToolbarWrapper.IButton btnToolbarKAC = null;
+        //internal Boolean BlizzyToolbarIsAvailable = false;
 
         /// <summary>
         /// Check to see if the Toolbar is available
@@ -19,7 +22,7 @@ namespace KerbalAlarmClock
         internal Boolean HookToolbar()
         {
             //Is the Dll in memory
-            Boolean blnReturn = ToolbarManager.ToolbarAvailable;
+            Boolean blnReturn = KACToolbarWrapper.ToolbarManager.ToolbarAvailable;
             LogFormatted("Blizzy's Toolbar Loaded:{0}", blnReturn);
             return blnReturn;
         }
@@ -29,13 +32,13 @@ namespace KerbalAlarmClock
         /// initialises a Toolbar Button for this mod
         /// </summary>
         /// <returns>The ToolbarButtonWrapper that was created</returns>
-        internal IButton InitToolbarButton()
+        internal KACToolbarWrapper.IButton InitToolbarButton()
         {
-            IButton btnReturn = null;
+            KACToolbarWrapper.IButton btnReturn = null;
             try
             {
                 LogFormatted("Initialising the Toolbar Icon");
-                btnReturn = ToolbarManager.Instance.add("KerbalAlarmClock", "btnToolbarIcon");
+                btnReturn = KACToolbarWrapper.ToolbarManager.Instance.add("KerbalAlarmClock", "btnToolbarIcon");
                 btnReturn.TexturePath = KACUtils.PathToolbarTexturePath + "/KACIcon-Norm";
                 btnReturn.ToolTip = "Kerbal Alarm Clock";
                 btnReturn.OnClick += (e) =>
@@ -56,7 +59,7 @@ namespace KerbalAlarmClock
         /// Destroys theToolbarButtonWrapper object
         /// </summary>
         /// <param name="btnToDestroy">Object to Destroy</param>
-        internal void DestroyToolbarButton(IButton btnToDestroy)
+        internal void DestroyToolbarButton(KACToolbarWrapper.IButton btnToDestroy)
         {
             if (btnToDestroy != null)
             {
@@ -68,3 +71,4 @@ namespace KerbalAlarmClock
 
     }
 }
+#endif

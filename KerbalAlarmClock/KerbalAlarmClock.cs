@@ -9,7 +9,7 @@ using KSP;
 using KSPPluginFramework;
 using Contracts;
 
-using KACToolbarWrapper;
+//using KACToolbarWrapper;
 using KAC_KERWrapper;
 using KAC_VOIDWrapper;
 
@@ -169,6 +169,7 @@ namespace KerbalAlarmClock
 			this.ConfigSoundsDDLs();
 			InitAudio();
 
+#if false
 			//Get whether the toolbar is there
 			settings.BlizzyToolbarIsAvailable = ToolbarManager.ToolbarAvailable;
 
@@ -177,9 +178,14 @@ namespace KerbalAlarmClock
 			{
 				btnToolbarKAC = InitToolbarButton();
 			}
+#endif
+			btnToolbarControl = InitToolbarControlButton();
+
+#if false
 			GameEvents.onGUIApplicationLauncherReady.Add(OnGUIAppLauncherReady);
 			GameEvents.onGUIApplicationLauncherDestroyed.Add(DestroyAppLauncherButton);
 			GameEvents.onGameSceneLoadRequested.Add(OnGameSceneLoadRequestedForAppLauncher);
+#endif
 			GameEvents.Contract.onContractsLoaded.Add(ContractsReady);
 
             GameEvents.onGUIAdministrationFacilitySpawn.Add(EnterKSCFacility);
@@ -292,9 +298,11 @@ namespace KerbalAlarmClock
 			LogFormatted("Destroying the KerbalAlarmClock-{0}", MonoName);
 
 			//Hook the App Launcher
+#if false
 			GameEvents.onGUIApplicationLauncherReady.Remove(OnGUIAppLauncherReady);
 			GameEvents.onGUIApplicationLauncherDestroyed.Remove(DestroyAppLauncherButton);
 			GameEvents.onGameSceneLoadRequested.Remove(OnGameSceneLoadRequestedForAppLauncher);
+#endif
 			GameEvents.Contract.onContractsLoaded.Remove(ContractsReady);
 
             GameEvents.onGUIAdministrationFacilitySpawn.Remove(EnterKSCFacility);
@@ -316,10 +324,11 @@ namespace KerbalAlarmClock
 			Destroy(EjectAngle);
 
 			DestroyDropDowns();
-
+#if false
 			DestroyToolbarButton(btnToolbarKAC);
-
 			DestroyAppLauncherButton();
+#endif
+			DestroyToolbarControllerButton(btnToolbarControl);
 
 			APIDestroy();
 		}
@@ -339,7 +348,7 @@ namespace KerbalAlarmClock
         private void EnterKSCFacility() { inAdminFacility = true; }
         private void LeaveKSCFacility() { inAdminFacility = false; }
 
-        #region "Update Code"
+#region "Update Code"
         //Update Function - Happens on every frame - this is where behavioural stuff is typically done
         internal override void Update()
 		{
@@ -450,7 +459,7 @@ namespace KerbalAlarmClock
 				//                IsInPostDrawQueue = false;
 			}
 		}
-        #endregion
+#endregion
 
         private void OnShowUI()
         {
