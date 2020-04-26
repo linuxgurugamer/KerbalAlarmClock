@@ -11,6 +11,7 @@ using UnityEngine;
 using KSP;
 using KSP.UI.Screens;
 using KSPPluginFramework;
+using ClickThroughFix;
 
 namespace KerbalAlarmClock
 {
@@ -83,7 +84,7 @@ namespace KerbalAlarmClock
 								default:
 									strAlarmText+= " - Manual";break;
 							}
-							tmpAlarm.AlarmWindow = GUILayout.Window(tmpAlarm.AlarmWindowID, tmpAlarm.AlarmWindow, FillAlarmWindow, strAlarmText, KACResources.styleWindow, GUILayout.MinWidth(320));
+							tmpAlarm.AlarmWindow = ClickThruBlocker.GUILayoutWindow(tmpAlarm.AlarmWindowID, tmpAlarm.AlarmWindow, FillAlarmWindow, strAlarmText, KACResources.styleWindow, GUILayout.MinWidth(320));
 						}
 					}
 				}
