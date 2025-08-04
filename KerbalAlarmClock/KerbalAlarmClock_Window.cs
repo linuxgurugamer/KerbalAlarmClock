@@ -2144,8 +2144,11 @@ namespace KerbalAlarmClock
             Boolean blnReturn = false;
             Int32 intParse;
             GUIStyle styleTextBox = KACResources.styleAddField;
+            
+            // Check for use of contText
             GUIContent contText = new GUIContent(Value);
             Boolean BlnIsNum = Int32.TryParse(Value, out intParse);
+
             if (!BlnIsNum) styleTextBox = KACResources.styleAddFieldError;
 
             //styleTextBox.alignment = TextAnchor.MiddleRight;

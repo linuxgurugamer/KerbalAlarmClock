@@ -605,6 +605,13 @@ namespace KerbalAlarmClock
 			if (IconShowByActiveScene)
 				TriggeredAlarms();
 
+			// Draw WarpTo buttons before the GUI Window to avoid rescaling positions 
+			// with ScaleAroundPivot
+			if (settings.WarpToEnabled)
+			{
+				DrawNodeButtons();
+			}
+
 			//If the mainwindow is visible And no pause menu then draw it
 			if (WindowVisibleByActiveScene)
 			{
@@ -612,11 +619,6 @@ namespace KerbalAlarmClock
 				DrawWindowsPre();
 				DrawWindows();
 				DrawWindowsPost();
-			}
-
-			if (settings.WarpToEnabled)
-			{
-				DrawNodeButtons();
 			}
 
 			//Do the stuff to lock inputs of people have that turned on
@@ -1017,7 +1019,12 @@ namespace KerbalAlarmClock
 
 		private Boolean MouseOverWindow(Rect WindowRect, Boolean WindowVisible)
 		{
-			return WindowVisible && WindowRect.Contains(Event.current.mousePosition);
+			// Use Input instead of Event.current because Event.current.mousePosition
+			// gets inverted for key presses, but Input is stable (though always
+			// inverted).
+			Vector2 mousePos = Input.mousePosition;
+			mousePos.y = Screen.height - mousePos.y;
+			return WindowVisible && WindowRect.Contains(mousePos);
 		}
 
 #if DEBUG
@@ -1064,7 +1071,7 @@ namespace KerbalAlarmClock
 		//#endregion
 
 		//Updates the variables that are used in the drawing - this is not on the OnGUI thread
-		private Dictionary<String, KACVesselSOI> lstVessels = new Dictionary<String,KACVesselSOI>();
+		//private Dictionary<String, KACVesselSOI> lstVessels = new Dictionary<String,KACVesselSOI>();
 		public void UpdateDetails()
 		{
 			KACWorkerGameState.SetCurrentFlightStates();
@@ -1211,12 +1218,9 @@ namespace KerbalAlarmClock
 
 
 			//Do we need to turn off the global warp light
-			if (KACWorkerGameState.CurrentWarpInfluenceStartTime == null)
+			//has it been on long enough?
+			if (KACWorkerGameState.CurrentWarpInfluenceStartTime.AddSeconds(settings.WarpTransitions_ShowIndicatorSecs) < DateTime.Now)
 				KACWorkerGameState.CurrentlyUnderWarpInfluence = false;
-			else
-				//has it been on long enough?
-				if (KACWorkerGameState.CurrentWarpInfluenceStartTime.AddSeconds(settings.WarpTransitions_ShowIndicatorSecs) < DateTime.Now)
-					KACWorkerGameState.CurrentlyUnderWarpInfluence = false;
 
 			//Window Pos Movement Mechanic
 			if (WindowPosLast.x != WindowPosByActiveScene.x || WindowPosLast.y != WindowPosByActiveScene.y)
@@ -1371,7 +1375,7 @@ namespace KerbalAlarmClock
 					{
 						double timeSOIChange = 0;
 						timeSOIChange = KACWorkerGameState.CurrentVessel.orbit.UTsoi;
-						tmpAlarm.AlarmTime.UT = KACWorkerGameState.CurrentVessel.orbit.UTsoi - tmpAlarm.AlarmMarginSecs;
+						tmpAlarm.AlarmTime.UT = timeSOIChange - tmpAlarm.AlarmMarginSecs;
 					}
 				}
 			}
@@ -1707,12 +1711,9 @@ namespace KerbalAlarmClock
                 KACAlarm tmpAlarm = alarms[i];
 
 				//reset each alarms WarpInfluence flag
-				if (KACWorkerGameState.CurrentWarpInfluenceStartTime == null)
+				//if the lights been on long enough
+				if (KACWorkerGameState.CurrentWarpInfluenceStartTime.AddSeconds(settings.WarpTransitions_ShowIndicatorSecs) < DateTime.Now)
 					tmpAlarm.WarpInfluence = false;
-				else
-					//if the lights been on long enough
-					if (KACWorkerGameState.CurrentWarpInfluenceStartTime.AddSeconds(settings.WarpTransitions_ShowIndicatorSecs) < DateTime.Now)
-						tmpAlarm.WarpInfluence = false;
 
                 //Update Remaining interval for each alarm
                 if (tmpAlarm.TypeOfAlarm != KACAlarm.AlarmTypeEnum.EarthTime)
