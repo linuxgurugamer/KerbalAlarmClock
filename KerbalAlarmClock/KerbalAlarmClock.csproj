@@ -85,11 +85,9 @@
     <Compile Include="SharedStuff\AppLauncher.cs" />
     <Compile Include="SharedStuff\VOIDWrapper.cs" />
     <Compile Include="SharedStuff\KERWrapper.cs" />
-    <Compile Include="SharedStuff\ToolbarWrapper.cs" />
     <Compile Include="KerbalAlarmClock_WindowDropDowns.cs" />
     <Compile Include="KerbalAlarmClock_GameState.cs" />
     <Compile Include="KerbalAlarmClock_ScenarioModule.cs" />
-    <Compile Include="KerbalAlarmClock_ToolbarButtons.cs" />
     <Compile Include="KerbalAlarmClock_WindowAdd_AscDescNodes.cs" />
     <Compile Include="KerbalAlarmClock_WindowAdd_Distance.cs" />
     <Compile Include="KerbalAlarmClock_WindowEarth.cs" />

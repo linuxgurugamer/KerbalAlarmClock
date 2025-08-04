@@ -1,6 +1,9 @@
 Changelog
 
 3.14.1 
+	Changes for ClickThroughBlocker support
+	Added ToolbarController for the button
+		Removed all code related to either stock or blizzy toolbar
 	From github user @taniwha's repo
 		Fix a bunch of compiler warnings.
 	From github user @TonkaCrash
@@ -8,5 +11,6 @@ Changelog
 	Reorganized for LGG build process
 	Added ChangeLog
 	Added InstallChecker/AssemblyVersion.tt
-
+	@linuxgurugamer
+	Now working in all scenes
 )

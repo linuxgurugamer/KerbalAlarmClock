@@ -169,23 +169,8 @@ namespace KerbalAlarmClock
 			this.ConfigSoundsDDLs();
 			InitAudio();
 
-#if false
-			//Get whether the toolbar is there
-			settings.BlizzyToolbarIsAvailable = ToolbarManager.ToolbarAvailable;
-
-			//setup the Toolbar button if necessary
-			if (settings.ButtonStyleToDisplay == Settings.ButtonStyleEnum.Toolbar)
-			{
-				btnToolbarKAC = InitToolbarButton();
-			}
-#endif
 			btnToolbarControl = InitToolbarControlButton();
 
-#if false
-			GameEvents.onGUIApplicationLauncherReady.Add(OnGUIAppLauncherReady);
-			GameEvents.onGUIApplicationLauncherDestroyed.Add(DestroyAppLauncherButton);
-			GameEvents.onGameSceneLoadRequested.Add(OnGameSceneLoadRequestedForAppLauncher);
-#endif
 			GameEvents.Contract.onContractsLoaded.Add(ContractsReady);
 
             GameEvents.onGUIAdministrationFacilitySpawn.Add(EnterKSCFacility);
@@ -324,10 +309,6 @@ namespace KerbalAlarmClock
 			Destroy(EjectAngle);
 
 			DestroyDropDowns();
-#if false
-			DestroyToolbarButton(btnToolbarKAC);
-			DestroyAppLauncherButton();
-#endif
 			DestroyToolbarControllerButton(btnToolbarControl);
 
 			APIDestroy();
