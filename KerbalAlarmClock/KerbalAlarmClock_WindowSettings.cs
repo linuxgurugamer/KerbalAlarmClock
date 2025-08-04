@@ -827,7 +827,7 @@ namespace KerbalAlarmClock
                 if (DrawCheckbox(ref IconShow, new GUIContent("Alarm Clock Visible", "Show the Kerbal Alarm Clock Icon in this Game Mode")))
                 {
                     WindowVisible = IconShow;
-                    DestroyToolbarButton(btnToolbarKAC);
+                    //DestroyToolbarButton(btnToolbarKAC);
                     //if (settings.UseBlizzyToolbarIfAvailable) InitToolbarButton();
                     settings.Save();
                 }

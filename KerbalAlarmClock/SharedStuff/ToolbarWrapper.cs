@@ -1,4 +1,5 @@
-﻿/*
+﻿#if false
+/*
 Copyright (c) 2013-2014, Maik Schreiber
 All rights reserved.
 
@@ -797,3 +798,5 @@ namespace KACToolbarWrapper {
 
 	#endregion
 }
+
+#endif

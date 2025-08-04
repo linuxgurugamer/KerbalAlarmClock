@@ -405,19 +405,35 @@ namespace KerbalAlarmClock
             return textureReturn;
         }
 
-        internal static String GetWarpIconTexturePath()
+        internal static String GetWarpIconTexturePath(bool big = false)
         {
-            String textureReturn = KACUtils.PathToolbarTexturePath + "/KACIcon-WarpEffect2_";
+            String textureReturn;
+
+            if (big)
+            {
+                textureReturn = KACUtils.PathToolbarTexturePath + "/KACIconBig-WarpEffect2_";
+            }
+            else
+            {
+                textureReturn = KACUtils.PathToolbarTexturePath + "/KACIcon-WarpEffect2_";
+            }
 
             textureReturn = GetIconPercentageFromTime(textureReturn);
             return textureReturn;
         }
 
-        internal static String GetPauseIconTexturePath()
+        internal static String GetPauseIconTexturePath(bool big = false)
         {
-            String textureReturn = KACUtils.PathToolbarTexturePath + "/KACIcon-PauseEffect_";
-
-            textureReturn = GetIconPercentageFromTime(textureReturn);
+            String textureReturn;
+            if (big)
+            {
+                textureReturn = KACUtils.PathToolbarTexturePath + "/KACIcon-PauseEffect_";
+            }
+            else
+            {
+                textureReturn = KACUtils.PathToolbarTexturePath + "/KACIconBig-PauseEffect_";
+            }
+                textureReturn = GetIconPercentageFromTime(textureReturn);
             return textureReturn;
         }
 

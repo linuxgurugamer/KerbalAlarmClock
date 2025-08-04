@@ -13,6 +13,7 @@ namespace KerbalAlarmClock
 {
     public partial class KerbalAlarmClock
     {
+#if false
         /// <summary>
         /// Sets up the App Button - no longer called by the event as that only happens on StartMenu->SpaceCenter now
         /// </summary>
@@ -42,7 +43,7 @@ namespace KerbalAlarmClock
             LogFormatted_DebugOnly("GameSceneLoadRequest");
             DestroyAppLauncherButton();
         }
-        internal ApplicationLauncherButton btnAppLauncher = null;
+        //internal ApplicationLauncherButton btnAppLauncher = null;
 
         internal ApplicationLauncherButton InitAppLauncherButton()
         {
@@ -93,7 +94,7 @@ namespace KerbalAlarmClock
             }
             //LogFormatted("AppLauncher: Destroying Button-AFTER NULL CHECK");
         }
-
+#endif
 
         internal Boolean AppLauncherToBeSetTrue = false;
         internal DateTime AppLauncherToBeSetTrueAttemptDate;
@@ -105,16 +106,17 @@ namespace KerbalAlarmClock
                 AppLauncherToBeSetTrueAttemptDate = DateTime.Now;
                 return;
             }
-            ApplicationLauncherButton ButtonToToggle = btnAppLauncher;
+            //ApplicationLauncherButton ButtonToToggle = btnAppLauncher;
 
-            if (ButtonToToggle == null)
+            if (btnToolbarControl == null)
             {
                 LogFormatted_DebugOnly("Button Is Null");
                 AppLauncherToBeSetTrueAttemptDate = DateTime.Now;
                 return;
             }
 
-
+            btnToolbarControl.SetTrue(true);
+#if false
             if (ButtonToToggle.toggleButton.CurrentState != UIRadioButton.State.True)
             {
                 if (AppLauncherToBeSetTrueAttemptDate.AddSeconds(settings.AppLauncherSetTrueTimeOut) < DateTime.Now)
@@ -129,10 +131,12 @@ namespace KerbalAlarmClock
                 }
             }
             else
+#endif
             {
                 AppLauncherToBeSetTrue = false;
             }
         }
+
 
         void onAppLaunchToggleOn() {
             MonoBehaviourExtended.LogFormatted_DebugOnly("TOn");

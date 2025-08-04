@@ -11,6 +11,7 @@ using UnityEngine;
 using KSP;
 using KSP.UI.Screens;
 using KSPPluginFramework;
+using ClickThroughFix;
 
 namespace KerbalAlarmClock
 {
@@ -83,7 +84,7 @@ namespace KerbalAlarmClock
 								default:
 									strAlarmText+= " - Manual";break;
 							}
-							tmpAlarm.AlarmWindow = GUILayout.Window(tmpAlarm.AlarmWindowID, tmpAlarm.AlarmWindow, FillAlarmWindow, strAlarmText, KACResources.styleWindow, GUILayout.MinWidth(320));
+							tmpAlarm.AlarmWindow = ClickThruBlocker.GUILayoutWindow(tmpAlarm.AlarmWindowID, tmpAlarm.AlarmWindow, FillAlarmWindow, strAlarmText, KACResources.styleWindow, GUILayout.MinWidth(320));
 						}
 					}
 				}
@@ -519,12 +520,12 @@ namespace KerbalAlarmClock
 			//if ((!ViewAlarmsOnly) && (KACWorkerGameState.CurrentVessel != null) && (FindVesselForAlarm(tmpAlarm).id.ToString() == KACWorkerGameState.CurrentVessel.id.ToString()))
 			if ((KACWorkerGameState.CurrentGUIScene == GameScenes.FLIGHT) && (KACWorkerGameState.CurrentVessel != null) && (FindVesselForAlarm(tmpAlarm).id.ToString() == KACWorkerGameState.CurrentVessel.id.ToString()))
 			{
+#if false
 				//There is a node and the alarm + Margin is not expired
 				if ((tmpAlarm.ManNodes != null) && tmpAlarm.ManNodes.Count > 0)
 				//if ((tmpAlarm.ManNodes != null) && ((tmpAlarm.Remaining.UT + tmpAlarm.AlarmMarginSecs) > 0))
 				{
                     bool blnDontShowManNode = false;
-
 					//Check if theres a Maneuver node and if so put a label saying that it already exists
 					//only display this node button if its the active ship
 					//Add this sae functionality to the alarm triggered window
@@ -557,6 +558,7 @@ namespace KerbalAlarmClock
                         }
                     }
 				}
+#endif
 				//There is a stored Target, that hasnt passed
 				//if ((tmpAlarm.TargetObject != null) && ((tmpAlarm.Remaining.UT + tmpAlarm.AlarmMarginSecs) > 0))
 				if ((tmpAlarm.TargetObject != null))
