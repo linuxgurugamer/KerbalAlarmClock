@@ -585,6 +585,7 @@ namespace KerbalAlarmClock
 			}
 			else
 			{
+#if false
 				//not current vessel
 				//There is a node and the alarm + Margin is not expired
 				//if (tmpAlarm.ManNodes != null && tmpAlarm.Remaining.UT + tmpAlarm.AlarmMarginSecs > 0)
@@ -631,7 +632,8 @@ namespace KerbalAlarmClock
 						}
 					}
 				}
-				
+#endif
+
 				intReturnNoOfButtons++;
 				//Or just jump to ship - regardless of alarm time
 				String strButton = "Jump To Ship";

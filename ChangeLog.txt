@@ -13,4 +13,5 @@ Changelog
 	Added InstallChecker/AssemblyVersion.tt
 	@linuxgurugamer
 	Now working in all scenes
-)
+	Fixed paths to icons
+	Disabled the old code to restore nodes and/or target 
