@@ -1,5 +1,9 @@
 Changelog
 
+3.14.1.1
+	Fixed paths to icons
+	Disabled the old code to restore nodes and/or target
+	
 3.14.1 
 	Changes for ClickThroughBlocker support
 	Added ToolbarController for the button
