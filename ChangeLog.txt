@@ -1,5 +1,8 @@
 Changelog
 
+3.13.1.2
+	Fixed paths to sounds
+
 3.14.1.1
 	Fixed paths to icons
 	Disabled the old code to restore nodes and/or target
@@ -15,7 +18,6 @@ Changelog
 	Reorganized for LGG build process
 	Added ChangeLog
 	Added InstallChecker/AssemblyVersion.tt
+	Added InstallChecker.cs
 	@linuxgurugamer
 	Now working in all scenes
-	Fixed paths to icons
-	Disabled the old code to restore nodes and/or target 
