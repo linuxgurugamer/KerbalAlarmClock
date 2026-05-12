@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-using System.Linq;
-
-using UnityEngine;
-using KSP;
+﻿using ClickThroughFix;
 using KSPPluginFramework;
-using ClickThroughFix;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace KerbalAlarmClock
 {
@@ -379,7 +375,7 @@ namespace KerbalAlarmClock
                     if (btnToolbarControl == null)
                         Debug.Log("btnToolbarControl is null");
                     else
-                    btnToolbarControl.SetTexture(BigTexturePath, TexturePath);
+                        btnToolbarControl.SetTexture(BigTexturePath, TexturePath);
                 }
 
             }
@@ -453,6 +449,9 @@ namespace KerbalAlarmClock
 
         internal void DrawWindows()
         {
+            var size = GUI.skin.label.CalcSize(new GUIContent("X"));
+            intMainWindowAlarmListItemHeight = Mathf.RoundToInt(size.y) + Mathf.RoundToInt( (GUI.skin.label.padding.top + GUI.skin.label.padding.bottom) * GameSettings.UI_SCALE);
+            //Debug.Log("[KerbalAlarmClock] a: " + size.ToString() + ", intMainWindowAlarmListItemHeight: " + intMainWindowAlarmListItemHeight);
 #if DEBUG
             if (_ShowDebugPane)
             {
@@ -477,15 +476,23 @@ namespace KerbalAlarmClock
                     //    MainWindowPos.height = intMainWindowBaseHeight;
                     //else 
                     if (alarmsDisplayed.Count < settings.AlarmListMaxAlarmsInt)
+                    {
                         MainWindowPos.height = intMainWindowBaseHeight +
-                            ((alarmsDisplayed.Count - 1) * intMainWindowAlarmListItemHeight) +
+                            ((alarmsDisplayed.Count-1) * intMainWindowAlarmListItemHeight) +
                             alarmsDisplayed.Sum(x => x.AlarmLineHeightExtra);
+
+Debug.Log("[KerbalAlarmClock] a: " + size.ToString() + ", intMainWindowAlarmListItemHeight: " + intMainWindowAlarmListItemHeight +
+    ", MainWindowPos.height: " + MainWindowPos.height);
+
+                    }
                     else
+                    {
                         //this is scrolling
-                        MainWindowPos.height = (intMainWindowBaseHeight - 3) +
-                            ((settings.AlarmListMaxAlarmsInt - 1) * intMainWindowAlarmListItemHeight) +
+                        MainWindowPos.height = (intMainWindowBaseHeight - 0) +
+                            ((settings.AlarmListMaxAlarmsInt-1) * intMainWindowAlarmListItemHeight) +
                             alarmsDisplayed.Take(settings.AlarmListMaxAlarmsInt).Sum(x => x.AlarmLineHeightExtra) +
                             intMainWindowAlarmListScrollPad;
+                    }
                 }
                 else MainWindowPos.height = intMainWindowBaseHeight;
             }
@@ -1334,7 +1341,6 @@ namespace KerbalAlarmClock
             Int32 intMaxwidth = (Int32)WindowPosByActiveScene.width - 84;// 256;// 220;// 228;
             if (_ShowEditPane && (alarmEdit == tmpAlarm)) intMaxwidth = (Int32)WindowPosByActiveScene.width - 105; //235;// 198;// 216;
             tmpAlarm.AlarmLineHeight = Convert.ToInt32(styleLabel.CalcHeight(contAlarmLabel, intMaxwidth)); //218
-
             //Draw a button that looks like a label.
             if (GUILayout.Button(contAlarmLabel, styleLabel, GUILayout.MaxWidth((Int32)WindowPosByActiveScene.width - 84)))  //256
             {
@@ -1399,7 +1405,7 @@ namespace KerbalAlarmClock
             winAlarmImport.Visible = false;
         }
 
-#endregion
+        #endregion
 
         private void WindowLayout_CommonFields(ref String strName, ref String strMessage, ref AlarmActions Actions, ref Double Margin, KACAlarm.AlarmTypeEnum TypeOfAlarm, Int32 WindowHeight)
         {
@@ -1622,7 +1628,7 @@ namespace KerbalAlarmClock
 
 
 
-#region "Control Drawing"
+        #region "Control Drawing"
         /// <summary>
         /// Draws a Toggle Button and sets the boolean variable to the state of the button
         /// </summary>
@@ -2070,7 +2076,7 @@ namespace KerbalAlarmClock
             Boolean blnReturn = false;
             Int32 intParse;
             GUIStyle styleTextBox = KACResources.styleAddField;
-            
+
             // Check for use of contText
             GUIContent contText = new GUIContent(Value);
             Boolean BlnIsNum = Int32.TryParse(Value, out intParse);
@@ -2155,7 +2161,7 @@ namespace KerbalAlarmClock
         }
 
 
-#endregion
+        #endregion
 
 
     }

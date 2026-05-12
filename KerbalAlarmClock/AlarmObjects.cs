@@ -418,7 +418,7 @@ namespace KerbalAlarmClock
         public Boolean EditWindowOpen = false;
         public Int32 AlarmLineWidth = 0;
         public Int32 AlarmLineHeight = 0;
-        public Int32 AlarmLineHeightExtra { get { return (AlarmLineHeight > 22) ? AlarmLineHeight - 22 : 0; } }
+        public Int32 AlarmLineHeightExtra { get { return (AlarmLineHeight > 22*GameSettings.UI_SCALE) ? AlarmLineHeight - 22 : 0; } }
 
 
         public override void OnEncodeToConfigNode()

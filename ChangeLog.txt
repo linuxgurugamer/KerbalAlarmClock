@@ -1,5 +1,8 @@
 Changelog
 
+3.13.1.3 (unreleased)
+	Fixed height of individual line in scroll list to scale based on UIScaling factor
+
 3.13.1.2
 	Fixed paths to sounds
 
