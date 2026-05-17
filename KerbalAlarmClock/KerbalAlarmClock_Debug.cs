@@ -270,6 +270,7 @@ namespace KerbalAlarmClock
 
 		int intTestDistance = 710000;
 
+#if DEBUG
 		public void FillDebugWindow(int WindowID)
 		{
             try { GUILayout.BeginVertical(); }
@@ -1089,14 +1090,15 @@ namespace KerbalAlarmClock
 			GUI.DragWindow();
 
 		}
-				
+#endif
+
 		//bool blnRecalc = false;
 
 		//private void GUILabelPhaseApproach(Orbit orbitOrig,Orbit orbitTarget)
 		//{
 		//    double angleTarget = KACUtils.clampDegrees360(180 * (1 - Math.Pow((orbitOrig.semiMajorAxis + orbitTarget.semiMajorAxis) / (2 * orbitTarget.semiMajorAxis), 1.5)));
 		//    double angleCurrent = KACUtils.clampDegrees360(orbitTarget.trueAnomaly + orbitTarget.argumentOfPeriapsis + orbitTarget.LAN - (orbitOrig.trueAnomaly + orbitOrig.argumentOfPeriapsis + orbitOrig.LAN));
-			
+
 		//    double angleChangepersec = (360 / orbitTarget.period) - (360 / orbitOrig.period);
 
 		//    double angleToMakeUp =angleCurrent-angleTarget;
@@ -1205,8 +1207,8 @@ namespace KerbalAlarmClock
 		//    tw.WriteLine("vel:" + o.vel);
 		//    tw.Close();
 		//}
-		
-		
+
+
 #endif
 	}
 }
