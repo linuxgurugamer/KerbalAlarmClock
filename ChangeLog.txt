@@ -19,7 +19,7 @@ Changelog
 	From github user @taniwha's repo
 		Fix a bunch of compiler warnings.
 	From github user @TonkaCrash
-		Fix WarpTo button location with non-zero UI Scale (Change orrder of drawing objects. The main gui window calls a rescaling function that throws off location of WarpTo buttons.
+		Fix WarpTo button location with non-zero UI Scale (Change order of drawing objects. The main gui window calls a rescaling function that throws off location of WarpTo buttons.
 	Reorganized for LGG build process
 	Added ChangeLog
 	Added InstallChecker/AssemblyVersion.tt
