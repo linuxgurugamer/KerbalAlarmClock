@@ -325,6 +325,7 @@ namespace KerbalAlarmClock
                     }
                 }
             }
+            else
             {
                 //{
                 //Do for Blizzies Toolbar

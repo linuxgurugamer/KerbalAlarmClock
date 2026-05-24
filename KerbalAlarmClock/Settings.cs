@@ -54,15 +54,26 @@ namespace KerbalAlarmClock
         [Persistent] internal Boolean UIScaleOverride = false;
         [Persistent] internal float UIScaleValue = 1f;
 
+
         [Persistent] internal Rect IconPos = new Rect(152, 0, 32, 32);
+        [Persistent] private RectStorage IconPos_IconPosStored = new RectStorage();
+
         [Persistent] internal Rect IconPos_SpaceCenter = new Rect(3, 3, 32, 32);
+        [Persistent] private RectStorage IconPos_SpaceCenterStored = new RectStorage();
         [Persistent] internal Boolean IconShow_SpaceCenter = true;
+
         [Persistent] internal Rect IconPos_TrackingStation = new Rect(196, 0, 32, 32);
+        [Persistent] private RectStorage IconPos_TrackingStationStored = new RectStorage();
         [Persistent] internal Boolean IconShow_TrackingStation = true;
+
         [Persistent] internal Rect IconPos_EditorVAB = new Rect(298, 0, 32, 32);
+        [Persistent] private RectStorage IconPos_EditorVABStored = new RectStorage();
         [Persistent] internal Boolean IconShow_EditorVAB = true;
+
         [Persistent] internal Rect IconPos_EditorSPH = new Rect(298, 0, 32, 32);
+        [Persistent] private RectStorage IconPos_EditorSPHStored = new RectStorage();
         [Persistent] internal Boolean IconShow_EditorSPH = true;
+
 
         [Persistent] internal MiminalDisplayType WindowMinimizedType = MiminalDisplayType.NextAlarm;
 
@@ -262,28 +273,37 @@ namespace KerbalAlarmClock
 
 
         //Toolbar Integration
-        internal Boolean BlizzyToolbarIsAvailable = false;
+        //internal Boolean BlizzyToolbarIsAvailable = false;
 
         internal ButtonStyleEnum ButtonStyleToDisplay
         {
             get
             {
+#if false
                 if (BlizzyToolbarIsAvailable || ButtonStyleChosen != ButtonStyleEnum.Toolbar)
                     return ButtonStyleChosen;
                 else
                     return ButtonStyleEnum.Launcher;
+#else
+                    return ButtonStyleChosen;
+#endif
             }
         }
-        [Persistent] internal ButtonStyleEnum ButtonStyleChosen = ButtonStyleEnum.Launcher;
+        [Persistent] internal ButtonStyleEnum ButtonStyleChosen = ButtonStyleEnum.ToolbarController;
 
         internal enum ButtonStyleEnum
         {
             [Description("Basic button")]
             Basic,
+
+            [Description("Toolbar (stock or Blizzy using ToolbarController)")]
+            ToolbarController
+#if false
             [Description("Common Toolbar (by Blizzy78)")]
             Toolbar,
             [Description("KSP App Launcher Button")]
             Launcher,
+#endif
         }
 
 
@@ -324,6 +344,12 @@ namespace KerbalAlarmClock
             WindowPos_EditorSPHStored = WindowPos_EditorSPHStored.FromRect(WindowPos_EditorSPH);
             VersionCheckDate_AttemptStored = VersionCheckDate_AttemptString;
             VersionCheckDate_SuccessStored = VersionCheckDate_SuccessString;
+
+            IconPos_IconPosStored = IconPos_IconPosStored.FromRect(IconPos);
+            IconPos_SpaceCenterStored = IconPos_SpaceCenterStored.FromRect(IconPos_SpaceCenter);    
+            IconPos_TrackingStationStored = IconPos_TrackingStationStored.FromRect(IconPos_TrackingStation);
+            IconPos_EditorVABStored = IconPos_EditorVABStored.FromRect(IconPos_EditorVAB);
+            IconPos_EditorSPHStored = IconPos_EditorSPHStored.FromRect(IconPos_EditorSPH);
         }
         public override void OnDecodeFromConfigNode()
         {
@@ -334,6 +360,12 @@ namespace KerbalAlarmClock
             WindowPos_EditorSPH = WindowPos_EditorSPHStored.ToRect();
             DateTime.TryParseExact(VersionCheckDate_AttemptStored, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out VersionCheckDate_Attempt);
             DateTime.TryParseExact(VersionCheckDate_SuccessStored, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out VersionCheckDate_Success);
+
+            IconPos = IconPos_IconPosStored.ToRect();
+            IconPos_SpaceCenter = IconPos_SpaceCenterStored.ToRect();
+            IconPos_TrackingStation = IconPos_TrackingStationStored.ToRect();
+            IconPos_EditorVAB = IconPos_EditorVABStored.ToRect();
+            IconPos_EditorSPH = IconPos_EditorSPHStored.ToRect();
         }
 
         internal enum DisplaySkin

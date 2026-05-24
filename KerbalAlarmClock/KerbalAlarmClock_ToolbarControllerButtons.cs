@@ -24,6 +24,20 @@ namespace KerbalAlarmClock
 
         internal const string MODID = "btnToolbarIcon";
         internal const string MODNAME = "Kerbal Alarm Clock";
+        internal static ApplicationLauncher.AppScenes sceneVisibility = ApplicationLauncher.AppScenes.ALWAYS;
+
+        internal static void ChangeSceneVisibility(ApplicationLauncher.AppScenes scene, bool visible)
+        {
+            if (visible)
+            {
+                sceneVisibility |= (ApplicationLauncher.AppScenes)scene;
+            }
+            else
+            {
+                sceneVisibility &= ~(ApplicationLauncher.AppScenes)scene;
+            }
+        }
+
 
         /// <summary>
         /// initialises a Toolbar Button for this mod
@@ -32,6 +46,8 @@ namespace KerbalAlarmClock
         internal ToolbarControl InitToolbarControlButton()
         {
             ToolbarControl btnReturn = null;
+            if (settings.ButtonStyleToDisplay == Settings.ButtonStyleEnum.Basic)
+                return null;
             try
             {
                 LogFormatted("Initialising the ToolbarController Icon");
@@ -44,7 +60,7 @@ namespace KerbalAlarmClock
                         onAppLaunchToggleOn, onAppLaunchToggleOff,
                         onAppLaunchHoverOn, onAppLaunchHoverOff,
                         null, null,
-                        ApplicationLauncher.AppScenes.ALWAYS,
+                        sceneVisibility,
                         MODID,
                         "kacBtn",
                         KACUtils.PathToolbarTexturePath + "/KACIconBig-Norm",

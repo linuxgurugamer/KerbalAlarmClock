@@ -270,9 +270,10 @@ namespace KerbalAlarmClock
 
 			RemoveInputLock();
 
-			if (WindowVisibleByActiveScene && settings.ButtonStyleToDisplay==Settings.ButtonStyleEnum.Launcher)
-			{
-				AppLauncherToBeSetTrue = true;
+            //if (WindowVisibleByActiveScene && settings.ButtonStyleToDisplay == Settings.ButtonStyleEnum.Launcher)
+                if (WindowVisibleByActiveScene && settings.ButtonStyleToDisplay == Settings.ButtonStyleEnum.ToolbarController)
+                {
+                    AppLauncherToBeSetTrue = true;
 				AppLauncherToBeSetTrueAttemptDate = DateTime.Now;
 			}
 		}
@@ -940,7 +941,7 @@ namespace KerbalAlarmClock
 					}
 				}
 
-
+#if false
 				//If the setting is on and the mouse is over any window then lock it
 				if (MouseOverAnyWindow && !InputLockExists)
 				{
@@ -981,6 +982,7 @@ namespace KerbalAlarmClock
 				{
 					RemoveInputLock();
 				}
+#endif
 			}
 		}
 

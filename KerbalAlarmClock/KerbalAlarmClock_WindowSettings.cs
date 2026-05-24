@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-using System.Linq;
-
-using UnityEngine;
-using KSP;
+﻿using KSP.UI.Screens;
 using KSPPluginFramework;
+using System;
+using System.Linq;
+using UnityEngine;
 
 namespace KerbalAlarmClock
 {
@@ -81,29 +77,29 @@ namespace KerbalAlarmClock
 
             //String[] strSettingsTabs = new String[] { "All Alarms", "Specific Types", "Sounds", "About" };
             //String[] strSettingsTabs = new String[] { "All Alarms", "Specific Types", "About" };
-            GUIContent[] contSettingsTabs = new GUIContent[] 
-            { 
+            GUIContent[] contSettingsTabs = new GUIContent[]
+            {
                 new GUIContent("General","Global Settings"), 
                 //new GUIContent("Specifics-1","SOI, Ap, Pe, AN, DN Specific Settings" ), 
                 //new GUIContent("Specifics-2","Man Node Specific Settings"), 
                 //new GUIContent("Alarm Settings","Specific Settings for Alarm Types"), 
-                new GUIContent("Specifics","Specific Settings for Alarm Types"), 
-                new GUIContent("Audio","Audio Settings"), 
-                new GUIContent("Visibility", "Scene and Icon Settings"), 
-                new GUIContent("Calendar", "Chosen Calendar and Details"), 
-                new GUIContent("About") 
+                new GUIContent("Specifics","Specific Settings for Alarm Types"),
+                new GUIContent("Audio","Audio Settings"),
+                new GUIContent("Visibility", "Scene and Icon Settings"),
+                new GUIContent("Calendar", "Chosen Calendar and Details"),
+                new GUIContent("About")
             };
-            GUIContent[] contSettingsTabsNewVersion = new GUIContent[] 
-            { 
+            GUIContent[] contSettingsTabsNewVersion = new GUIContent[]
+            {
                 new GUIContent("All Alarms","Global Settings"), 
                 //new GUIContent("Specifics-1","SOI, Ap, Pe, AN, DN Specific Settings" ), 
                 //new GUIContent("Specifics-2","Man Node Specific Settings"), 
                 //new GUIContent("Alarm Specifics","Specific Settings for Alarm Types"), 
-                new GUIContent("Specifics","Specific Settings for Alarm Types"), 
-                new GUIContent("Audio","Audio Settings"), 
-                new GUIContent("Visibility", "Scene and Icon Settings"), 
-                new GUIContent("Calendar", "Chosen Calendar and Details"), 
-                new GUIContent(" About", KACResources.btnSettingsAttention) 
+                new GUIContent("Specifics","Specific Settings for Alarm Types"),
+                new GUIContent("Audio","Audio Settings"),
+                new GUIContent("Visibility", "Scene and Icon Settings"),
+                new GUIContent("Calendar", "Chosen Calendar and Details"),
+                new GUIContent(" About", KACResources.btnSettingsAttention)
             };
 
             GUIContent[] conTabstoShow = contSettingsTabs;
@@ -191,136 +187,159 @@ namespace KerbalAlarmClock
         {
             //Styles
             GUILayout.Label("Plugin Styles", KACResources.styleAddSectionHeading);
-            GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
-
-            //two columns
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Styling:", KACResources.styleAddHeading, GUILayout.Width(90));
-            ddlSettingsSkin.DrawButton();
-            GUILayout.EndHorizontal();
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("App Button:", KACResources.styleAddHeading, GUILayout.Width(90));
-            ddlSettingsButtonStyle.DrawButton();
-            GUILayout.EndHorizontal();
-
-            //intBlizzyToolbarMissingHeight = 0;
-            if (!settings.BlizzyToolbarIsAvailable)
+            using (new GUILayout.VerticalScope(KACResources.styleAddFieldAreas))
             {
-                if (settings.ButtonStyleChosen == Settings.ButtonStyleEnum.Toolbar)
+#if false
+                using (new GUILayout.HorizontalScope())
                 {
-                    if (GUILayout.Button(new GUIContent("Not Installed. Click for Toolbar Info", "Click to open your browser and find out more about the Common Toolbar"), KACResources.styleContent))
-                        Application.OpenURL("https://forum.kerbalspaceprogram.com/topic/161857-toolbar-continued-common-api-for-draggableresizable-buttons-toolbar/");
-                    //intBlizzyToolbarMissingHeight = 18;
+                    GUILayout.Label("Display Skin:", KACResources.styleAddHeading, GUILayout.Width(90));
+                    ddlSettingsSkin.DrawButton();
                 }
-            }
+                using (new GUILayout.HorizontalScope())
+                {
+                    GUILayout.Label("App Button Style:", KACResources.styleAddHeading, GUILayout.Width(90));
+                    GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
+                }
+#endif
 
-            if (DrawCheckbox(ref settings.WindowChildPosBelow, "Show Child Windows Below (not to the side)"))
-                settings.Save();
-            GUILayout.EndVertical();
+                //two columns
+                using (new GUILayout.HorizontalScope())
+                {
+                    GUILayout.Label("Styling:", KACResources.styleAddHeading, GUILayout.Width(90));
+                    ddlSettingsSkin.DrawButton();
+                }
+                using (new GUILayout.HorizontalScope())
+                {
+                    GUILayout.Label("App Button:", KACResources.styleAddHeading, GUILayout.Width(90));
+#if true
+                    ddlSettingsButtonStyle.DrawButton();
+#endif
+                }
+#if false
+                //intBlizzyToolbarMissingHeight = 0;
+                if (!settings.BlizzyToolbarIsAvailable)
+                {
+                    if (settings.ButtonStyleChosen == Settings.ButtonStyleEnum.Toolbar)
+                    {
+                        if (GUILayout.Button(new GUIContent("Not Installed. Click for Toolbar Info", "Click to open your browser and find out more about the Common Toolbar"), KACResources.styleContent))
+                            Application.OpenURL("https://forum.kerbalspaceprogram.com/topic/161857-toolbar-continued-common-api-for-draggableresizable-buttons-toolbar/");
+                        //intBlizzyToolbarMissingHeight = 18;
+                    }
+                }
+#endif
+
+                if (DrawCheckbox(ref settings.WindowChildPosBelow, "Show Child Windows Below (not to the side)"))
+                    settings.Save();
+            }
             //if (settings.SelectedSkin == Settings.DisplaySkin.Default) GUILayout.Space(38);
             //Preferences
             GUILayout.Label("Plugin Preferences", KACResources.styleAddSectionHeading);
 
-            GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
-            GUILayout.BeginHorizontal();
-            if (DrawTextBox(ref settings.AlarmListMaxAlarms, KACResources.styleAddField, GUILayout.Width(45)))
-                settings.Save();
-            GUILayout.Label("Max alarms before scrolling the list", KACResources.styleAddHeading);
-            GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal();
-            if(DrawTextBox(ref settings.MaxToolTipTime, KACResources.styleAddField, GUILayout.Width(45)))
-                settings.Save();
-            GUILayout.Label("Max time before tooltip is auto-hidden", KACResources.styleAddHeading);
-            GUILayout.EndHorizontal();
-
-            if (DrawCheckbox(ref settings.HideOnPause, "Hide Alarm Clock when game is paused"))
-                settings.Save();
-
-            if (DrawCheckbox(ref settings.ShowTooltips, "Show Tooltips on Mouse Hover"))
-                settings.Save();
-
-            if (DrawCheckbox(ref settings.KillWarpOnThrottleCutOffKeystroke, "Halt TimeWarp when Throttle Cutoff by Keystroke"))
-                settings.Save();
-
-            int intTimeFormat = (int)settings.DateTimeFormat;
-            if (intTimeFormat > 1) intTimeFormat--;
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Time Format:", KACResources.styleAddHeading, GUILayout.Width(90));
-            if (DrawRadioList(ref intTimeFormat, new String[] { "UT", "KSP Time", "Normal Time" }))
+            using (new GUILayout.VerticalScope(KACResources.styleAddFieldAreas))
             {
-                if (intTimeFormat > 0) intTimeFormat++;
-                settings.DateTimeFormat = (DateStringFormatsEnum)intTimeFormat;
-                settings.Save();
+                using (new GUILayout.HorizontalScope())
+                {
+                    if (DrawTextBox(ref settings.AlarmListMaxAlarms, KACResources.styleAddField, GUILayout.Width(45)))
+                        settings.Save();
+                    GUILayout.Label("Max alarms before scrolling the list", KACResources.styleAddHeading);
+                }
+                using (new GUILayout.HorizontalScope())
+                {
+                    if (DrawTextBox(ref settings.MaxToolTipTime, KACResources.styleAddField, GUILayout.Width(45)))
+                        settings.Save();
+                    GUILayout.Label("Max time before tooltip is auto-hidden", KACResources.styleAddHeading);
+                }
+                if (DrawCheckbox(ref settings.HideOnPause, "Hide Alarm Clock when game is paused"))
+                    settings.Save();
+
+                if (DrawCheckbox(ref settings.ShowTooltips, "Show Tooltips on Mouse Hover"))
+                    settings.Save();
+
+                if (DrawCheckbox(ref settings.KillWarpOnThrottleCutOffKeystroke, "Halt TimeWarp when Throttle Cutoff by Keystroke"))
+                    settings.Save();
+
+                int intTimeFormat = (int)settings.DateTimeFormat;
+                if (intTimeFormat > 1) intTimeFormat--;
+                using (new GUILayout.HorizontalScope())
+                {
+                    GUILayout.Label("Time Format:", KACResources.styleAddHeading, GUILayout.Width(90));
+                    if (DrawRadioList(ref intTimeFormat, new String[] { "UT", "KSP Time", "Normal Time" }))
+                    {
+                        if (intTimeFormat > 0) intTimeFormat++;
+                        settings.DateTimeFormat = (DateStringFormatsEnum)intTimeFormat;
+                        settings.Save();
+                    }
+                }
             }
-            GUILayout.EndHorizontal();
-            GUILayout.EndVertical();
 
             GUILayout.Label("Safety Options", KACResources.styleAddSectionHeading);
 
-            GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
-            if (DrawCheckbox(ref settings.ConfirmAlarmDeletes, "Confirm before deleting alarms"))
-                settings.Save();
 
-            if (DrawCheckbox(ref settings.AllowJumpFromViewOnly, "Allow Ship Jump in Space Center and Tracking Station"))
-                settings.Save();
+            using (new GUILayout.VerticalScope(KACResources.styleAddFieldAreas))
+            {
+                if (DrawCheckbox(ref settings.ConfirmAlarmDeletes, "Confirm before deleting alarms"))
+                    settings.Save();
 
-            if (DrawCheckbox(ref settings.AllowJumpToAsteroid, "Allow Ship Jump to Asteroids"))
-                settings.Save();
+                if (DrawCheckbox(ref settings.AllowJumpFromViewOnly, "Allow Ship Jump in Space Center and Tracking Station"))
+                    settings.Save();
 
-            //if (DrawCheckbox(ref Settings.TimeAsUT, "Display Times as UT (instead of Date/Time)"))
-            //    Settings.Save();
+                if (DrawCheckbox(ref settings.AllowJumpToAsteroid, "Allow Ship Jump to Asteroids"))
+                    settings.Save();
 
-            GUILayout.EndVertical();
+                //if (DrawCheckbox(ref Settings.TimeAsUT, "Display Times as UT (instead of Date/Time)"))
+                //    Settings.Save();
 
+            }
             GUIContent Saveheader = new GUIContent("Save File Backups", "This option will save your persistent and quicksave files prior to switching ships using the KAC Jump buttons");
             GUILayout.Label(Saveheader, KACResources.styleAddSectionHeading);
-            GUILayout.BeginVertical(KACResources.styleAddFieldAreas, GUILayout.Height(64));
-            if (DrawCheckbox(ref settings.BackupSaves, "Backup Saves on Ship Jump"))
-                settings.Save();
 
-            if (DrawCheckbox(ref settings.CancelFlightModeJumpOnBackupFailure, "Cancel Jump if Backup Fails (Flight Mode Only)"))
-                settings.Save();
+            using (new GUILayout.VerticalScope(KACResources.styleAddFieldAreas, GUILayout.Height(64)))
+            {
+                if (DrawCheckbox(ref settings.BackupSaves, "Backup Saves on Ship Jump"))
+                    settings.Save();
 
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Backups to Keep:", KACResources.styleAddHeading, GUILayout.Width(110));
-            GUILayout.Label(settings.BackupSavesToKeep.ToString(), KACResources.styleAddXferName, GUILayout.Width(25));
-            settings.BackupSavesToKeep = (int)Math.Floor(GUILayout.HorizontalSlider((float)settings.BackupSavesToKeep, 3, 50));
-            GUILayout.EndHorizontal();
+                if (DrawCheckbox(ref settings.CancelFlightModeJumpOnBackupFailure, "Cancel Jump if Backup Fails (Flight Mode Only)"))
+                    settings.Save();
 
-            GUILayout.EndVertical();
-
+                using (new GUILayout.HorizontalScope())
+                {
+                    GUILayout.Label("Backups to Keep:", KACResources.styleAddHeading, GUILayout.Width(110));
+                    GUILayout.Label(settings.BackupSavesToKeep.ToString(), KACResources.styleAddXferName, GUILayout.Width(25));
+                    settings.BackupSavesToKeep = (int)Math.Floor(GUILayout.HorizontalSlider((float)settings.BackupSavesToKeep, 3, 50));
+                }
+            }
 
             GUILayout.Label("Time Warp/Math Checks", KACResources.styleAddSectionHeading);
-            GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
 
-            GUILayout.BeginHorizontal();
-
-            GUILayout.Label("Checks per Sec:", KACResources.styleAddHeading, GUILayout.Width(100));
-            ddlChecksPerSec.DrawButton();
-            GUILayout.EndHorizontal();
-
-            if (DrawCheckbox(ref settings.WarpTransitions_Instant, new GUIContent("Use Instant Warp Transitions", "Slams the transitions between levels - can cause issues for large timewarp factors")))
-                settings.Save();
-
-            GUILayout.BeginHorizontal();
-            GUILayout.Label(new GUIContent("Transition Weighting:", "How much leeway to give the transitions period. The higher this value the earlier the KAC will slow the warp rate"),
-                KACResources.styleAddHeading, GUILayout.Width(115)); //110
-            GUILayout.Label(settings.WarpTransitions_UTToRateTimesOneTenths.ToString(), KACResources.styleAddXferName, GUILayout.Width(25));
-            Int32 intReturn = (Int32)Math.Floor(GUILayout.HorizontalSlider((float)settings.WarpTransitions_UTToRateTimesOneTenths, 10, 50));
-            if (intReturn != settings.WarpTransitions_UTToRateTimesOneTenths)
+            using (new GUILayout.VerticalScope(KACResources.styleAddFieldAreas))
             {
-                settings.WarpTransitions_UTToRateTimesOneTenths = intReturn;
-                settings.Save();
-            }
-            if (GUILayout.Button("Reset", GUILayout.Height(16), GUILayout.Width(40)))
-            {
-                settings.WarpTransitions_UTToRateTimesOneTenths = 15;
-                settings.Save();
-            }
-            GUILayout.EndHorizontal();
+                using (new GUILayout.HorizontalScope())
+                {
+                    GUILayout.Label("Checks per Sec:", KACResources.styleAddHeading, GUILayout.Width(100));
+                    ddlChecksPerSec.DrawButton();
+                }
 
-            GUILayout.EndVertical();
+                if (DrawCheckbox(ref settings.WarpTransitions_Instant, new GUIContent("Use Instant Warp Transitions", "Slams the transitions between levels - can cause issues for large timewarp factors")))
+                    settings.Save();
+
+                using (new GUILayout.HorizontalScope())
+                {
+                    GUILayout.Label(new GUIContent("Transition Weighting:", "How much leeway to give the transitions period. The higher this value the earlier the KAC will slow the warp rate"),
+                    KACResources.styleAddHeading, GUILayout.Width(115)); //110
+                    GUILayout.Label(settings.WarpTransitions_UTToRateTimesOneTenths.ToString(), KACResources.styleAddXferName, GUILayout.Width(25));
+                    Int32 intReturn = (Int32)Math.Floor(GUILayout.HorizontalSlider((float)settings.WarpTransitions_UTToRateTimesOneTenths, 10, 50));
+                    if (intReturn != settings.WarpTransitions_UTToRateTimesOneTenths)
+                    {
+                        settings.WarpTransitions_UTToRateTimesOneTenths = intReturn;
+                        settings.Save();
+                    }
+                    if (GUILayout.Button("Reset", GUILayout.Height(16), GUILayout.Width(40)))
+                    {
+                        settings.WarpTransitions_UTToRateTimesOneTenths = 15;
+                        settings.Save();
+                    }
+                }
+            }
 
         }
 
@@ -683,7 +702,7 @@ namespace KerbalAlarmClock
 
             //Columns
             GUILayout.BeginHorizontal();
-            
+
             //Column1
             GUILayout.BeginVertical(GUILayout.Width(70));
             GUILayout.Space(0);
@@ -710,21 +729,21 @@ namespace KerbalAlarmClock
             GUILayout.Label(KerbalAlarmClock.audioController.VolumePct.ToString() + "%", stylePct);
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
-            
+
             //End Columns
             GUILayout.EndHorizontal();
 
             //Draw Raw Sound
             AlarmSound raw = settings.AlarmSounds.First(s => s.Name == "Raw");
-            DrawSoundLine(ref raw,true);
+            DrawSoundLine(ref raw, true);
             GUILayout.EndVertical();
 
             GUILayout.Label("Alarm Specifics", KACResources.styleAddSectionHeading);
             GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
             GUILayout.Label("Enable to select unique sounds or the Raw sound will be used", KACResources.styleAddHeading);
 
-            for (int i = 0; i < settings.AlarmSounds.Count-1; i++)
-			{
+            for (int i = 0; i < settings.AlarmSounds.Count - 1; i++)
+            {
                 AlarmSound sound = settings.AlarmSounds.Where(s => s.Name != "Raw").ElementAt(i);
                 DrawSoundLine(ref sound);
             }
@@ -733,14 +752,17 @@ namespace KerbalAlarmClock
 
         }
 
-        private void DrawSoundLine(ref AlarmSound sound,Boolean HideCheck=false)
+        private void DrawSoundLine(ref AlarmSound sound, Boolean HideCheck = false)
         {
             GUILayout.BeginHorizontal();
 
-            if (HideCheck) {
-                GUILayout.Label("     " + sound.Name, KACResources.styleCheckboxLabel,GUILayout.Width(100));
-            } else {
-                if (DrawToggle(ref sound.Enabled, sound.Name, KACResources.styleCheckbox,GUILayout.Width(100)))
+            if (HideCheck)
+            {
+                GUILayout.Label("     " + sound.Name, KACResources.styleCheckboxLabel, GUILayout.Width(100));
+            }
+            else
+            {
+                if (DrawToggle(ref sound.Enabled, sound.Name, KACResources.styleCheckbox, GUILayout.Width(100)))
                 {
                     settings.Save();
                 }
@@ -752,7 +774,7 @@ namespace KerbalAlarmClock
             else
                 DrawTestSoundButton(null, sound.RepeatCount);
 
-            GUILayout.Label(new GUIContent("R:","Repeat"),KACResources.styleAddHeading,GUILayout.Width(14));
+            GUILayout.Label(new GUIContent("R:", "Repeat"), KACResources.styleAddHeading, GUILayout.Width(14));
             //sound.RepeatCount = (Int32)GUILayout.HorizontalSlider(sound.RepeatCount, 1, 6, GUILayout.Width(intTestheight3));
             GUILayout.BeginVertical(GUILayout.Width(60));
             GUILayout.Space(8);
@@ -807,17 +829,18 @@ namespace KerbalAlarmClock
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
 
-            DrawIconPos("Flight Mode", false, ref blnTemp, ref settings.IconPos, ref settings.WindowVisible, ref settings.ClickThroughProtect_Flight);
 
-            DrawIconPos("Space Center", true, ref settings.IconShow_SpaceCenter, ref settings.IconPos_SpaceCenter, ref settings.WindowVisible_SpaceCenter, ref settings.ClickThroughProtect_KSC);
+            DrawIconPos("Flight Mode", ApplicationLauncher.AppScenes.FLIGHT, false, ref blnTemp, ref settings.IconPos, ref settings.WindowVisible, ref settings.ClickThroughProtect_Flight);
 
-            DrawIconPos("Tracking Station", true, ref settings.IconShow_TrackingStation, ref settings.IconPos_TrackingStation, ref settings.WindowVisible_TrackingStation, ref settings.ClickThroughProtect_Tracking);
+            DrawIconPos("Space Center", ApplicationLauncher.AppScenes.SPACECENTER, true, ref settings.IconShow_SpaceCenter, ref settings.IconPos_SpaceCenter, ref settings.WindowVisible_SpaceCenter, ref settings.ClickThroughProtect_KSC);
 
-            DrawIconPos("Editor", true, ref settings.IconShow_EditorVAB, ref settings.IconPos_EditorVAB, ref settings.WindowVisible_EditorVAB, ref settings.ClickThroughProtect_Editor);
+            DrawIconPos("Tracking Station", ApplicationLauncher.AppScenes.TRACKSTATION, true, ref settings.IconShow_TrackingStation, ref settings.IconPos_TrackingStation, ref settings.WindowVisible_TrackingStation, ref settings.ClickThroughProtect_Tracking);
+
+            DrawIconPos("Editor", ApplicationLauncher.AppScenes.VAB | ApplicationLauncher.AppScenes.SPH, true, ref settings.IconShow_EditorVAB, ref settings.IconPos_EditorVAB, ref settings.WindowVisible_EditorVAB, ref settings.ClickThroughProtect_Editor);
 
         }
 
-        private void DrawIconPos(String Title, Boolean Toggleable, ref Boolean IconShow, ref Rect IconPos, ref Boolean WindowVisible, ref Boolean ClickThroughProtect)
+        private void DrawIconPos(String Title, ApplicationLauncher.AppScenes scene, Boolean Toggleable, ref Boolean IconShow, ref Rect IconPos, ref Boolean WindowVisible, ref Boolean ClickThroughProtect)
         {
             GUILayout.Label(Title, KACResources.styleAddSectionHeading);
             GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
@@ -830,15 +853,20 @@ namespace KerbalAlarmClock
                     //DestroyToolbarButton(btnToolbarKAC);
                     //if (settings.UseBlizzyToolbarIfAvailable) InitToolbarButton();
                     settings.Save();
+
+                    KerbalAlarmClock.ChangeSceneVisibility(scene, IconShow);
+                    DestroyToolbarControllerButton(btnToolbarControl);
+                    btnToolbarControl = InitToolbarControlButton();
                 }
             }
 
+#if false
             if (DrawCheckbox(ref ClickThroughProtect, "Prevent Click Through over Windows"))
             {
                 settings.Save();
             }
-
-            GUILayout.Label("Icon Position", KACResources.styleAddSectionHeading);
+#endif
+            GUILayout.Label("Icon Position (for basic button)", KACResources.styleAddSectionHeading);
             //Now two columns
             GUILayout.BeginHorizontal();
             GUILayout.BeginVertical();

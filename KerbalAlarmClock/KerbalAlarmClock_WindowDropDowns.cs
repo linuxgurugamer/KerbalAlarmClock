@@ -1,12 +1,9 @@
-﻿using System;
+﻿using KSPPluginFramework;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-
-using KSP;
 using UnityEngine;
-using KSPPluginFramework;
 
 namespace KerbalAlarmClock
 {
@@ -16,7 +13,9 @@ namespace KerbalAlarmClock
 
         private DropDownList ddlChecksPerSec;
         private DropDownList ddlSettingsSkin;
+#if true
         private DropDownList ddlSettingsButtonStyle;
+#endif
 
         private DropDownList ddlSettingsAlarmSpecs;
         private DropDownList ddlSettingsCalendar;
@@ -37,22 +36,23 @@ namespace KerbalAlarmClock
             [Description("Sphere Of Influence Alarms")] SOI,
             [Description("Contract Alarms")] Contract,
             [Description("Warp To Alarms")] WarpTo,
-            [Description("Other Alarms")]Other
+            [Description("Other Alarms")] Other
         }
 
         internal void InitDropDowns()
         {
-            String[] strChecksPerSecChoices =  { "10","20","50","100","Custom (" + settings.BehaviourChecksPerSec_Custom.ToString() + ")"};
+            String[] strChecksPerSecChoices = { "10", "20", "50", "100", "Custom (" + settings.BehaviourChecksPerSec_Custom.ToString() + ")" };
 
-            ddlChecksPerSec = new DropDownList(strChecksPerSecChoices,_WindowSettingsRect);
+            ddlChecksPerSec = new DropDownList(strChecksPerSecChoices, _WindowSettingsRect);
             ddlChecksPerSec.OnSelectionChanged += ddlChecksPerSec_OnSelectionChanged;
 
             ddlSettingsSkin = new DropDownList(KSPPluginFramework.EnumExtensions.ToEnumDescriptions<Settings.DisplaySkin>(), (Int32)settings.SelectedSkin, _WindowSettingsRect);
             ddlSettingsSkin.OnSelectionChanged += ddlSettingsSkin_OnSelectionChanged;
 
+#if true
             ddlSettingsButtonStyle = new DropDownList(KSPPluginFramework.EnumExtensions.ToEnumDescriptions<Settings.ButtonStyleEnum>(), (Int32)settings.ButtonStyleChosen, _WindowSettingsRect);
             ddlSettingsButtonStyle.OnSelectionChanged += ddlSettingsButtonStyle_OnSelectionChanged;
-
+#endif
             ddlSettingsAlarmSpecs = new DropDownList(KSPPluginFramework.EnumExtensions.ToEnumDescriptions<SettingsAlarmSpecsEnum>(), (int)SettingsAlarmSpecSelected, _WindowSettingsRect);
             ddlSettingsAlarmSpecs.OnSelectionChanged += ddlSettingsAlarmSpecs_OnSelectionChanged;
 
@@ -61,7 +61,7 @@ namespace KerbalAlarmClock
             ddlSettingsContractAutoActive = new DropDownList(KSPPluginFramework.EnumExtensions.ToEnumDescriptions<Settings.AutoContractBehaviorEnum>(), (Int32)settings.AlarmAddContractAutoActive, _WindowSettingsRect);
             ddlSettingsContractAutoActive.OnSelectionChanged += ddlSettingsContractAutoActive_OnSelectionChanged;
 
-            ddlSettingsCalendar = new DropDownList(KSPPluginFramework.EnumExtensions.ToEnumDescriptions<CalendarTypeEnum>(), (Int32)settings.SelectedCalendar,_WindowSettingsRect );
+            ddlSettingsCalendar = new DropDownList(KSPPluginFramework.EnumExtensions.ToEnumDescriptions<CalendarTypeEnum>(), (Int32)settings.SelectedCalendar, _WindowSettingsRect);
             //NOTE:Pull out the custom option for now
             ddlSettingsCalendar.Items.Remove(CalendarTypeEnum.Custom.Description());
             ddlSettingsCalendar.OnSelectionChanged += ddlSettingsCalendar_OnSelectionChanged;
@@ -76,7 +76,9 @@ namespace KerbalAlarmClock
 
             ddlManager.AddDDL(ddlChecksPerSec);
             ddlManager.AddDDL(ddlSettingsSkin);
+#if true
             ddlManager.AddDDL(ddlSettingsButtonStyle);
+#endif
             ddlManager.AddDDL(ddlSettingsAlarmSpecs);
             ddlManager.AddDDL(ddlSettingsContractAutoOffered);
             ddlManager.AddDDL(ddlSettingsContractAutoActive);
@@ -91,7 +93,7 @@ namespace KerbalAlarmClock
             foreach (AlarmSound s in settings.AlarmSounds)
             {
                 s.ddl = LoadSoundsListForDDL(KACResources.clipAlarms.Keys.ToArray(), s.SoundName);
-                s.ddl.OnSelectionChanged+=ddlSettingsSound_OnSelectionChanged;
+                s.ddl.OnSelectionChanged += ddlSettingsSound_OnSelectionChanged;
                 ddlManager.AddDDL(s.ddl);
             }
         }
@@ -101,7 +103,9 @@ namespace KerbalAlarmClock
         {
             ddlChecksPerSec.OnSelectionChanged -= ddlChecksPerSec_OnSelectionChanged;
             ddlSettingsSkin.OnSelectionChanged -= ddlSettingsSkin_OnSelectionChanged;
+#if true
             ddlSettingsButtonStyle.OnSelectionChanged -= ddlSettingsButtonStyle_OnSelectionChanged;
+#endif
             ddlSettingsAlarmSpecs.OnSelectionChanged -= ddlSettingsAlarmSpecs_OnSelectionChanged;
             ddlSettingsContractAutoOffered.OnSelectionChanged -= ddlSettingsContractAutoOffered_OnSelectionChanged;
             ddlSettingsContractAutoActive.OnSelectionChanged -= ddlSettingsContractAutoActive_OnSelectionChanged;
@@ -119,14 +123,16 @@ namespace KerbalAlarmClock
         {
             ddlChecksPerSec.WindowRect = _WindowSettingsRect;
             ddlSettingsSkin.WindowRect = _WindowSettingsRect;
+#if true
             ddlSettingsButtonStyle.WindowRect = _WindowSettingsRect;
+#endif
             ddlSettingsAlarmSpecs.WindowRect = _WindowSettingsRect;
             ddlSettingsContractAutoOffered.WindowRect = _WindowSettingsRect;
             ddlSettingsContractAutoActive.WindowRect = _WindowSettingsRect;
             ddlSettingsCalendar.WindowRect = _WindowSettingsRect;
             ddlKERNodeMargin.WindowRect = _WindowAddRect;
             ddlSettingsKERNodeMargin.WindowRect = _WindowSettingsRect;
-            
+
 
             foreach (AlarmSound s in settings.AlarmSounds)
             {
@@ -172,7 +178,7 @@ namespace KerbalAlarmClock
 
         void ddlSettingsContractAutoActive_OnSelectionChanged(KerbalAlarmClock.DropDownList sender, int OldIndex, int NewIndex)
         {
-            settings.AlarmAddContractAutoActive =  (Settings.AutoContractBehaviorEnum)NewIndex;
+            settings.AlarmAddContractAutoActive = (Settings.AutoContractBehaviorEnum)NewIndex;
             settings.Save();
         }
 
@@ -208,8 +214,10 @@ namespace KerbalAlarmClock
 
         void ddlSettingsSound_OnSelectionChanged(KerbalAlarmClock.DropDownList sender, int OldIndex, int NewIndex)
         {
-            foreach (AlarmSound s in settings.AlarmSounds) {
-                if (s.ddl.SelectedValue != s.SoundName) {
+            foreach (AlarmSound s in settings.AlarmSounds)
+            {
+                if (s.ddl.SelectedValue != s.SoundName)
+                {
                     s.SoundName = s.ddl.SelectedValue;
                     settings.Save();
                 }
@@ -217,7 +225,7 @@ namespace KerbalAlarmClock
         }
 
 
-#endregion
+        #endregion
 
 
 
@@ -514,10 +522,9 @@ namespace KerbalAlarmClock
             }
 
             //Draw the actual button for the list
-            internal Boolean DrawButton()
+            internal Boolean DrawButton(bool debug=false)
             {
                 Boolean blnReturn = false;
-
                 if (styleButtonToDraw == null)
                     blnReturn = GUILayout.Button(SelectedValue);
                 else
