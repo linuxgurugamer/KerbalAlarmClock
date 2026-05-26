@@ -1004,7 +1004,7 @@ namespace KerbalAlarmClock
                 GUILayout.BeginHorizontal();
                 GUILayout.Space(80);
                 if (GUILayout.Button("Updated Version Available - Click Here", KACResources.styleVersionHighlight))
-                    Application.OpenURL("https://github.com/TriggerAu/KerbalAlarmClock/releases");
+                    Application.OpenURL("https://github.com/linuxgurugamer/KerbalAlarmClock/releases");
                 GUILayout.EndHorizontal();
             }
             GUILayout.EndVertical();
@@ -1024,9 +1024,9 @@ namespace KerbalAlarmClock
             GUILayout.BeginVertical();
             //GUILayout.Label("Trigger Au",KACResources.styleContent);
             if (GUILayout.Button("Click Here", KACResources.styleContent))
-                Application.OpenURL("https://triggerau.github.io/KerbalAlarmClock/");
+                Application.OpenURL("https://linuxgurugamer.github.io/KerbalAlarmClock/");
             if (GUILayout.Button("Click Here", KACResources.styleContent))
-                Application.OpenURL("https://github.com/TriggerAu/KerbalAlarmClock/");
+                Application.OpenURL("https://github.com/linuxgurugamer/KerbalAlarmClock/");
             if (GUILayout.Button("Click Here", KACResources.styleContent))
                 Application.OpenURL("https://forum.kerbalspaceprogram.com/topic/22809-kerbal-alarm-clock/");
 
@@ -1036,30 +1036,42 @@ namespace KerbalAlarmClock
 
             GUILayout.EndVertical();
 
+#if false
             //Alarm Update Area
             GUILayout.Label("v2 Alarm Import", KACResources.styleAddSectionHeading);
-
-            GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
-            GUILayout.BeginHorizontal();
-            GUILayout.BeginVertical();
-            //GUILayout.Label("Written by:", KACResources.styleAddHeading);
-            if (GUILayout.Button("Open Import Tool"))
+            using (new GUILayout.VerticalScope(KACResources.styleAddFieldAreas))
             {
-                winAlarmImport.Visible = true;
-                _ShowSettings = false;
+                //GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
+                using (new GUILayout.HorizontalScope())
+                {
+                    //GUILayout.BeginHorizontal();
+                    using (new GUILayout.VerticalScope())
+                    {
+                        //GUILayout.BeginVertical();
+                        //GUILayout.Label("Written by:", KACResources.styleAddHeading);
+                        if (GUILayout.Button("Open Import Tool"))
+                        {
+                            winAlarmImport.Visible = true;
+                            _ShowSettings = false;
+                        }
+                        //GUILayout.EndVertical();
+                    }
+
+                    using (new GUILayout.VerticalScope())
+                    {
+                        GUILayout.BeginVertical();
+                        //GUILayout.Label("Trigger Au",KACResources.styleContent);
+                        if (GUILayout.Button("Import Instructions", KACResources.styleContent))
+                            Application.OpenURL("https://triggerau.github.io/KerbalAlarmClock/install.html#AlarmImport");
+                        //GUILayout.EndVertical();
+                    }
+
+                    //GUILayout.EndHorizontal();
+                }
+
+                // GUILayout.EndVertical();
             }
-            GUILayout.EndVertical();
-
-            GUILayout.BeginVertical();
-            //GUILayout.Label("Trigger Au",KACResources.styleContent);
-            if (GUILayout.Button("Import Instructions", KACResources.styleContent))
-                Application.OpenURL("https://triggerau.github.io/KerbalAlarmClock/install.html#AlarmImport");
-            GUILayout.EndVertical();
-
-            GUILayout.EndHorizontal();
-
-            GUILayout.EndVertical();
+#endif
         }
     }
-
 }

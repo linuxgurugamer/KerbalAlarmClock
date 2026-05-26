@@ -427,8 +427,10 @@ namespace KerbalAlarmClock
         private static Int32 _WindowQuickAddID = 0;
         private static Rect _WindowQuickAddRect;
 
-
+#if false
         private static Windows.AlarmImport winAlarmImport = new Windows.AlarmImport();
+#endif
+
         private static Windows.ConfirmAlarmDelete winConfirmAlarmDelete = new Windows.ConfirmAlarmDelete();
 
         //Window Size Constants
@@ -509,8 +511,10 @@ Debug.Log("[KerbalAlarmClock] a: " + size.ToString() + ", intMainWindowAlarmList
             //Now show the window
             WindowPosByActiveScene = ClickThruBlocker.GUILayoutWindow(_WindowMainID, MainWindowPos, FillWindow, "Kerbal Alarm Clock - " + settings.Version, KACResources.styleWindow);
 
+#if false
             if (winAlarmImport.Visible)
                 winAlarmImport.windowRect = ClickThruBlocker.GUILayoutWindow(winAlarmImport.windowID, winAlarmImport.windowRect, winAlarmImport.FillWindow, "Import v2 Alarm File", KACResources.styleWindow);
+#endif
 
             if (winConfirmAlarmDelete.Visible)
             {
@@ -1403,10 +1407,12 @@ Debug.Log("[KerbalAlarmClock] a: " + size.ToString() + ", intMainWindowAlarmList
             _ShowSettings = false;
             _ShowQuickAdd = false;
             winConfirmAlarmDelete.Visible = false;
+#if false
             winAlarmImport.Visible = false;
+#endif
         }
 
-        #endregion
+#endregion
 
         private void WindowLayout_CommonFields(ref String strName, ref String strMessage, ref AlarmActions Actions, ref Double Margin, KACAlarm.AlarmTypeEnum TypeOfAlarm, Int32 WindowHeight)
         {

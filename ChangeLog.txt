@@ -1,5 +1,10 @@
 Changelog
 
+3.14.1.5
+	Removed the V2 import tool
+	Updated version check to use new web url
+	Updated all web urls to use new repository location
+
 3.14.1.4
 	Removed embedded click-through protection code and replaced with ClickThroughBlocker support
 	Fixed display of the button selection to only allow basic button and toolbar button

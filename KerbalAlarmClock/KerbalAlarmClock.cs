@@ -206,10 +206,11 @@ namespace KerbalAlarmClock
 
 			InitDropDowns();
 
+#if false
 			winAlarmImport.KAC = this;
 			winAlarmImport.Visible = false;
 			winAlarmImport.InitWindow();
-
+#endif
 			winConfirmAlarmDelete.Visible = false;
 			winConfirmAlarmDelete.InitWindow();
 

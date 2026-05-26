@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using KSP;
+﻿#if false
+using System;
 using UnityEngine;
-
-using KSPPluginFramework;
 
 namespace KerbalAlarmClock.Windows
 {
@@ -169,3 +163,4 @@ namespace KerbalAlarmClock.Windows
         }
     }
 }
+#endif
