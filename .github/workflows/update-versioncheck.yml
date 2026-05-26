@@ -1,13 +1,8 @@
 name: Update versioncheck.txt
 
 on:
-  push:
-    branches:
-      - master
-      - main
-    paths:
-      - KerbalAlarmClock.version
-      - .github/workflows/update-versioncheck.yml
+  release:
+    types: [published]
   workflow_dispatch:
 
 permissions:
@@ -18,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout source branch
+      - name: Checkout release source
         uses: actions/checkout@v4
         with:
           path: source
@@ -34,11 +29,7 @@ jobs:
           PATCH=$(jq -r '.VERSION.PATCH' "$VERSION_FILE")
           BUILD=$(jq -r '.VERSION.BUILD // 0' "$VERSION_FILE")
 
-          if [ "$BUILD" = "0" ]; then
-            VERSION="${MAJOR}.${MINOR}.${PATCH}"
-          else
-            VERSION="${MAJOR}.${MINOR}.${PATCH}.${BUILD}"
-          fi
+          VERSION="${MAJOR}.${MINOR}.${PATCH}.${BUILD}"
 
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
@@ -51,7 +42,7 @@ jobs:
       - name: Write versioncheck.txt
         shell: bash
         run: |
-          echo "${{ steps.version.outputs.version }}" > gh-pages/versioncheck.txt
+          echo "|LATESTVERSION|${{ steps.version.outputs.version }}|LATESTVERSION|" > gh-pages/versioncheck.txt
 
       - name: Commit and push gh-pages update
         shell: bash
