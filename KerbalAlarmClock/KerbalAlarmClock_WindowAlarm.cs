@@ -520,45 +520,6 @@ namespace KerbalAlarmClock
 			//if ((!ViewAlarmsOnly) && (KACWorkerGameState.CurrentVessel != null) && (FindVesselForAlarm(tmpAlarm).id.ToString() == KACWorkerGameState.CurrentVessel.id.ToString()))
 			if ((KACWorkerGameState.CurrentGUIScene == GameScenes.FLIGHT) && (KACWorkerGameState.CurrentVessel != null) && (FindVesselForAlarm(tmpAlarm).id.ToString() == KACWorkerGameState.CurrentVessel.id.ToString()))
 			{
-#if false
-				//There is a node and the alarm + Margin is not expired
-				if ((tmpAlarm.ManNodes != null) && tmpAlarm.ManNodes.Count > 0)
-				//if ((tmpAlarm.ManNodes != null) && ((tmpAlarm.Remaining.UT + tmpAlarm.AlarmMarginSecs) > 0))
-				{
-                    bool blnDontShowManNode = false;
-					//Check if theres a Maneuver node and if so put a label saying that it already exists
-					//only display this node button if its the active ship
-					//Add this sae functionality to the alarm triggered window
-					//Add a jump to ship button if not the active ship
-					//As well as to the 
-					String strRestoretext = "Restore Maneuver Node(s)";
-					if (KACWorkerGameState.CurrentVessel.patchedConicSolver.maneuverNodes.Count > 0)
-					{
-						strRestoretext = "Replace Maneuver Node(s)";
-                        //if the count and UT's are the same then go from there
-                        if(!KACAlarm.CompareManNodeListSimple(KACWorkerGameState.CurrentVessel.patchedConicSolver.maneuverNodes, tmpAlarm.ManNodes)) {
-                            strRestoretext += "\r\nNOTE: There is already a Node on the flight path";
-                            NoOfDoubleLineButtons++;
-                        } else {
-                            //Dont show the button
-                            blnDontShowManNode = true;
-                        }
-					}
-
-                    if(!blnDontShowManNode) {
-                        if((tmpAlarm.Remaining.UT + tmpAlarm.AlarmMarginSecs) < 0) {
-                            strRestoretext += "\r\nWARNING: The stored Nodes are in the past";
-                            NoOfDoubleLineButtons++;
-                        }
-                        intReturnNoOfButtons++;
-                        if(GUILayout.Button(strRestoretext, KACResources.styleButton)) {
-                            LogFormatted("Attempting to add Node");
-                            KACWorkerGameState.CurrentVessel.patchedConicSolver.maneuverNodes.Clear();
-                            RestoreManeuverNodeList(tmpAlarm.ManNodes);
-                        }
-                    }
-				}
-#endif
 				//There is a stored Target, that hasnt passed
 				//if ((tmpAlarm.TargetObject != null) && ((tmpAlarm.Remaining.UT + tmpAlarm.AlarmMarginSecs) > 0))
 				if ((tmpAlarm.TargetObject != null))
@@ -585,55 +546,6 @@ namespace KerbalAlarmClock
 			}
 			else
 			{
-#if false
-				//not current vessel
-				//There is a node and the alarm + Margin is not expired
-				//if (tmpAlarm.ManNodes != null && tmpAlarm.Remaining.UT + tmpAlarm.AlarmMarginSecs > 0)
-				if (tmpAlarm.ManNodes != null && tmpAlarm.ManNodes.Count > 0)
-				{
-					String strRestoretext = "Jump To Ship and Restore Maneuver Node";
-					if (tmpAlarm.TypeOfAlarm == KACAlarm.AlarmTypeEnum.Crew) strRestoretext = strRestoretext.Replace("Ship", "Kerbal");
-					if ((tmpAlarm.Remaining.UT + tmpAlarm.AlarmMarginSecs) < 0)
-					{
-						strRestoretext += "\r\nWARNING: The stored Nodes are in the past";
-						NoOfDoubleLineButtons++;
-					}
-					intReturnNoOfButtons++;
-
-					if (GUILayout.Button(strRestoretext, KACResources.styleButton))
-					{
-						Vessel tmpVessel = FindVesselForAlarm(tmpAlarm);
-
-						if (JumpToVessel(tmpVessel))
-						{
-							//Set the Node in memory to restore once the ship change has completed
-							settings.LoadManNode = KACAlarm.ManNodeSerializeList(tmpAlarm.ManNodes);
-							settings.Save();
-						}
-					}
-				}
-
-				//There is a target and the alarm has not expired
-				//if (tmpAlarm.TargetObject != null && tmpAlarm.Remaining.UT + tmpAlarm.AlarmMarginSecs > 0)
-				if (tmpAlarm.TargetObject != null )
-				{
-					intReturnNoOfButtons++;
-					String strButtonT = "Jump To Ship and Restore Target";
-					if (tmpAlarm.TypeOfAlarm == KACAlarm.AlarmTypeEnum.Crew) strButtonT = strButtonT.Replace("Ship", "Kerbal");
-					if (GUILayout.Button(strButtonT, KACResources.styleButton))
-					{
-						Vessel tmpVessel = FindVesselForAlarm(tmpAlarm);
-
-						if (JumpToVessel(tmpVessel))
-						{
-							//Set the Target in persistant file to restore once the ship change has completed...
-							settings.LoadVesselTarget = KACAlarm.TargetSerialize(tmpAlarm.TargetObject);
-							settings.Save();
-						}
-					}
-				}
-#endif
-
 				intReturnNoOfButtons++;
 				//Or just jump to ship - regardless of alarm time
 				String strButton = "Jump To Ship";

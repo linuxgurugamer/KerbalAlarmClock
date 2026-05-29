@@ -1,5 +1,9 @@
 Changelog
 
+3.14.2
+	Adjusted size of About window to better fit content after removing the import section
+	Removed disabled code
+
 3.14.1.5
 	Removed the V2 import tool
 	Updated version check to use new web url

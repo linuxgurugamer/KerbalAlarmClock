@@ -206,11 +206,6 @@ namespace KerbalAlarmClock
 
 			InitDropDowns();
 
-#if false
-			winAlarmImport.KAC = this;
-			winAlarmImport.Visible = false;
-			winAlarmImport.InitWindow();
-#endif
 			winConfirmAlarmDelete.Visible = false;
 			winConfirmAlarmDelete.InitWindow();
 
@@ -285,11 +280,6 @@ namespace KerbalAlarmClock
 			LogFormatted("Destroying the KerbalAlarmClock-{0}", MonoName);
 
 			//Hook the App Launcher
-#if false
-			GameEvents.onGUIApplicationLauncherReady.Remove(OnGUIAppLauncherReady);
-			GameEvents.onGUIApplicationLauncherDestroyed.Remove(DestroyAppLauncherButton);
-			GameEvents.onGameSceneLoadRequested.Remove(OnGameSceneLoadRequestedForAppLauncher);
-#endif
 			GameEvents.Contract.onContractsLoaded.Remove(ContractsReady);
 
             GameEvents.onGUIAdministrationFacilitySpawn.Remove(EnterKSCFacility);
@@ -941,49 +931,6 @@ namespace KerbalAlarmClock
 						MouseOverAnyWindow = MouseOverAnyWindow || MouseOverWindow(tmpAlarm.AlarmWindow, !tmpAlarm.AlarmWindowClosed);
 					}
 				}
-
-#if false
-				//If the setting is on and the mouse is over any window then lock it
-				if (MouseOverAnyWindow && !InputLockExists)
-				{
-					Boolean AddLock = false;
-					switch (HighLogic.LoadedScene)
-					{
-						case GameScenes.SPACECENTER: AddLock = settings.ClickThroughProtect_KSC && !(InputLockManager.GetControlLock("KACControlLock") != ControlTypes.None); break;
-						case GameScenes.EDITOR: AddLock = settings.ClickThroughProtect_Editor && !(InputLockManager.GetControlLock("KACControlLock") != ControlTypes.None); break;
-						case GameScenes.FLIGHT: AddLock = settings.ClickThroughProtect_Flight && !(InputLockManager.GetControlLock("KACControlLock") != ControlTypes.None); break;
-						case GameScenes.TRACKSTATION: AddLock = settings.ClickThroughProtect_Tracking && !(InputLockManager.GetControlLock("KACControlLock") != ControlTypes.None); break;
-						default:
-							break;
-					}
-					if (AddLock)
-					{
-						//LogFormatted_DebugOnly("AddingLock-{0}", "KACControlLock");
-
-						switch (HighLogic.LoadedScene)
-						{
-							case GameScenes.SPACECENTER: InputLockManager.SetControlLock(ControlTypes.KSC_FACILITIES, "KACControlLock"); break;
-							case GameScenes.EDITOR:
-								InputLockManager.SetControlLock((ControlTypes.EDITOR_LOCK | ControlTypes.EDITOR_GIZMO_TOOLS), "KACControlLock");
-								break;
-							case GameScenes.FLIGHT:
-								InputLockManager.SetControlLock(ControlTypes.ALL_SHIP_CONTROLS, "KACControlLock");
-								break;
-							case GameScenes.TRACKSTATION:
-								InputLockManager.SetControlLock(ControlTypes.TRACKINGSTATION_ALL | ControlTypes.MAP_UI, "KACControlLock");
-								break;
-							default:
-								break;
-						}
-						InputLockExists = true;
-					}
-				}
-				//Otherwise make sure the lock is removed
-				else if (!MouseOverAnyWindow && InputLockExists)
-				{
-					RemoveInputLock();
-				}
-#endif
 			}
 		}
 

@@ -1,13 +1,10 @@
-﻿using System;
+﻿using KSPPluginFramework;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-
-using KSP;
 using UnityEngine;
-using KSPPluginFramework;
 
 namespace KerbalAlarmClock
 {
@@ -178,7 +175,7 @@ namespace KerbalAlarmClock
             get
             {
                 float v;
-                if(float.TryParse(MaxToolTipTime, out v))
+                if (float.TryParse(MaxToolTipTime, out v))
                     return v;
                 else
                     return 15;
@@ -225,16 +222,16 @@ namespace KerbalAlarmClock
         [Persistent] internal BurnMarginEnum DefaultKERMargin = BurnMarginEnum.Half;
 
         [Persistent] internal Double AlarmAddManQuickMargin = 180;
-        [Persistent] internal AlarmActions AlarmAddManQuickAction =  new AlarmActions();
+        [Persistent] internal AlarmActions AlarmAddManQuickAction = new AlarmActions();
         [Persistent] internal Double AlarmAddSOIQuickMargin = 180;
-        [Persistent] internal AlarmActions AlarmAddSOIQuickAction =  new AlarmActions();
+        [Persistent] internal AlarmActions AlarmAddSOIQuickAction = new AlarmActions();
 
         [Persistent] internal Double AlarmAddNodeQuickMargin = 30;
-        [Persistent] internal AlarmActions AlarmAddNodeQuickAction =  new AlarmActions();
+        [Persistent] internal AlarmActions AlarmAddNodeQuickAction = new AlarmActions();
 
 
         [Persistent] internal Double AlarmOnContractExpireMargin = 3600;
-        [Persistent] internal AlarmActions AlarmOnContractExpire_Action =  new AlarmActions();
+        [Persistent] internal AlarmActions AlarmOnContractExpire_Action = new AlarmActions();
         [Persistent] internal Double AlarmOnContractDeadlineMargin = 86400;
         [Persistent] internal AlarmActions AlarmOnContractDeadline_Action = new AlarmActions();
 
@@ -279,14 +276,7 @@ namespace KerbalAlarmClock
         {
             get
             {
-#if false
-                if (BlizzyToolbarIsAvailable || ButtonStyleChosen != ButtonStyleEnum.Toolbar)
-                    return ButtonStyleChosen;
-                else
-                    return ButtonStyleEnum.Launcher;
-#else
-                    return ButtonStyleChosen;
-#endif
+                return ButtonStyleChosen;
             }
         }
         [Persistent] internal ButtonStyleEnum ButtonStyleChosen = ButtonStyleEnum.ToolbarController;
@@ -298,12 +288,6 @@ namespace KerbalAlarmClock
 
             [Description("Toolbar (stock or Blizzy using ToolbarController)")]
             ToolbarController
-#if false
-            [Description("Common Toolbar (by Blizzy78)")]
-            Toolbar,
-            [Description("KSP App Launcher Button")]
-            Launcher,
-#endif
         }
 
 
@@ -346,7 +330,7 @@ namespace KerbalAlarmClock
             VersionCheckDate_SuccessStored = VersionCheckDate_SuccessString;
 
             IconPos_IconPosStored = IconPos_IconPosStored.FromRect(IconPos);
-            IconPos_SpaceCenterStored = IconPos_SpaceCenterStored.FromRect(IconPos_SpaceCenter);    
+            IconPos_SpaceCenterStored = IconPos_SpaceCenterStored.FromRect(IconPos_SpaceCenter);
             IconPos_TrackingStationStored = IconPos_TrackingStationStored.FromRect(IconPos_TrackingStation);
             IconPos_EditorVABStored = IconPos_EditorVABStored.FromRect(IconPos_EditorVAB);
             IconPos_EditorSPHStored = IconPos_EditorSPHStored.FromRect(IconPos_EditorSPH);
@@ -487,7 +471,7 @@ namespace KerbalAlarmClock
             this.Save();
 
             //now do the download
-            MonoBehaviourExtended.LogFormatted("Reading version from Web"); 
+            MonoBehaviourExtended.LogFormatted("Reading version from Web");
             MonoBehaviourExtended.LogFormatted("Version Check URL:" + VersionCheckURL);
 
             wwwVersionCheck = new WWW(VersionCheckURL);
@@ -586,11 +570,11 @@ namespace KerbalAlarmClock
         //    MonoBehaviourExtended.LogFormatted("Version Check result:" + VersionCheckResult);
         //    return blnReturn;
         //}
-#endregion
+        #endregion
 
 
 
-#region Sound Stuff
+        #region Sound Stuff
         internal Boolean VerifySoundsList()
         {
             Boolean blnRet = false;
@@ -623,8 +607,8 @@ namespace KerbalAlarmClock
                 if (EarthTypeAdded)
                 {
                     AlarmSounds.First(s => s.Name == "Earth").SoundName = "Rooster";
-                    AlarmSounds.First(s => s.Name == "Earth").Enabled=true;
-                    AlarmSounds.First(s => s.Name == "Earth").RepeatCount=2;
+                    AlarmSounds.First(s => s.Name == "Earth").Enabled = true;
+                    AlarmSounds.First(s => s.Name == "Earth").RepeatCount = 2;
                 }
 
 
@@ -649,9 +633,10 @@ namespace KerbalAlarmClock
 
         private Boolean AddMissingSoundConfig(String Name, params KACAlarm.AlarmTypeEnum[] Types)
         {
-            if (!AlarmSounds.Any(s=>s.Name==Name)){
+            if (!AlarmSounds.Any(s => s.Name == Name))
+            {
                 LogFormatted("Initing Sound Config for:{0}", Name);
-                AlarmSounds.Add(new AlarmSound(Name,Types));
+                AlarmSounds.Add(new AlarmSound(Name, Types));
                 return true;
             }
 
@@ -659,11 +644,11 @@ namespace KerbalAlarmClock
         }
     }
 
-#endregion
+    #endregion
 
-    internal class RectStorage:ConfigNodeStorage
+    internal class RectStorage : ConfigNodeStorage
     {
-        [Persistent] internal Single x,y,width,height;
+        [Persistent] internal Single x, y, width, height;
 
         internal Rect ToRect() { return new Rect(x, y, width, height); }
         internal RectStorage FromRect(Rect rectToStore)
@@ -682,7 +667,7 @@ namespace KerbalAlarmClock
         OldestAlarm = 1
     }
 
-    internal class AlarmSound:ConfigNodeStorage
+    internal class AlarmSound : ConfigNodeStorage
     {
         [Persistent] internal String Name;
         [Persistent] internal List<KACAlarm.AlarmTypeEnum> Types;
@@ -692,7 +677,7 @@ namespace KerbalAlarmClock
         internal KerbalAlarmClock.DropDownList ddl;
 
         internal AlarmSound() { }
-        internal AlarmSound(String Name, params KACAlarm.AlarmTypeEnum[] Types )
+        internal AlarmSound(String Name, params KACAlarm.AlarmTypeEnum[] Types)
         {
             this.Name = Name;
             this.Types = Types.ToList();

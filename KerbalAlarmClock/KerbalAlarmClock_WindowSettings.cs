@@ -171,7 +171,7 @@ namespace KerbalAlarmClock
                     break;
                 case 5:
                     WindowLayout_SettingsAbout();
-                    intSettingsHeight = 350; // 294; //306;
+                    intSettingsHeight = 300; // 350; // 294; //306;
                     break;
                 default:
                     break;
@@ -189,18 +189,6 @@ namespace KerbalAlarmClock
             GUILayout.Label("Plugin Styles", KACResources.styleAddSectionHeading);
             using (new GUILayout.VerticalScope(KACResources.styleAddFieldAreas))
             {
-#if false
-                using (new GUILayout.HorizontalScope())
-                {
-                    GUILayout.Label("Display Skin:", KACResources.styleAddHeading, GUILayout.Width(90));
-                    ddlSettingsSkin.DrawButton();
-                }
-                using (new GUILayout.HorizontalScope())
-                {
-                    GUILayout.Label("App Button Style:", KACResources.styleAddHeading, GUILayout.Width(90));
-                    GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
-                }
-#endif
 
                 //two columns
                 using (new GUILayout.HorizontalScope())
@@ -215,18 +203,6 @@ namespace KerbalAlarmClock
                     ddlSettingsButtonStyle.DrawButton();
 #endif
                 }
-#if false
-                //intBlizzyToolbarMissingHeight = 0;
-                if (!settings.BlizzyToolbarIsAvailable)
-                {
-                    if (settings.ButtonStyleChosen == Settings.ButtonStyleEnum.Toolbar)
-                    {
-                        if (GUILayout.Button(new GUIContent("Not Installed. Click for Toolbar Info", "Click to open your browser and find out more about the Common Toolbar"), KACResources.styleContent))
-                            Application.OpenURL("https://forum.kerbalspaceprogram.com/topic/161857-toolbar-continued-common-api-for-draggableresizable-buttons-toolbar/");
-                        //intBlizzyToolbarMissingHeight = 18;
-                    }
-                }
-#endif
 
                 if (DrawCheckbox(ref settings.WindowChildPosBelow, "Show Child Windows Below (not to the side)"))
                     settings.Save();
@@ -860,12 +836,6 @@ namespace KerbalAlarmClock
                 }
             }
 
-#if false
-            if (DrawCheckbox(ref ClickThroughProtect, "Prevent Click Through over Windows"))
-            {
-                settings.Save();
-            }
-#endif
             GUILayout.Label("Icon Position (for basic button)", KACResources.styleAddSectionHeading);
             //Now two columns
             GUILayout.BeginHorizontal();
@@ -1036,42 +1006,6 @@ namespace KerbalAlarmClock
 
             GUILayout.EndVertical();
 
-#if false
-            //Alarm Update Area
-            GUILayout.Label("v2 Alarm Import", KACResources.styleAddSectionHeading);
-            using (new GUILayout.VerticalScope(KACResources.styleAddFieldAreas))
-            {
-                //GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
-                using (new GUILayout.HorizontalScope())
-                {
-                    //GUILayout.BeginHorizontal();
-                    using (new GUILayout.VerticalScope())
-                    {
-                        //GUILayout.BeginVertical();
-                        //GUILayout.Label("Written by:", KACResources.styleAddHeading);
-                        if (GUILayout.Button("Open Import Tool"))
-                        {
-                            winAlarmImport.Visible = true;
-                            _ShowSettings = false;
-                        }
-                        //GUILayout.EndVertical();
-                    }
-
-                    using (new GUILayout.VerticalScope())
-                    {
-                        GUILayout.BeginVertical();
-                        //GUILayout.Label("Trigger Au",KACResources.styleContent);
-                        if (GUILayout.Button("Import Instructions", KACResources.styleContent))
-                            Application.OpenURL("https://triggerau.github.io/KerbalAlarmClock/install.html#AlarmImport");
-                        //GUILayout.EndVertical();
-                    }
-
-                    //GUILayout.EndHorizontal();
-                }
-
-                // GUILayout.EndVertical();
-            }
-#endif
         }
     }
 }
