@@ -22,8 +22,8 @@ namespace KerbalAlarmClock
     {
         internal ToolbarControl btnToolbarControl = null;
 
-        internal const string MODID = "btnToolbarIcon";
-        internal const string MODNAME = "Kerbal Alarm Clock";
+        internal const string MODID = "btnKACIcon";
+        internal const string MODNAME = "Kerbal Alarm Clock Updated";
         internal static ApplicationLauncher.AppScenes sceneVisibility = ApplicationLauncher.AppScenes.ALWAYS;
 
         internal static void ChangeSceneVisibility(ApplicationLauncher.AppScenes scene, bool visible)

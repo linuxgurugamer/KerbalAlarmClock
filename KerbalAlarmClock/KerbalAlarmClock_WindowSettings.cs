@@ -823,7 +823,7 @@ namespace KerbalAlarmClock
             //Checkbox to show/hide
             if (Toggleable)
             {
-                if (DrawCheckbox(ref IconShow, new GUIContent("Alarm Clock Visible", "Show the Kerbal Alarm Clock Icon in this Game Mode")))
+                if (DrawCheckbox(ref IconShow, new GUIContent("Alarm Clock Visible", "Show the Kerbal Alarm Clock Updated Icon in this Game Mode")))
                 {
                     WindowVisible = IconShow;
                     //DestroyToolbarButton(btnToolbarKAC);

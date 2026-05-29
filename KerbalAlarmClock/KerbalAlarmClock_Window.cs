@@ -505,7 +505,7 @@ Debug.Log("[KerbalAlarmClock] a: " + size.ToString() + ", intMainWindowAlarmList
             MainWindowPos = MainWindowPos.ClampToScreen(new RectOffset(0, 0, -25, 0), settings.UIScaleOverride ? settings.UIScaleValue : GameSettings.UI_SCALE);
 
             //Now show the window
-            WindowPosByActiveScene = ClickThruBlocker.GUILayoutWindow(_WindowMainID, MainWindowPos, FillWindow, "Kerbal Alarm Clock - " + settings.Version, KACResources.styleWindow);
+            WindowPosByActiveScene = ClickThruBlocker.GUILayoutWindow(_WindowMainID, MainWindowPos, FillWindow, "Kerbal Alarm Clock Updated - " + settings.Version, KACResources.styleWindow);
 
             if (winConfirmAlarmDelete.Visible)
             {
