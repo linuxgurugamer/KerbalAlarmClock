@@ -449,7 +449,7 @@ namespace KerbalAlarmClock
         internal void DrawWindows()
         {
             var size = GUI.skin.label.CalcSize(new GUIContent("X"));
-            intMainWindowAlarmListItemHeight = Mathf.RoundToInt(size.y) + Mathf.RoundToInt( (GUI.skin.label.padding.top + GUI.skin.label.padding.bottom) * GameSettings.UI_SCALE);
+            intMainWindowAlarmListItemHeight = Mathf.RoundToInt(size.y) + Mathf.RoundToInt( (GUI.skin.label.padding.top + GUI.skin.label.padding.bottom));
             //Debug.Log("[KerbalAlarmClock] a: " + size.ToString() + ", intMainWindowAlarmListItemHeight: " + intMainWindowAlarmListItemHeight);
 #if DEBUG
             if (_ShowDebugPane)

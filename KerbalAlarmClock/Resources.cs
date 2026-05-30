@@ -690,7 +690,7 @@ namespace KerbalAlarmClock
         private static void SetStyleDefaults(Int32 FontSize=12)
         {
             Color32 colLabelText = new Color32(220, 220, 220, 255);
-            intFontSizeDefault = Mathf.RoundToInt( FontSize * GameSettings.UI_SCALE);
+            intFontSizeDefault = Mathf.RoundToInt(FontSize);
 
             //Common starting points
             styleDefLabel = new GUIStyle(CurrentSkin.label);
