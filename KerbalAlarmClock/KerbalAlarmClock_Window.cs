@@ -480,8 +480,8 @@ namespace KerbalAlarmClock
                             ((alarmsDisplayed.Count-1) * intMainWindowAlarmListItemHeight) +
                             alarmsDisplayed.Sum(x => x.AlarmLineHeightExtra);
 
-Debug.Log("[KerbalAlarmClock] a: " + size.ToString() + ", intMainWindowAlarmListItemHeight: " + intMainWindowAlarmListItemHeight +
-    ", MainWindowPos.height: " + MainWindowPos.height);
+                        //Debug.Log("[KerbalAlarmClock] a: " + size.ToString() + ", intMainWindowAlarmListItemHeight: " + intMainWindowAlarmListItemHeight +
+                        //    ", MainWindowPos.height: " + MainWindowPos.height);
 
                     }
                     else
