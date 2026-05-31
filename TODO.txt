@@ -1,0 +1,4 @@
+Localize mod
+Add public api for:
+	Toggle button
+	SetNoToolbar

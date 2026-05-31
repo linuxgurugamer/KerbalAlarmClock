@@ -231,9 +231,9 @@ namespace KerbalAlarmClock
 		//}
 
 
-		Double UTStart = 0;
-		DateTime TransStart;
-		Boolean warptrans = false;
+		//Double UTStart = 0;
+		//DateTime TransStart;
+		//Boolean warptrans = false;
 
 		Double[] UTChanges = new Double[8];
 
@@ -268,7 +268,7 @@ namespace KerbalAlarmClock
 
 		double dblTest = 12;
 
-		int intTestDistance = 710000;
+		//int intTestDistance = 710000;
 
 #if DEBUG
 		public void FillDebugWindow(int WindowID)
