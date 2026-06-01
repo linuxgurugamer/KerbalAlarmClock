@@ -163,7 +163,7 @@ namespace KerbalAlarmClock
                     break;
                 case 3:
                     WindowLayout_SettingsIcons();
-                    intSettingsHeight = 509; //518;//466 //406;
+                    intSettingsHeight = 518; //  509; //518;//466 //406;
                     break;
                 case 4:
                     WindowLayout_SettingsCalendar();
@@ -173,6 +173,7 @@ namespace KerbalAlarmClock
                     WindowLayout_SettingsAbout();
                     intSettingsHeight = 300; // 350; // 294; //306;
                     break;
+
                 default:
                     break;
             }
@@ -791,20 +792,37 @@ namespace KerbalAlarmClock
             //    GUILayout.EndHorizontal();
             //}
             //GUILayout.EndVertical();
-            int MinimalDisplayChoice = (int)settings.WindowMinimizedType;
 
-            GUILayout.Label("Minimal Mode", KACResources.styleAddSectionHeading);
-            GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Display What:", KACResources.styleAddHeading, GUILayout.Width(120));
-            if (DrawRadioList(ref MinimalDisplayChoice, "Next Alarm", "Oldest Alarm"))
+            GUILayout.Label("Restore Window", KACResources.styleAddSectionHeading);
+            using (new GUILayout.VerticalScope(KACResources.styleAddFieldAreas))
             {
-                settings.WindowMinimizedType = (MiminalDisplayType)MinimalDisplayChoice;
-                settings.Save();
+                using (new GUILayout.HorizontalScope())
+                {
+                    bool b = settings.WindowRememberLastOpenStatus;
+                    if (DrawCheckbox(ref settings.WindowRememberLastOpenStatus, new GUIContent("Remember last open status", "If enabled, the window will remember its last open status.")))
+                    {
+                        if (b != settings.WindowRememberLastOpenStatus)
+                        {
+                            settings.Save();
+                        }
+                    }
+                }
             }
-            GUILayout.EndHorizontal();
-            GUILayout.EndVertical();
 
+            int MinimalDisplayChoice = (int)settings.WindowMinimizedType;
+            GUILayout.Label("Minimal Mode", KACResources.styleAddSectionHeading);
+            using (new GUILayout.VerticalScope(KACResources.styleAddFieldAreas))
+            {
+                using (new GUILayout.HorizontalScope())
+                {
+                    GUILayout.Label("Display What:", KACResources.styleAddHeading, GUILayout.Width(120));
+                    if (DrawRadioList(ref MinimalDisplayChoice, "Next Alarm", "Oldest Alarm"))
+                    {
+                        settings.WindowMinimizedType = (MiminalDisplayType)MinimalDisplayChoice;
+                        settings.Save();
+                    }
+                }
+            }
 
             DrawIconPos("Flight Mode", ApplicationLauncher.AppScenes.FLIGHT, false, ref blnTemp, ref settings.IconPos, ref settings.WindowVisible, ref settings.ClickThroughProtect_Flight);
 

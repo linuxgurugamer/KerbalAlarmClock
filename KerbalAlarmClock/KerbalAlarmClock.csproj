@@ -71,6 +71,7 @@
     <Compile Include="FrameworkExt\AudioController.cs" />
     <Compile Include="FrameworkExt\Extensions.cs" />
     <Compile Include="InstallChecker.cs" />
+    <Compile Include="KACToolbarAPI.cs" />
     <Compile Include="KerbalAlarmClock_ToolbarControllerButtons.cs" />
     <Compile Include="SharedStuff\AngleRenderEject.cs" />
     <Compile Include="SharedStuff\AngleRenderPhase.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="TestMono.cs" />
     <Compile Include="TimeObjects.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="UtilitiesLegacy.cs" />

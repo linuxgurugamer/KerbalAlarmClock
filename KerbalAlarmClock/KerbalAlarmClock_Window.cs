@@ -2,6 +2,7 @@
 using KSPPluginFramework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 
@@ -185,8 +186,6 @@ namespace KerbalAlarmClock
             }
             set
             {
-
-                //LogFormatted("Setting Visible:{0} - {1}-{2}", value, KACWorkerGameState.CurrentGUIScene,HighLogic.LoadedScene);
                 switch (HighLogic.LoadedScene)
                 {
                     case GameScenes.SPACECENTER: settings.WindowVisible_SpaceCenter = value; break;
@@ -274,6 +273,11 @@ namespace KerbalAlarmClock
         /// </summary>
         internal void DrawIcons()
         {
+            if (btnToolbarControl == null)
+            {
+                //MonoBehaviourExtended.LogFormatted("DrawIcons,  btlToolbarControl is null");
+                return;
+            }
             //if (!settings.UseBlizzyToolbarIfAvailable || btnToolbarKAC == null)
             if (settings.ButtonStyleToDisplay == Settings.ButtonStyleEnum.Basic)
             {
@@ -374,7 +378,7 @@ namespace KerbalAlarmClock
                         }
                     }
                     if (btnToolbarControl == null)
-                        Debug.Log("btnToolbarControl is null");
+                        LogFormatted("btnToolbarControl is null");
                     else
                         btnToolbarControl.SetTexture(BigTexturePath, TexturePath);
                 }

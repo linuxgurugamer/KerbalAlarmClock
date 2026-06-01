@@ -1,17 +1,17 @@
 {
   "NAME": "Kerbal Alarm Clock Updated",
-  "URL": "https://raw.githubusercontent.com/TriggerAu/KerbalAlarmClock/master/KerbalAlarmClock/KerbalAlarmClock.version",
-  "DOWNLOAD" : "https://github.com/TriggerAu/KerbalAlarmClock/releases",
+  "URL": "https://raw.githubusercontent.com/linuxgurugamer/KerbalAlarmClock/master/KerbalAlarmClock.version",
+  "DOWNLOAD": "https://github.com/linuxgurugamer/KerbalAlarmClock/releases",
   "VERSION": {
     "MAJOR": 3,
     "MINOR": 14,
-    "PATCH": 0,
-    "BUILD": 0
+    "PATCH": 2,
+    "BUILD": 1
   },
   "KSP_VERSION": {
     "MAJOR": 1,
     "MINOR": 12,
-    "PATCH": 3
+    "PATCH": 5
   },
   "KSP_VERSION_MIN": {
     "MAJOR": 1,

@@ -1,5 +1,16 @@
 Changelog
 
+3.14.2.2 (unreleased)
+	Implemented an API to allow other mods to control the button.  This will be used by the Stock Alarm Clock Disabler mod:
+		public static void SetToolbarButtonVisible(bool visible)	
+		public static void OverrideStockToolbar(bool overrideStock)
+		public static void KACToolbarAPI.onAppLaunchToggleOn()
+		public static void KACToolbarAPI.onAppLaunchToggleOff()
+		public static void KACToolbarAPI.onAppLaunchHoverOn()
+		public static void KACToolbarAPI.onAppLaunchHoverOff()
+	Added an option to disable the alarm clock from opening upon entry to scenes
+	Disabled some additional old code related to restoring maneuver nodes and/or targets
+
 3.14.2.1
 	Thanks to github user @Clayell for these two changes:
 		Revert UI scaling changes

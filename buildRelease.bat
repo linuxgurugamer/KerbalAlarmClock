@@ -25,9 +25,9 @@ rem README is the readme file
 
 set GAMEDIR=TriggerTech\KerbalAlarmClock
 set GAMEDATA="GameData\"
-set VERSIONFILE=%GAMEDIR%.version
-set LICENSE=License.txt
-set README=ReadMe.md
+set VERSIONFILE=KerbalAlarmClock.version
+set LICENSE=LICENSE
+set README=README.md
 
 set RELEASEDIR=d:\Users\jbb\release
 set ZIP="d:\Program Files\7-zip\7z.exe"

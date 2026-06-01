@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using KSP;
-using UnityEngine;
-using KSP.UI;
-using KSP.UI.Screens;
+﻿using KSP.UI.Screens;
 using KSPPluginFramework;
+using System;
 
 namespace KerbalAlarmClock
 {
@@ -39,26 +32,45 @@ namespace KerbalAlarmClock
             }
         }
 
+        static public void ToggleAppLauncherButton()
+        {
+            if (Instance == null)
+            {
+                LogFormatted_DebugOnly("Instance Is Null");
+                return;
+            }
 
-        void onAppLaunchToggleOn() {
+            if (Instance.WindowVisibleByActiveScene)
+                Instance.onAppLaunchToggleOff();
+            else
+                Instance.onAppLaunchToggleOn();
+        }
+
+
+
+        internal void onAppLaunchToggleOn()
+        {
             MonoBehaviourExtended.LogFormatted_DebugOnly("TOn");
 
             WindowVisibleByActiveScene = true;
             settings.Save();
-            MonoBehaviourExtended.LogFormatted_DebugOnly("{0}",WindowVisibleByActiveScene);
+            MonoBehaviourExtended.LogFormatted_DebugOnly("{0}", WindowVisibleByActiveScene);
         }
-        void onAppLaunchToggleOff() {
+        internal void onAppLaunchToggleOff()
+        {
             MonoBehaviourExtended.LogFormatted_DebugOnly("TOff");
 
             WindowVisibleByActiveScene = false;
             settings.Save();
             MonoBehaviourExtended.LogFormatted_DebugOnly("{0}", WindowVisibleByActiveScene);
         }
-        void onAppLaunchHoverOn() {
+        internal void onAppLaunchHoverOn()
+        {
             MonoBehaviourExtended.LogFormatted_DebugOnly("HovOn");
             //MouseOverAppLauncherBtn = true;
         }
-        void onAppLaunchHoverOff() {
+        internal void onAppLaunchHoverOff()
+        {
             MonoBehaviourExtended.LogFormatted_DebugOnly("HovOff");
             //MouseOverAppLauncherBtn = false; 
         }

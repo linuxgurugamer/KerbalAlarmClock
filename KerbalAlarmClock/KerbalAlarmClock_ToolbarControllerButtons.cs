@@ -20,7 +20,7 @@ namespace KerbalAlarmClock
 
     public partial class KerbalAlarmClock
     {
-        internal ToolbarControl btnToolbarControl = null;
+        internal static ToolbarControl btnToolbarControl = null;
 
         internal const string MODID = "btnKACIcon";
         internal const string MODNAME = "Kerbal Alarm Clock Updated";
@@ -45,12 +45,14 @@ namespace KerbalAlarmClock
         /// <returns>The ToolbarButtonWrapper that was created</returns>
         internal ToolbarControl InitToolbarControlButton()
         {
+            //LogFormatted($"InitToolbarControlbutton, settings.ButtonStyleToDisplay: {settings.ButtonStyleToDisplay}  KACToolbarAPI.buttonVisibility: {KACToolbarAPI.buttonVisibility}");
             ToolbarControl btnReturn = null;
-            if (settings.ButtonStyleToDisplay == Settings.ButtonStyleEnum.Basic)
+            if (settings.ButtonStyleToDisplay == Settings.ButtonStyleEnum.Basic ||
+                KACToolbarAPI.buttonVisibility == false)
                 return null;
             try
             {
-                LogFormatted("Initialising the ToolbarController Icon");
+                //LogFormatted("Initialising the ToolbarController Icon");
                 if (btnToolbarControl == null)
                 {
                     //         public void AddToAllToolbars(TC_ClickHandler onTrue, TC_ClickHandler onFalse, TC_ClickHandler onHover, TC_ClickHandler onHoverOut, TC_ClickHandler onEnable, TC_ClickHandler onDisable, ApplicationLauncher.AppScenes visibleInScenes, string nameSpace, string toolbarId, string largeToolbarIconActive, string largeToolbarIconInactive, string smallToolbarIconActive, string smallToolbarIconInactive, string toolTip = null);
@@ -91,6 +93,7 @@ namespace KerbalAlarmClock
                 btnToDestroy = null;
 
             }
+            btnToolbarControl = null;
             btnToDestroy = null;
         }
 
