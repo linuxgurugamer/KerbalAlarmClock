@@ -1,10 +1,11 @@
-﻿/* Part of KSPPluginFramework
+/* Part of KSPPluginFramework
 Version 1.2
 
 Forum Thread:https://forum.kerbalspaceprogram.com/topic/60381-ksp-plugin-framework-plugin-examples-and-structure/
 Author: TriggerAu, 2014
 License: The MIT License (MIT)
 */
+using KSP.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -167,7 +168,7 @@ namespace KSPPluginFramework
             try
             {
                 LogFormatted_DebugOnly("Invoking the repeating function");
-                this.InvokeRepeating("RepeatingWorkerWrapper", _RepeatInitialWait, RepeatingWorkerRate);
+                this.InvokeRepeating(Localizer.Format("#LOC_KAC_559"), _RepeatInitialWait, RepeatingWorkerRate);
                 _RepeatRunning = true;
             }
             catch (Exception)
@@ -187,7 +188,7 @@ namespace KSPPluginFramework
             try
             {
                 LogFormatted_DebugOnly("Cancelling the repeating function");
-                this.CancelInvoke("RepeatingWorkerWrapper");
+                this.CancelInvoke(Localizer.Format("#LOC_KAC_559"));
                 _RepeatRunning = false;
             }
             catch (Exception)
@@ -422,7 +423,7 @@ namespace KSPPluginFramework
         internal static void LogFormatted(String Message, params object[] strParams)
         {
             Message = String.Format(Message, strParams);                  // This fills the params into the message
-            String strMessageLine = String.Format("{0},{2},{1}",
+            String strMessageLine = String.Format("{0}" + "," + "{2}" + "," + "{1}",
                 DateTime.Now, Message,
                 _AssemblyName);                                           // This adds our standardised wrapper to each line
             UnityEngine.Debug.Log(strMessageLine);                        // And this puts it in the log

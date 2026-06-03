@@ -1,10 +1,11 @@
-﻿/* Part of KSPPluginFramework
+/* Part of KSPPluginFramework
 Version 1.2
 
 Forum Thread:https://forum.kerbalspaceprogram.com/topic/60381-ksp-plugin-framework-plugin-examples-and-structure/
 Author: TriggerAu, 2014
 License: The MIT License (MIT)
 */
+using KSP.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace KSPPluginFramework
     /// </summary>
     public abstract class MonoBehaviourWindow : MonoBehaviourExtended
     {
-        #region "Constructors"
+        #region "#LOC_KAC_1"
         internal MonoBehaviourWindow()
             : base()
         {

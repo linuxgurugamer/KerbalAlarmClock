@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -255,7 +256,7 @@ namespace KSPPluginFramework
             switch (DateFormat)
             {
                 case DateStringFormatsEnum.TimeAsUT:
-                    return (UT < 0 ? "+ " : "") + String.Format("{0:N0}s", Math.Abs(UT));
+                    return (UT < 0 ? "+ " : "") + String.Format("{0}" + Localizer.Format("#LOC_KAC_560") + "}", Math.Abs(UT));
                 case DateStringFormatsEnum.KSPFormat:
                     return ToString();
                 case DateStringFormatsEnum.KSPFormatWithSecs:
@@ -263,11 +264,11 @@ namespace KSPPluginFramework
                     {
                         return KSPUtil.dateTimeFormatter.PrintDate(UT, true, true);
                     }
-                    return ToString("Year y, Da\\y d - H\\h, m\\m, s\\s");
+                    return ToString(Localizer.Format("#LOC_KAC_561"));
                 case DateStringFormatsEnum.DateTimeFormat:
                     if (KSPDateStructure.CalendarType == CalendarTypeEnum.Earth)
                     {
-                        return ToString("d MMM yyyy, HH:mm:ss");
+                        return ToString(Localizer.Format("#LOC_KAC_562"));
                     }
                     else
                     {
@@ -276,7 +277,7 @@ namespace KSPPluginFramework
 
                             return KSPUtil.dateTimeFormatter.PrintDateNew(UT, true);
                         }
-                        return ToString("Year y, Da\\y d, HH:mm:ss");
+                        return ToString(Localizer.Format("#LOC_KAC_563"));
                     }
                 default:
                     return ToString();
@@ -294,7 +295,7 @@ namespace KSPPluginFramework
                 {
                     return KSPUtil.dateTimeFormatter.PrintDate(UT, true, false);
                 }
-                return ToString("Year y, Da\\y d - H\\h, m\\m", null);
+                return ToString(Localizer.Format("#LOC_KAC_564"), null);
 			}
 		}
 		/// <summary>Returns the string representation of the value of this instance.</summary> 
@@ -310,7 +311,7 @@ namespace KSPPluginFramework
 		public String ToString(String format, IFormatProvider provider)
 		{
 			//parse and replace the format stuff
-			MatchCollection matches = Regex.Matches(format, "([a-zA-z])\\1{0,}");
+			MatchCollection matches = Regex.Matches(format, "([a-zA-z])\\1{0,}"); // NO_LOCALIZATION
 			for (int i = matches.Count-1; i >=0; i--)
 			{
 				Match m = matches[i];
@@ -410,7 +411,7 @@ namespace KSPPluginFramework
 			}
 
 			//Now strip out the \ , but not multiple \\
-			format = Regex.Replace(format, "\\\\(?=[a-z])", "");
+			format = Regex.Replace(format, Localizer.Format("#LOC_KAC_565"), "");
 
 			return format;
 			//if (KSPDateStructure.CalendarType == CalendarTypeEnum.Earth)

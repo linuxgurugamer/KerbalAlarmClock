@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -65,7 +66,7 @@ namespace KAC_KERWrapper
             //find the base type
             AssemblyLoader.loadedAssemblies.TypeOperation(t =>
                 {
-                    if (t.FullName == "KerbalEngineer.Flight.Readouts.Orbital.ManoeuvreNode.ManoeuvreProcessor")
+                    if (t.FullName == Localizer.Format("#LOC_KAC_580"))
                         KERManoeuvreProcessorType = t;
                 });
 
@@ -108,7 +109,7 @@ namespace KAC_KERWrapper
 
             internal KERAPI(Object KER)
             {
-                PropertyInfo p = KERManoeuvreProcessorType.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static);
+                PropertyInfo p = KERManoeuvreProcessorType.GetProperty(Localizer.Format("#LOC_KAC_581"), BindingFlags.Public | BindingFlags.Static);
                 if (p != null)
                 {
                     LogFormatted("p not NULL");
@@ -117,18 +118,18 @@ namespace KAC_KERWrapper
                 
                 // actualKER = KER;
 
-                BurnTimeProp = KERManoeuvreProcessorType.GetProperty("BurnTime", BindingFlags.Public | BindingFlags.Static);
+                BurnTimeProp = KERManoeuvreProcessorType.GetProperty(Localizer.Format("#LOC_KAC_582"), BindingFlags.Public | BindingFlags.Static);
                 LogFormatted("BurnTimeProp Success: " + (BurnTimeProp != null).ToString());
                 //actualBurnTime = BurnTimeProp.GetValue(actualKER,null);
 
-                HalfBurnTimeProp = KERManoeuvreProcessorType.GetProperty("HalfBurnTime", BindingFlags.Public | BindingFlags.Static);
+                HalfBurnTimeProp = KERManoeuvreProcessorType.GetProperty(Localizer.Format("#LOC_KAC_583"), BindingFlags.Public | BindingFlags.Static);
                 LogFormatted("HalfBurnTimeProp Success: " + (HalfBurnTimeProp != null).ToString());
                 //actualBurnTime = HalfBurnTimeProp.GetValue(actualKER,null));
 
-                HasDeltaVProp = KERManoeuvreProcessorType.GetProperty("HasDeltaV", BindingFlags.Public | BindingFlags.Static);
+                HasDeltaVProp = KERManoeuvreProcessorType.GetProperty(Localizer.Format("#LOC_KAC_584"), BindingFlags.Public | BindingFlags.Static);
                 LogFormatted("HasDeltaVProp Success: " + (HasDeltaVProp != null).ToString());
 
-                UpdateMethod = KERManoeuvreProcessorType.GetMethod("Update", BindingFlags.Public | BindingFlags.Instance);
+                UpdateMethod = KERManoeuvreProcessorType.GetMethod(Localizer.Format("#LOC_KAC_585"), BindingFlags.Public | BindingFlags.Instance);
                 LogFormatted("UpdateMethod Success: " + (UpdateMethod != null).ToString());
 
                 //bRunningField = KERSimManagerType.GetField("bRunning", BindingFlags.NonPublic | BindingFlags.Static);
@@ -200,7 +201,7 @@ namespace KAC_KERWrapper
         internal static void LogFormatted(String Message, params Object[] strParams)
         {
             Message = String.Format(Message, strParams);
-            String strMessageLine = String.Format("{0},{2}-{3},{1}",
+            String strMessageLine = String.Format("{0}" + "," + "{2}" + "-" + "{3}" + "," + "{1}",
                 DateTime.Now, Message, System.Reflection.Assembly.GetExecutingAssembly().GetName().Name,
                 System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name);
             UnityEngine.Debug.Log(strMessageLine);

@@ -38,7 +38,7 @@ namespace KerbalAlarmClock
             }
         }
 
-
+        #region NO_LOCALIZATION
         /// <summary>
         /// initialises a Toolbar Button for this mod
         /// </summary>
@@ -78,6 +78,7 @@ namespace KerbalAlarmClock
             }
             return btnReturn;
         }
+        #endregion
 
         /// <summary>
         /// Destroys theToolbarButtonWrapper object

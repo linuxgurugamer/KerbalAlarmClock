@@ -1,4 +1,5 @@
-﻿using Contracts;
+using KSP.Localization;
+using Contracts;
 //using KACToolbarWrapper;
 using KAC_KERWrapper;
 using KAC_VOIDWrapper;
@@ -102,6 +103,7 @@ namespace KerbalAlarmClock
         }
 
         //Awake Event - when the DLL is loaded
+        #region NO_LOCALIZATION
         internal override void OnAwake()
         {
             LogFormatted("Awakening the KerbalAlarmClock-{0}", MonoName);
@@ -225,6 +227,7 @@ namespace KerbalAlarmClock
 
             APIAwake();
         }
+        #endregion
 
         private void InitAudio()
         {
@@ -243,7 +246,7 @@ namespace KerbalAlarmClock
 
             AssemblyLoader.loadedAssemblies.TypeOperation(t =>
                 {
-                    if (t.FullName == ("RealSolarSystem.RSSWatchDog"))
+                    if (t.FullName == (Localizer.Format("#LOC_KAC_2")))
                     {
                         settings.RSSActive = true;
                         if (!settings.RSSShowCalendarToggled)
@@ -332,7 +335,7 @@ namespace KerbalAlarmClock
         private void EnterKSCFacility() { inAdminFacility = true; }
         private void LeaveKSCFacility() { inAdminFacility = false; }
 
-        #region "Update Code"
+        #region Localizer.Format("#LOC_KAC_3")
         //Update Function - Happens on every frame - this is where behavioural stuff is typically done
         internal override void Update()
         {
@@ -665,7 +668,7 @@ namespace KerbalAlarmClock
                     DrawNodeWarpButton(KACWorkerGameState.ApPointExists,
                         Planetarium.GetUniversalTime() + KACWorkerGameState.CurrentVessel.orbit.timeToAp,
                         KACAlarm.AlarmTypeEnum.Apoapsis,
-                        "Ap",
+                        Localizer.Format("#LOC_KAC_4"),
                         settings.WarpToAddMarginAp,
                         settings.AlarmAddNodeQuickMargin
                         );
@@ -674,7 +677,7 @@ namespace KerbalAlarmClock
                     DrawNodeWarpButton(KACWorkerGameState.PePointExists,
                     Planetarium.GetUniversalTime() + KACWorkerGameState.CurrentVessel.orbit.timeToPe,
                     KACAlarm.AlarmTypeEnum.Periapsis,
-                    "Pe",
+                    Localizer.Format("#LOC_KAC_5"),
                     settings.WarpToAddMarginPe,
                     settings.AlarmAddNodeQuickMargin
                     );
@@ -684,7 +687,7 @@ namespace KerbalAlarmClock
                     DrawNodeWarpButton(KACWorkerGameState.SOIPointExists,
                     KACWorkerGameState.CurrentVessel.orbit.UTsoi,
                     KACAlarm.AlarmTypeEnum.SOIChange,
-                    "SOI",
+                    Localizer.Format("#LOC_KAC_6"),
                     settings.WarpToAddMarginSOI,
                     settings.AlarmAddSOIQuickMargin
                     );
@@ -696,7 +699,7 @@ namespace KerbalAlarmClock
                     DrawNodeWarpButton(true,
                         KACWorkerGameState.ManeuverNodeFuture.UT,
                         KACAlarm.AlarmTypeEnum.Maneuver,
-                        "ManNode",
+                        Localizer.Format("#LOC_KAC_7"),
                         settings.WarpToAddMarginManNode,
                         settings.AlarmAddManQuickMargin + GetBurnMarginSecs(settings.DefaultKERMargin)
                         );
@@ -708,7 +711,7 @@ namespace KerbalAlarmClock
                         Double tAN = KACWorkerGameState.CurrentVessel.orbit.TimeOfAscendingNode(KACWorkerGameState.CurrentVesselTarget.GetOrbit(), Planetarium.GetUniversalTime());
                         if (tAN < KACWorkerGameState.CurrentVessel.orbit.EndUT)
                         {
-                            DrawNodeWarpButton(true, tAN, KACAlarm.AlarmTypeEnum.AscendingNode, "AN",
+                            DrawNodeWarpButton(true, tAN, KACAlarm.AlarmTypeEnum.AscendingNode, Localizer.Format("#LOC_KAC_8"),
                                 settings.WarpToAddMarginAN,
                                 settings.AlarmAddNodeQuickMargin
                                 );
@@ -719,7 +722,7 @@ namespace KerbalAlarmClock
                         Double tDN = KACWorkerGameState.CurrentVessel.orbit.TimeOfDescendingNode(KACWorkerGameState.CurrentVesselTarget.GetOrbit(), Planetarium.GetUniversalTime());
                         if (tDN < KACWorkerGameState.CurrentVessel.orbit.EndUT)
                         {
-                            DrawNodeWarpButton(true, tDN, KACAlarm.AlarmTypeEnum.DescendingNode, "DN",
+                            DrawNodeWarpButton(true, tDN, KACAlarm.AlarmTypeEnum.DescendingNode, Localizer.Format("#LOC_KAC_9"),
                                 settings.WarpToAddMarginDN,
                                 settings.AlarmAddNodeQuickMargin
                                 );
@@ -872,7 +875,7 @@ namespace KerbalAlarmClock
                             //if there aint one then add one
                             if (aExisting == null)
                             {
-                                KACAlarm newAlarm = new KACAlarm(KACWorkerGameState.CurrentVessel.id.ToString(), "Warp to " + NodeName, "", UT - (WithMargin ? MarginSecs : 0), (WithMargin ? MarginSecs : 0), aType,
+                                KACAlarm newAlarm = new KACAlarm(KACWorkerGameState.CurrentVessel.id.ToString(), Localizer.Format("#LOC_KAC_10") + NodeName, "", UT - (WithMargin ? MarginSecs : 0), (WithMargin ? MarginSecs : 0), aType,
                                         AlarmActions.DefaultsKillWarpOnly());
                                 if (lstAlarmsWithTarget.Contains(aType))
                                     newAlarm.TargetObject = KACWorkerGameState.CurrentVesselTarget;
@@ -932,9 +935,9 @@ namespace KerbalAlarmClock
                         if (settings.WarpToRequiresConfirm)
                         {
                             if (!WarpToArmed)
-                                strArm = " (Unarmed)";
+                                strArm = Localizer.Format("#LOC_KAC_11");
                         }
-                        String strlabel = "Warp to " + NodeName + strArm + (WithMargin ? " (Margin=" + new KSPTimeSpan(MarginSecs).ToString(2) + ")" : "");
+                        String strlabel = Localizer.Format("#LOC_KAC_10") + NodeName + strArm + (WithMargin ? Localizer.Format("#LOC_KAC_12") + new KSPTimeSpan(MarginSecs).ToString(2) + ")" : "");
                         GUI.Label(new Rect((Int32)screenPosNode.x + xOffset + 21, (Int32)(Screen.height - screenPosNode.y) + yOffset - 2, 100, 12), strlabel, styleTip);
                     }
                 }
@@ -979,10 +982,10 @@ namespace KerbalAlarmClock
             //if (InputLockManager.GetControlLock("KACControlLock") == ControlTypes.KSC_FACILITIES ||
             //    InputLockManager.GetControlLock("KACControlLock") == ControlTypes.TRACKINGSTATION_ALL ||
             //    InputLockManager.GetControlLock("KACControlLock") == ControlTypes.All)
-            if (InputLockManager.GetControlLock("KACControlLock") != ControlTypes.None)
+            if (InputLockManager.GetControlLock(Localizer.Format("#LOC_KAC_13")) != ControlTypes.None)
             {
                 //LogFormatted_DebugOnly("Removing-{0}", "KACControlLock");
-                InputLockManager.RemoveControlLock("KACControlLock");
+                InputLockManager.RemoveControlLock(Localizer.Format("#LOC_KAC_13"));
             }
             InputLockExists = false;
         }
@@ -1065,7 +1068,7 @@ namespace KerbalAlarmClock
                 //if vessel has changed
                 if (KACWorkerGameState.ChangedVessel)
                 {
-                    String strVesselName = "No Vessel";
+                    String strVesselName = Localizer.Format("#LOC_KAC_14");
                     if (KACWorkerGameState.LastVessel != null) strVesselName = KSP.Localization.Localizer.Format(KACWorkerGameState.LastVessel.vesselName);
                     LogFormatted("Vessel Change from '{0}' to '{1}'", strVesselName, KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName));
                 }
@@ -1278,9 +1281,11 @@ namespace KerbalAlarmClock
                 //                "     Old SOI: " + KACWorkerGameState.CurrentVessel.orbit.referenceBody.bodyName + "\r\n" +
                 //                "     New SOI: " + KACWorkerGameState.CurrentVessel.orbit.nextPatch.referenceBody.bodyName;
                 strSOIAlarmName = KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName);// + "-Leaving " + KACWorkerGameState.CurrentVessel.orbit.referenceBody.bodyName;
-                strSOIAlarmNotes = KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + " - Nearing SOI Change\r\n" +
-                                "     Old SOI: " + KACWorkerGameState.CurrentVessel.orbit.referenceBody.bodyName + "\r\n" +
-                                "     New SOI: " + KACWorkerGameState.CurrentVessel.orbit.nextPatch.referenceBody.bodyName;
+                strSOIAlarmNotes = KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + " - Nearing SOI Change" + 
+                                "\r\n" + // NO_LOCALIZATION
+                                Localizer.Format("#LOC_KAC_15") + KACWorkerGameState.CurrentVessel.orbit.referenceBody.bodyName +
+                                "\r\n" + // NO_LOCALIZATION
+                                Localizer.Format("#LOC_KAC_16") + KACWorkerGameState.CurrentVessel.orbit.nextPatch.referenceBody.bodyName;
             }
 
             //is there an SOI alarm for this ship already that has not been triggered
@@ -1720,7 +1725,7 @@ namespace KerbalAlarmClock
                     }
                     catch (Exception ex)
                     {
-                        LogFormatted("Error Raising API Event-Triggered Alarm: {0}\r\n{1}", ex.Message, ex.StackTrace);
+                        LogFormatted("Error Raising API Event-Triggered Alarm: {0}\r\n{1}", ex.Message, ex.StackTrace); // NO_LOCALIZATION
                     }
 
                     //If we are simply past the time make sure we halt the warp
@@ -1856,7 +1861,7 @@ namespace KerbalAlarmClock
                         }
                         catch (Exception ex)
                         {
-                            LogFormatted("Error Raising API Event-Closed Alarm: {0}\r\n{1}", ex.Message, ex.StackTrace);
+                            LogFormatted("Error Raising API Event-Closed Alarm: {0}\r\n{1}", ex.Message, ex.StackTrace); // NO_LOCALIZATION
                         }
 
                     }
@@ -1929,7 +1934,7 @@ namespace KerbalAlarmClock
                     }
                     catch (Exception ex)
                     {
-                        LogFormatted("Unable to find a future model data point for this transfer({0}->{1})\r\n{2}", alarmToCheck.XferOriginBodyName, alarmToCheck.XferTargetBodyName, ex.Message);
+                        LogFormatted("Unable to find a future model data point for this transfer({0}->{1})\r\n{2}", alarmToCheck.XferOriginBodyName, alarmToCheck.XferTargetBodyName, ex.Message); // NO_LOCALIZATION
                     }
                 }
                 else if (alarmToCheck.TypeOfAlarm == KACAlarm.AlarmTypeEnum.Apoapsis || alarmToCheck.TypeOfAlarm == KACAlarm.AlarmTypeEnum.Periapsis)
@@ -1970,7 +1975,7 @@ namespace KerbalAlarmClock
                     }
                     catch (Exception ex)
                     {
-                        LogFormatted("Unable to add a repeat alarm ({0})\r\n{1}", alarmToCheck.VesselID, ex.Message);
+                        LogFormatted("Unable to add a repeat alarm ({0})\r\n{1}", alarmToCheck.VesselID, ex.Message); // NO_LOCALIZATION
                     }
                 }
                 else if (alarmToCheck.RepeatAlarmPeriod.UT > 0)

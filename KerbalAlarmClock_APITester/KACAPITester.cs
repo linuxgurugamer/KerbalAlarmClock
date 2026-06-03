@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ using KACAPITester_KACWrapper;
 namespace KerbalAlarmClock_APITester
 {
     [KSPAddon(KSPAddon.Startup.Flight, false),
-    WindowInitials(Visible = true, Caption = "KAC API Tester", DragEnabled = true)]
+    WindowInitials(Visible = true, Caption = "#LOC_KAC_524", DragEnabled = true)]
     public class KACAPITester : MonoBehaviourWindow
     {
         internal override void Start()
@@ -45,9 +46,9 @@ namespace KerbalAlarmClock_APITester
 
         internal override void DrawWindow(int id)
         {
-            GUILayout.Label("Assembly: " + KACWrapper.AssemblyExists.ToString());
-            GUILayout.Label("Instance: " + KACWrapper.InstanceExists.ToString());
-            GUILayout.Label("APIReady: " + KACWrapper.APIReady.ToString());
+            GUILayout.Label(Localizer.Format("#LOC_KAC_525") + KACWrapper.AssemblyExists.ToString());
+            GUILayout.Label(Localizer.Format("#LOC_KAC_526") + KACWrapper.InstanceExists.ToString());
+            GUILayout.Label(Localizer.Format("#LOC_KAC_527") + KACWrapper.APIReady.ToString());
 
             //ifthe API hooked
             if (KACWrapper.APIReady)
@@ -56,44 +57,44 @@ namespace KerbalAlarmClock_APITester
                 foreach (KACWrapper.KACAPI.KACAlarm a in KACWrapper.KAC.Alarms)
                 {
                     GUILayout.BeginHorizontal();
-                    GUILayout.Label(String.Format("{0}-{1}-{2} ({3}) - {4}:{5}",a.Name, a.AlarmType,a.Notes,a.ID, a.RepeatAlarm,a.RepeatAlarmPeriod  ));
+                    GUILayout.Label(String.Format("{0}" + "-" + "{1}" + "-" + "{2} " + "(" + "{3}" + ") -" + " {4}" + ":" + "{5}",a.Name, a.AlarmType,a.Notes,a.ID, a.RepeatAlarm,a.RepeatAlarmPeriod  ));
                     
                     //Option to delete each alarm
-                    if (GUILayout.Button("Delete",GUILayout.Width(50))) {
+                    if (GUILayout.Button(Localizer.Format("#LOC_KAC_528"),GUILayout.Width(50))) {
                             KACWrapper.KAC.DeleteAlarm(a.ID);
                         }
                     GUILayout.EndHorizontal();
                 }
 
                 //option to create a new alarm
-                if (GUILayout.Button("Create One"))
+                if (GUILayout.Button(Localizer.Format("#LOC_KAC_529")))
                 {
-                    String aID = KACWrapper.KAC.CreateAlarm(KACWrapper.KACAPI.AlarmTypeEnum.TransferModelled, "Test", Planetarium.GetUniversalTime() + 900);
+                    String aID = KACWrapper.KAC.CreateAlarm(KACWrapper.KACAPI.AlarmTypeEnum.TransferModelled, Localizer.Format("#LOC_KAC_530"), Planetarium.GetUniversalTime() + 900);
 
-                    KACWrapper.KAC.Alarms.First(z => z.ID == aID).Notes = "FRED FLINTSTONE";
+                    KACWrapper.KAC.Alarms.First(z => z.ID == aID).Notes = Localizer.Format("#LOC_KAC_531");
 
                 }
-                if (GUILayout.Button("Create Two"))
+                if (GUILayout.Button(Localizer.Format("#LOC_KAC_532")))
                 {
-                    String aID = KACWrapper.KAC.CreateAlarm(KACWrapper.KACAPI.AlarmTypeEnum.TransferModelled, "Test", Planetarium.GetUniversalTime() + 900);
+                    String aID = KACWrapper.KAC.CreateAlarm(KACWrapper.KACAPI.AlarmTypeEnum.TransferModelled, Localizer.Format("#LOC_KAC_530"), Planetarium.GetUniversalTime() + 900);
 
-                    KACWrapper.KAC.Alarms.First(z => z.ID == aID).Notes = "FRED FLINTSTONE";
+                    KACWrapper.KAC.Alarms.First(z => z.ID == aID).Notes = Localizer.Format("#LOC_KAC_531");
                     KACWrapper.KAC.Alarms.First(z => z.ID == aID).AlarmMargin = 300;
                 }
 
                 GUILayout.BeginHorizontal();
                 UT = GUILayout.TextField(UT);
-                if (GUILayout.Button("ChangeTime"))
+                if (GUILayout.Button(Localizer.Format("#LOC_KAC_533")))
                 {
                     KACWrapper.KAC.Alarms.First().AlarmTime = Convert.ToDouble(UT);
                 }
                 GUILayout.EndHorizontal();
 
-                if (GUILayout.Button("Create DoNothing"))
+                if (GUILayout.Button(Localizer.Format("#LOC_KAC_534")))
                 {
-                    String aID = KACWrapper.KAC.CreateAlarm(KACWrapper.KACAPI.AlarmTypeEnum.TransferModelled, "Test", Planetarium.GetUniversalTime() + 900);
+                    String aID = KACWrapper.KAC.CreateAlarm(KACWrapper.KACAPI.AlarmTypeEnum.TransferModelled, Localizer.Format("#LOC_KAC_530"), Planetarium.GetUniversalTime() + 900);
 
-                    KACWrapper.KAC.Alarms.First(z => z.ID == aID).Notes = "FRED FLINTSTONE";
+                    KACWrapper.KAC.Alarms.First(z => z.ID == aID).Notes = Localizer.Format("#LOC_KAC_531");
                     KACWrapper.KAC.Alarms.First(z => z.ID == aID).AlarmMargin = 600;
                     KACWrapper.KAC.Alarms.First(z => z.ID == aID).AlarmAction = KACWrapper.KACAPI.AlarmActionEnum.DoNothing;
                 }

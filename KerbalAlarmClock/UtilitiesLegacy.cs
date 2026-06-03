@@ -11,8 +11,8 @@ namespace KerbalAlarmClock
 {
     internal static class UtilitiesLegacy
     {
-
-
+        #region NO_LOCALIZATION
+#if false
         internal static Boolean Loadv2Alarms(out String LoadMessage, out KACAlarmList oldAlarms)
         {
             oldAlarms = new KACAlarmList();
@@ -307,6 +307,7 @@ namespace KerbalAlarmClock
             return resultAlarm;
         }
 
+
         private static ITargetable TargetDeserialize(String strInput)
         {
             ITargetable tReturn = null;
@@ -360,5 +361,8 @@ namespace KerbalAlarmClock
                     );
             return mReturn;
         }
+#endif
+        #endregion
+
     }
 }

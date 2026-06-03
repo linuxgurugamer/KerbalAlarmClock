@@ -1,8 +1,9 @@
-﻿/// The code in this module comes from r4m0n's Mechjeb plugin - v2.0.8 and is a direct copy of the functions. No editing
+/// The code in this module comes from r4m0n's Mechjeb plugin - v2.0.8 and is a direct copy of the functions. No editing
 /// it is licensed under GPL v3 - www.mechjeb.com
 ///
 /// This Module is a compilation of the required functions to generate the AN/DN alarms - basically my maths is not up to scratch
 ///
+using KSP.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,7 +65,7 @@ namespace KerbalAlarmClock
                 case 321:
                     return new Vector3d(vector.z, vector.y, vector.x);
             }
-            throw new ArgumentException("Invalid order", "order");
+            throw new ArgumentException(Localizer.Format("#LOC_KAC_494"), Localizer.Format("#LOC_KAC_495"));
         }
     }
 
@@ -225,7 +226,7 @@ namespace KerbalAlarmClock
             else  //hyperbolic orbits
             {
                 double coshE = (e + Math.Cos(trueAnomaly)) / (1 + e * Math.Cos(trueAnomaly));
-                if (coshE < 1) throw new ArgumentException("OrbitExtensions.GetEccentricAnomalyAtTrueAnomaly: True anomaly of " + trueAnomaly + " radians is not attained by orbit with eccentricity " + o.eccentricity);
+                if (coshE < 1) throw new ArgumentException(Localizer.Format("#LOC_KAC_496") + trueAnomaly + Localizer.Format("#LOC_KAC_497") + o.eccentricity);
 
                 double E = MuUtils.Acosh(coshE);
                 if (trueAnomaly > Math.PI) E *= -1;

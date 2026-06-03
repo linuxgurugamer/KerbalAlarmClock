@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
@@ -31,11 +32,30 @@ namespace KerbalAlarmClock
         //private String strAlarmDetail = "";
         private Boolean blnAlarmAttachToVessel=true;
 
-        private String strAlarmDescSOI = "This will monitor the current active flight path for the next detected SOI change.\r\n\r\nIf the SOI Point changes the alarm will adjust until it is within {0} seconds of the Alarm time, at which point it just maintains the last captured time of the change.";
-        private String strAlarmDescXfer = "This will check and recalculate the active transfer alarms for the correct phase angle - the math for these is based around circular orbits so the for any elliptical orbit these need to be recalculated over time.\r\n\r\nThe alarm will adjust until it is within {0} seconds of the target phase angle, at which point it just maintains the last captured time of the angle.\r\nI DO NOT RECOMMEND TURNING THIS OFF UNLESS THERE IS A MASSIVE PERFORMANCE GAIN";
-        private String strAlarmDescNode = "This will check and recalculate the active orbit node alarms as the flight path changes. The alarm will adjust until it is within {0} seconds of the node.";
+        private static String strAlarmDescSOI1 = Localizer.Format("#LOC_KAC_105");
+        private static String strAlarmDescSOI2 =  "If the SOI Point changes the alarm will adjust until it is within" + " {0} " +Localizer.Format("#LOC_KAC_106");
+        private String strAlarmDescSOI = strAlarmDescSOI1 +"\\r\n\r\n" + strAlarmDescSOI2; // NO_LOCALIZATION
+        //private String strAlarmDescSOI = "This will monitor the current active flight path for the next detected SOI change.\r\n\r\nIf the SOI Point changes the alarm will adjust until it is within {0} seconds of the Alarm time, at which point it just maintains the last captured time of the change.";
 
-        private string strAlarmDescMan = "Will create an alarm whenever a maneuver node is detected on the vessels flight plan\r\n\r\nIf the Man Node is within {0} seconds of the current time it will not be created";
+        private static String strAlarmDescXfer1 =  Localizer.Format("#LOC_KAC_107") + " {0} " +Localizer.Format("#LOC_KAC_108");
+        private static String strAlarmDescXfer2 =  Localizer.Format("#LOC_KAC_107") + " {0} " +Localizer.Format("#LOC_KAC_108");
+        private String strAlarmDescXfer = strAlarmDescXfer1+ "\r\n\r\n" + strAlarmDescXfer2; // NO_LOCALIZATION
+        //private String strAlarmDescXfer = "This will check and recalculate the active transfer alarms for the correct phase angle - the math for these is based around circular orbits so the for any elliptical orbit these need to be recalculated over time.\r\n\r\nThe alarm will adjust until it is within {0} seconds of the target phase angle, at which point it just maintains the last captured time of the angle.\r\nI DO NOT RECOMMEND TURNING THIS OFF UNLESS THERE IS A MASSIVE PERFORMANCE GAIN";
+
+        private String strAlarmDescNode =  Localizer.Format("#LOC_KAC_109") + " {0} " +Localizer.Format("#LOC_KAC_110");
+
+        private static string strAlarmDescMan1a = Localizer.Format("#LOC_KAC_111");
+        private static string strAlarmDescMan1b =  "If the Man Node is within" + " {0} " +Localizer.Format("#LOC_KAC_112");
+        private static string strAlarmDescMan1 = strAlarmDescMan1a + "\r\n\r\n" + strAlarmDescMan1b; // NO_LOCALIZATION
+        //private static string strAlarmDescMan1 = "Will create an alarm whenever a maneuver node is detected on the vessels flight plan\r\n\r\nIf the Man Node is within {0} seconds of the current time it will not be created";
+
+        private static string strAlarmDescMan2a = Localizer.Format("#LOC_KAC_111");
+        private static string strAlarmDescMan2b =  "If the Man Node is within" + " {0} " +Localizer.Format("#LOC_KAC_112");
+        private static string strAlarmDescMan2 = strAlarmDescMan2a + "\r\n\r\n" + strAlarmDescMan2b; // NO_LOCALIZATION
+        //private static string strAlarmDescMan2 = "Will create an alarm whenever a maneuver node is detected on the vessels flight plan\r\n\r\nIf the Man Node is within {0} seconds of the current time it will not be created";
+
+        private string strAlarmDescMan = strAlarmDescMan1 + "\r\n\r\n" + strAlarmDescMan2; // NO_LOCALIZATION
+        // private string strAlarmDescMan = "Will create an alarm whenever a maneuver node is detected on the vessels flight plan\r\n\r\nIf the Man Node is within {0} seconds of the current time it will not be created";
 
         /// <summary>
         /// Code to reset the settings etc when the new button is hit
@@ -60,7 +80,7 @@ namespace KerbalAlarmClock
             if (KACWorkerGameState.CurrentVessel != null)
                 strAlarmName = KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName);
             else
-                strAlarmName = "No Vessel";
+                strAlarmName = Localizer.Format("#LOC_KAC_14");
             strAlarmNotes = "";
             AddNotesHeight = 100;
 
@@ -119,7 +139,7 @@ namespace KerbalAlarmClock
             KACAlarm.AlarmTypeEnum.ScienceLab
         };*/
 
-        private String strAlarmEventName = "Alarm";
+        private String strAlarmEventName = Localizer.Format("#LOC_KAC_113");
         internal void AddTypeChanged()
         {
             if (AddType == KACAlarm.AlarmTypeEnum.Transfer || AddType == KACAlarm.AlarmTypeEnum.TransferModelled)
@@ -147,7 +167,7 @@ namespace KerbalAlarmClock
                 case KACAlarm.AlarmTypeEnum.ContractAuto: strAlarmEventName = "Contract"; break;
                 case KACAlarm.AlarmTypeEnum.ScienceLab: strAlarmEventName = "Science Lab"; break;
                 default:
-                    strAlarmEventName = "Alarm"; 
+                    strAlarmEventName = Localizer.Format("#LOC_KAC_113"); 
                     break;
             }
 
@@ -162,38 +182,58 @@ namespace KerbalAlarmClock
                         BuildRawStrings();
                         break;
                     case KACAlarm.AlarmTypeEnum.Maneuver:
-                        strAlarmNotes = "Time to pay attention to\r\n    " + strAlarmName + "\r\nNearing Maneuver Node";
+                        strAlarmNotes = Localizer.Format("#LOC_KAC_114") +
+                                        "\r\n    " + strAlarmName + "\r\n" + // NO_LOCALIZATION
+                                        Localizer.Format("#LOC_KAC_115");
                         break;
                     case KACAlarm.AlarmTypeEnum.SOIChange:
                         if (KACWorkerGameState.SOIPointExists)
-                            strAlarmNotes = "Time to pay attention to\r\n    " + KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + "\r\nNearing SOI Change\r\n" +
-                                            "     Old SOI: " + KACWorkerGameState.CurrentVessel.orbit.referenceBody.bodyName + "\r\n" +
-                                            "     New SOI: " + KACWorkerGameState.CurrentVessel.orbit.nextPatch.referenceBody.bodyName;
+                            strAlarmNotes = Localizer.Format("#LOC_KAC_114") +
+                                            "\r\n    " + KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + "\r\n" + // NO_LOCALIZATION
+                                            Localizer.Format("#LOC_KAC_116") +
+                                            "\r\n" + // NO_LOCALIZATION
+                                            Localizer.Format("#LOC_KAC_15") + KACWorkerGameState.CurrentVessel.orbit.referenceBody.bodyName + 
+                                            "\r\n" + // NO_LOCALIZATION
+                                            Localizer.Format("#LOC_KAC_16") + KACWorkerGameState.CurrentVessel.orbit.nextPatch.referenceBody.bodyName;
                         break;
                     case KACAlarm.AlarmTypeEnum.Transfer:
                     case KACAlarm.AlarmTypeEnum.TransferModelled:
                         BuildTransferStrings();
                         break;
                     case KACAlarm.AlarmTypeEnum.Apoapsis:
-                        strAlarmNotes = "Time to pay attention to\r\n    " + KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + "\r\nNearing Apoapsis";
+                        strAlarmNotes = Localizer.Format("#LOC_KAC_114") +
+                                        "\r\n    " + KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + "\r\n" + // NO_LOCALIZATION
+                                        Localizer.Format("#LOC_KAC_117");
                         break;
                     case KACAlarm.AlarmTypeEnum.Periapsis:
-                        strAlarmNotes = "Time to pay attention to\r\n    " + KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + "\r\nNearing Periapsis";
+                        strAlarmNotes = Localizer.Format("#LOC_KAC_114") +
+                                        "\r\n    " + KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + "\r\n" + // NO_LOCALIZATION
+                                        Localizer.Format("#LOC_KAC_118");
                         break;
                     case KACAlarm.AlarmTypeEnum.AscendingNode:
-                        strAlarmNotes = "Time to pay attention to\r\n    " + KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + "\r\nNearing Ascending Node";
+                        strAlarmNotes = Localizer.Format("#LOC_KAC_114") +
+                                        "\r\n    " + KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + "\r\n" + // NO_LOCALIZATION
+                                        Localizer.Format("#LOC_KAC_119");
                         break;
                     case KACAlarm.AlarmTypeEnum.DescendingNode:
-                        strAlarmNotes = "Time to pay attention to\r\n    " + KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + "\r\nNearing Descending Node";
+                        strAlarmNotes = Localizer.Format("#LOC_KAC_114") +
+                                        "\r\n    " + KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + "\r\n" + // NO_LOCALIZATION
+                                        Localizer.Format("#LOC_KAC_120");
                         break;
                     case KACAlarm.AlarmTypeEnum.LaunchRendevous:
-                        strAlarmNotes = "Time to pay attention to\r\n    " + KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + "\r\nNearing Launch Rendevous";
+                        strAlarmNotes = Localizer.Format("#LOC_KAC_114") +
+                                        "\r\n    " + KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + "\r\n" + // NO_LOCALIZATION
+                                        Localizer.Format("#LOC_KAC_121");
                         break;
                     case KACAlarm.AlarmTypeEnum.Closest:
-                        strAlarmNotes = "Time to pay attention to\r\n    " + KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + "\r\nNearing Closest Approach";
+                        strAlarmNotes = Localizer.Format("#LOC_KAC_114") +
+                                        "\r\n    " + KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + "\r\n" + // NO_LOCALIZATION
+                                        Localizer.Format("#LOC_KAC_122");
                         break;
                     case KACAlarm.AlarmTypeEnum.Distance:
-                        strAlarmNotes = "Time to pay attention to\r\n    " + KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + "\r\nNearing Target Distance";
+                        strAlarmNotes = Localizer.Format("#LOC_KAC_114") +
+                                        "\r\n    " + KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + "\r\n" + // NO_LOCALIZATION
+                                        Localizer.Format("#LOC_KAC_123");
                         break;
                     case KACAlarm.AlarmTypeEnum.Crew:
                         BuildCrewStrings();
@@ -233,17 +273,17 @@ namespace KerbalAlarmClock
             if (blnAlarmAttachToVessel)
                 strWorking = "Time to pay attention to\r\n    " + KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + "\r\nNearing Celestial Transfer:";
             else
-                strWorking = "Nearing Celestial Transfer:";
+                strWorking = Localizer.Format("#LOC_KAC_124");
 
             if (XferTargetBodies != null && TargetIndex < XferTargetBodies.Count)
-                strWorking += "\r\n\tOrigin: " + XferTargetBodies[TargetIndex].Origin.bodyName + "\r\n\tTarget: " + XferTargetBodies[TargetIndex].Target.bodyName;
+                strWorking += Localizer.Format("#LOC_KAC_125") + XferTargetBodies[TargetIndex].Origin.bodyName + Localizer.Format("#LOC_KAC_126") + XferTargetBodies[TargetIndex].Target.bodyName;
             ret.AlarmNotes = strWorking;
 
             strWorking = "";
             if (XferTargetBodies != null && TargetIndex < XferTargetBodies.Count)
                 strWorking = XferTargetBodies[TargetIndex].Origin.bodyName + "->" + XferTargetBodies[TargetIndex].Target.bodyName;
             else
-                strWorking = "Nearing Celestial Transfer";
+                strWorking = Localizer.Format("#LOC_KAC_127");
             ret.AlarmName = strWorking;
             
             strAlarmNotes = ret.AlarmNotes;
@@ -260,40 +300,40 @@ namespace KerbalAlarmClock
             if (blnAlarmAttachToVessel && KACWorkerGameState.CurrentVessel != null)
                 strWorking = "Time to pay attention to:\r\n    " + KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + "\r\nRaw Time Alarm";
             else
-                strWorking = "Raw Time Alarm";
+                strWorking = Localizer.Format("#LOC_KAC_128");
             strAlarmNotes = strWorking;
 
             strWorking = "";
             if (blnAlarmAttachToVessel && KACWorkerGameState.CurrentVessel != null)
                 strWorking = KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName);
             else
-                strWorking = "Raw Time Alarm";
+                strWorking = Localizer.Format("#LOC_KAC_128");
             strAlarmName = strWorking;
         }
 
         private void BuildCrewStrings()
         {
-            strAlarmEventName = "Crew";
+            strAlarmEventName = Localizer.Format("#LOC_KAC_129");
             List<ProtoCrewMember> pCM = null;
             if (KACWorkerGameState.CurrentVessel != null)
                 pCM = KACWorkerGameState.CurrentVessel.GetVesselCrew();
             if (pCM != null && pCM.Count == 0)
             {
-                strAlarmName = "Crew member alarm";
-                strAlarmNotes = "No Kerbals present in this vessel";
+                strAlarmName = Localizer.Format("#LOC_KAC_130");
+                strAlarmNotes = Localizer.Format("#LOC_KAC_131");
             } else {
                 strAlarmName = pCM[intSelectedCrew].displayName;
-                strAlarmNotes = string.Format("Alarm for {0}\r\nNot tied to any vessel - will follow the Kerbal", pCM[intSelectedCrew].name);
+                strAlarmNotes = string.Format( "Alarm for" + " {0}" +Localizer.Format("#LOC_KAC_132"), pCM[intSelectedCrew].name);
             }
         }
 
         private void BuildContractStringsAndMargin(Boolean ForceUpdateMargin=false)
         {
-            strAlarmEventName = "Contract";
+            strAlarmEventName = Localizer.Format("#LOC_KAC_133");
             if (ContractSystem.Instance == null || lstContracts.Count == 0)
             {
-                strAlarmName = "Contract alarm";
-                strAlarmNotes = "No Contracts Available";
+                strAlarmName = Localizer.Format("#LOC_KAC_134");
+                strAlarmNotes = Localizer.Format("#LOC_KAC_135");
             }
             else
             {
@@ -315,10 +355,12 @@ namespace KerbalAlarmClock
         private void GenerateContractStringsFromContract(Contract c, out String AlarmName, out String AlarmNotes)
         {
             AlarmName = c.Title;
-            AlarmNotes = String.Format("{0}\r\nName: {1}\r\nParameters:", c.AlarmType().Description(), c.Synopsys);
+            AlarmNotes = String.Format("{0}"+
+                "\r\n" + // NO_LOCALIZATION
+                 "Name:" + " {1}" +Localizer.Format("#LOC_KAC_136"), c.AlarmType().Description(), c.Synopsys);
             foreach (ContractParameter cp in c.AllParameters)
             {
-                AlarmNotes += String.Format("\r\n    * {0}", cp.Title);
+                AlarmNotes += String.Format("\r\n    * {0}", cp.Title); // NO_LOCALIZATION
             }
         }
 
@@ -327,13 +369,15 @@ namespace KerbalAlarmClock
             string strVesselName = KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName);
             if (intSelectedScienceLab >= 0)
             {
-                strAlarmName = strVesselName + " - Science Lab " + (intSelectedScienceLab + 1);
+                strAlarmName = strVesselName + Localizer.Format("#LOC_KAC_137") + (intSelectedScienceLab + 1);
             }
             else
             {
-                strAlarmName = strVesselName + " - Science Lab alarm";
+                strAlarmName = strVesselName + Localizer.Format("#LOC_KAC_138");
             }
-            strAlarmNotes = string.Format("Time to pay attention to\r\n    {0}\r\nNearing {1} science in Science Lab", strVesselName, intTargetScienceClamped);
+            strAlarmNotes = string.Format(Localizer.Format("#LOC_KAC_114") +
+                "\r\n    {0}\r\n" + // NO_LOCALIZATION
+                 "Nearing" + " {1} " +Localizer.Format("#LOC_KAC_139"), strVesselName, intTargetScienceClamped);
         }
 
         //String[] strAddTypes = new String[] { "Raw", "Maneuver","SOI","Transfer" };
@@ -341,20 +385,20 @@ namespace KerbalAlarmClock
 
         private GUIContent[] guiTypes = new GUIContent[]
             {
-                new GUIContent(KACResources.btnRaw,"Raw Time Alarm"),
-                new GUIContent(KACResources.btnMNode,"Maneuver Node"),
-                new GUIContent(KACResources.btnApPe,"Apoapsis / Periapsis"),
+                new GUIContent(KACResources.btnRaw,Localizer.Format("#LOC_KAC_128")),
+                new GUIContent(KACResources.btnMNode,Localizer.Format("#LOC_KAC_140")),
+                new GUIContent(KACResources.btnApPe,Localizer.Format("#LOC_KAC_141")),
                 //new GUIContent(KACResources.btnAp,"Apoapsis"),
                 //new GUIContent(KACResources.btnPe,"Periapsis"),
-                new GUIContent(KACResources.btnANDN,"Ascending/Descending Node"),
+                new GUIContent(KACResources.btnANDN,Localizer.Format("#LOC_KAC_142")),
                 //new GUIContent(KACResources.btnAN,"Ascending Node"),
                 //new GUIContent(KACResources.btnDN,"Descending Node"),
-                new GUIContent(KACResources.btnClosest,"Closest/Target Distance"),
-                new GUIContent(KACResources.btnSOI,"SOI Change"),
-                new GUIContent(KACResources.btnXfer,"Transfer Window"),
-                new GUIContent(KACResources.btnCrew,"Kerbal Crew"),
-                new GUIContent(KACResources.btnContract,"Contract"),
-                new GUIContent(KACResources.btnScienceLab,"Science Lab")
+                new GUIContent(KACResources.btnClosest,Localizer.Format("#LOC_KAC_143")),
+                new GUIContent(KACResources.btnSOI,Localizer.Format("#LOC_KAC_144")),
+                new GUIContent(KACResources.btnXfer,Localizer.Format("#LOC_KAC_145")),
+                new GUIContent(KACResources.btnCrew,Localizer.Format("#LOC_KAC_146")),
+                new GUIContent(KACResources.btnContract,Localizer.Format("#LOC_KAC_133")),
+                new GUIContent(KACResources.btnScienceLab,Localizer.Format("#LOC_KAC_147"))
             };
 
         /*private GUIContent[] guiTypesView = new GUIContent[]
@@ -364,25 +408,25 @@ namespace KerbalAlarmClock
 
         private GUIContent[] guiTypesSpaceCenter = new GUIContent[]
             {
-                new GUIContent(KACResources.btnRaw,"Raw Time Alarm"),
-                new GUIContent(KACResources.btnXfer,"Transfer Window"),
-                new GUIContent(KACResources.btnContract,"Contract")
+                new GUIContent(KACResources.btnRaw,Localizer.Format("#LOC_KAC_128")),
+                new GUIContent(KACResources.btnXfer,Localizer.Format("#LOC_KAC_145")),
+                new GUIContent(KACResources.btnContract,Localizer.Format("#LOC_KAC_133"))
             };
         private GUIContent[] guiTypesTrackingStation = new GUIContent[]
             {
-                new GUIContent(KACResources.btnRaw,"Raw Time Alarm"),
-                new GUIContent(KACResources.btnMNode,"Maneuver Node"),
-                new GUIContent(KACResources.btnApPe,"Apoapsis / Periapsis"),
-                new GUIContent(KACResources.btnSOI,"SOI Change"),
-                new GUIContent(KACResources.btnXfer,"Transfer Window"),
-                new GUIContent(KACResources.btnCrew,"Kerbal Crew"),
-                new GUIContent(KACResources.btnContract,"Contract")
+                new GUIContent(KACResources.btnRaw,Localizer.Format("#LOC_KAC_128")),
+                new GUIContent(KACResources.btnMNode,Localizer.Format("#LOC_KAC_140")),
+                new GUIContent(KACResources.btnApPe,Localizer.Format("#LOC_KAC_141")),
+                new GUIContent(KACResources.btnSOI,Localizer.Format("#LOC_KAC_144")),
+                new GUIContent(KACResources.btnXfer,Localizer.Format("#LOC_KAC_145")),
+                new GUIContent(KACResources.btnCrew,Localizer.Format("#LOC_KAC_146")),
+                new GUIContent(KACResources.btnContract,Localizer.Format("#LOC_KAC_133"))
             };
         private GUIContent[] guiTypesEditor = new GUIContent[]
             {
-                new GUIContent(KACResources.btnRaw,"Raw Time Alarm"),
-                new GUIContent(KACResources.btnXfer,"Transfer Window"),
-                new GUIContent(KACResources.btnContract,"Contract")
+                new GUIContent(KACResources.btnRaw,Localizer.Format("#LOC_KAC_128")),
+                new GUIContent(KACResources.btnXfer,Localizer.Format("#LOC_KAC_145")),
+                new GUIContent(KACResources.btnContract,Localizer.Format("#LOC_KAC_133"))
             };
 
         private GameScenes[] ScenesForAttachOption = new GameScenes[] 
@@ -493,7 +537,7 @@ namespace KerbalAlarmClock
                     if (!KACWorkerGameState.ApPointExists && HighLogic.CurrentGame.Mode == Game.Modes.CAREER &&
                         GameVariables.Instance.GetOrbitDisplayMode(ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.TrackingStation)) != GameVariables.OrbitDisplayMode.PatchedConics)
                     {
-                        GUILayout.Label("Apoapsis Alarms cannot be set without upgrading the Tracking Station", GUILayout.ExpandWidth(true));
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_148"), GUILayout.ExpandWidth(true));
                     }
                     else
                     {
@@ -506,7 +550,7 @@ namespace KerbalAlarmClock
                     if (!KACWorkerGameState.PePointExists && HighLogic.CurrentGame.Mode == Game.Modes.CAREER &&
                         GameVariables.Instance.GetOrbitDisplayMode(ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.TrackingStation)) != GameVariables.OrbitDisplayMode.PatchedConics)
                     {
-                        GUILayout.Label("Periapsis Alarms cannot be set without upgrading the Tracking Station", GUILayout.ExpandWidth(true));
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_149"), GUILayout.ExpandWidth(true));
                     }
                     else
                     {
@@ -526,9 +570,9 @@ namespace KerbalAlarmClock
                     }
                     else
                     {
-                        GUILayout.Label("Target Not Currently Orbiting Same Parent", KACResources.styleAddXferName, GUILayout.Height(18));
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_150"), KACResources.styleAddXferName, GUILayout.Height(18));
                         GUILayout.Label("", KACResources.styleAddXferName, GUILayout.Height(18));
-                        GUILayout.Label("There is no Ascending Node between orbits", KACResources.styleAddXferName, GUILayout.Height(18));
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_151"), KACResources.styleAddXferName, GUILayout.Height(18));
                     }
                     break;
                 case KACAlarm.AlarmTypeEnum.DescendingNode:
@@ -544,9 +588,9 @@ namespace KerbalAlarmClock
                     }
                     else
                     {
-                        GUILayout.Label("Target Not Currently Orbiting Same Parent", KACResources.styleAddXferName, GUILayout.Height(18));
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_150"), KACResources.styleAddXferName, GUILayout.Height(18));
                         GUILayout.Label("", KACResources.styleAddXferName, GUILayout.Height(18));
-                        GUILayout.Label("There is no Ascending Node between orbits", KACResources.styleAddXferName, GUILayout.Height(18));
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_151"), KACResources.styleAddXferName, GUILayout.Height(18));
                     }
                     break;
                 case KACAlarm.AlarmTypeEnum.LaunchRendevous:
@@ -558,9 +602,9 @@ namespace KerbalAlarmClock
                     }
                     else
                     {
-                        GUILayout.Label("Target Not Currently Orbiting Same Parent", KACResources.styleAddXferName, GUILayout.Height(18));
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_150"), KACResources.styleAddXferName, GUILayout.Height(18));
                         GUILayout.Label("", KACResources.styleAddXferName, GUILayout.Height(18));
-                        GUILayout.Label("There is no Ascending Node between orbits", KACResources.styleAddXferName, GUILayout.Height(18));
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_151"), KACResources.styleAddXferName, GUILayout.Height(18));
                     }
 
                     break;
@@ -594,10 +638,10 @@ namespace KerbalAlarmClock
         internal void WindowLayout_AddTypeApPe()
         {
             GUILayout.BeginHorizontal();
-            GUILayout.Label("apsis Type:", KACResources.styleAddHeading);
+            GUILayout.Label(Localizer.Format("#LOC_KAC_152"), KACResources.styleAddHeading);
             int intOption = 0;
             if (AddType != KACAlarm.AlarmTypeEnum.Apoapsis) intOption = 1;
-            if (DrawRadioList(ref intOption, "Apoapsis", "Periapsis"))
+            if (DrawRadioList(ref intOption, Localizer.Format("#LOC_KAC_153"), Localizer.Format("#LOC_KAC_154")))
             {
                 if (intOption == 0)
                     AddType = KACAlarm.AlarmTypeEnum.Apoapsis;
@@ -627,13 +671,13 @@ namespace KerbalAlarmClock
         internal KACTimeStringArray rawEntry = new KACTimeStringArray(600, KACTimeStringArray.TimeEntryPrecisionEnum.Years);
         private void WindowLayout_AddPane_Raw()
         {
-            GUILayout.Label("Enter Raw Time Values...", KACResources.styleAddSectionHeading);
+            GUILayout.Label(Localizer.Format("#LOC_KAC_155"), KACResources.styleAddSectionHeading);
 
             GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Time type:", KACResources.styleAddHeading, GUILayout.Width(90));
-            if (DrawRadioList(ref intRawType, new string[] { "Date", "Time Interval" }))
+            GUILayout.Label(Localizer.Format("#LOC_KAC_156"), KACResources.styleAddHeading, GUILayout.Width(90));
+            if (DrawRadioList(ref intRawType, new string[] { Localizer.Format("#LOC_KAC_157"), Localizer.Format("#LOC_KAC_158") }))
             {
                 if (intRawType == 0)
                 {
@@ -646,7 +690,7 @@ namespace KerbalAlarmClock
             {
                 //date
                 KACTimeStringArray rawDate = new KACTimeStringArray(rawEntry.UT + KSPDateStructure.EpochAsKSPDateTime.UT, KACTimeStringArray.TimeEntryPrecisionEnum.Years);
-                if (DrawTimeEntry(ref rawDate, KACTimeStringArray.TimeEntryPrecisionEnum.Years, "Time:", 50, 35, 15))
+                if (DrawTimeEntry(ref rawDate, KACTimeStringArray.TimeEntryPrecisionEnum.Years, Localizer.Format("#LOC_KAC_159"), 50, 35, 15))
                 {
                     rawEntry.BuildFromUT(rawDate.UT - KSPDateStructure.EpochAsKSPDateTime.UT);
                 }
@@ -654,13 +698,13 @@ namespace KerbalAlarmClock
             else
             {
                 //interval
-                if (DrawTimeEntry(ref rawEntry, KACTimeStringArray.TimeEntryPrecisionEnum.Years, "Time:", 50, 35, 15))
+                if (DrawTimeEntry(ref rawEntry, KACTimeStringArray.TimeEntryPrecisionEnum.Years, Localizer.Format("#LOC_KAC_159"), 50, 35, 15))
                 {
 
                 }
             }
             GUILayout.BeginHorizontal();
-            GUILayout.Label("UT (raw seconds):", KACResources.styleAddHeading,GUILayout.Width(100));
+            GUILayout.Label(Localizer.Format("#LOC_KAC_160"), KACResources.styleAddHeading,GUILayout.Width(100));
             strRawUT = GUILayout.TextField(strRawUT, KACResources.styleAddField);
             GUILayout.EndHorizontal();
 
@@ -685,7 +729,8 @@ namespace KerbalAlarmClock
                     //"VesselID, Name, Message, AlarmTime.UT, Type, Enabled,  HaltWarp, PauseGame, Maneuver"
                     String strVesselID = "";
                     if (KACWorkerGameState.CurrentVessel != null && blnAlarmAttachToVessel) strVesselID = KACWorkerGameState.CurrentVessel.id.ToString();
-                    KACAlarm alarmNew = new KACAlarm(strVesselID, strAlarmName, (blnRepeatingAlarmFlag ? "Alarm Repeats\r\n" : "") + strAlarmNotes, rawTime.UT, 0, KACAlarm.AlarmTypeEnum.Raw,
+                    KACAlarm alarmNew = new KACAlarm(strVesselID, strAlarmName, (blnRepeatingAlarmFlag ? Localizer.Format("#LOC_KAC_161") +
+                        "\r\n" : "") + strAlarmNotes, rawTime.UT, 0, KACAlarm.AlarmTypeEnum.Raw, // NO_LOCALIZATION
                         AddActions);
                     alarmNew.RepeatAlarm = blnRepeatingAlarmFlag;
                     alarmNew.RepeatAlarmPeriod = new KSPTimeSpan(timeRepeatPeriod.UT);
@@ -697,8 +742,8 @@ namespace KerbalAlarmClock
             }
             catch (Exception ex)
             {
-                GUILayout.Label("Unable to combine all text fields to date", GUILayout.ExpandWidth(true));
-                LogFormatted_DebugOnly("{0}\r\n{1}", ex.Message, ex.StackTrace);
+                GUILayout.Label(Localizer.Format("#LOC_KAC_162"), GUILayout.ExpandWidth(true));
+                LogFormatted_DebugOnly("{0}\r\n{1}", ex.Message, ex.StackTrace); // NO_LOCALIZATION
             }
         }
 
@@ -714,10 +759,10 @@ namespace KerbalAlarmClock
         private void WindowLayout_AddPane_Crew()
         {
             intAddCrewHeight = 304;// 322;
-            GUILayout.Label("Select Crew...", KACResources.styleAddSectionHeading);
+            GUILayout.Label(Localizer.Format("#LOC_KAC_163"), KACResources.styleAddSectionHeading);
             if (KACWorkerGameState.CurrentVessel == null)
             {
-                GUILayout.Label("No Active Vessel");
+                GUILayout.Label(Localizer.Format("#LOC_KAC_164"));
             }
             else
             {
@@ -729,13 +774,13 @@ namespace KerbalAlarmClock
                 if (pCM.Count == 0)
                 {
                     //Draw something about no crew present
-                    GUILayout.Label("No Kerbals present in this vessel", KACResources.styleContent, GUILayout.ExpandWidth(true));
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_131"), KACResources.styleContent, GUILayout.ExpandWidth(true));
                 }
                 else
                 {
                     GUILayout.BeginHorizontal();
-                    GUILayout.Label("Kerbal Name", KACResources.styleAddSectionHeading, GUILayout.Width(267));
-                    GUILayout.Label("Add", KACResources.styleAddSectionHeading);//, GUILayout.Width(30));
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_165"), KACResources.styleAddSectionHeading, GUILayout.Width(267));
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_166"), KACResources.styleAddSectionHeading);//, GUILayout.Width(30));
                     GUILayout.EndHorizontal();
 
                     for (int intTarget = 0; intTarget < pCM.Count; intTarget++)
@@ -759,7 +804,7 @@ namespace KerbalAlarmClock
                         GUILayout.EndHorizontal();
                     }
 
-                    DrawCheckbox(ref CrewAlarmStoreNode, "Store Man Node/Target with Crew Alarm");
+                    DrawCheckbox(ref CrewAlarmStoreNode, Localizer.Format("#LOC_KAC_167"));
 
                 }
                 GUILayout.EndVertical();
@@ -767,12 +812,12 @@ namespace KerbalAlarmClock
                 if (pCM.Count > 0)
                 {
                     //Now the time entry area
-                    GUILayout.Label("Enter Time Values...", KACResources.styleAddSectionHeading);
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_168"), KACResources.styleAddSectionHeading);
 
                     GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
                     GUILayout.BeginHorizontal();
-                    GUILayout.Label("Time type:", KACResources.styleAddHeading, GUILayout.Width(90));
-                    if (DrawRadioList(ref intCrewType, new string[] { "Date", "Time Interval" }))
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_156"), KACResources.styleAddHeading, GUILayout.Width(90));
+                    if (DrawRadioList(ref intCrewType, new string[] { Localizer.Format("#LOC_KAC_157"), Localizer.Format("#LOC_KAC_158") }))
                     {
                         if (intRawType == 0)
                         {
@@ -785,7 +830,7 @@ namespace KerbalAlarmClock
                     {
                         //date
                         KACTimeStringArray CrewDate = new KACTimeStringArray(CrewEntry.UT + KSPDateStructure.EpochAsKSPDateTime.UT, KACTimeStringArray.TimeEntryPrecisionEnum.Years);
-                        if (DrawTimeEntry(ref CrewDate, KACTimeStringArray.TimeEntryPrecisionEnum.Years, "Time:", 50, 35, 15))
+                        if (DrawTimeEntry(ref CrewDate, KACTimeStringArray.TimeEntryPrecisionEnum.Years, Localizer.Format("#LOC_KAC_159"), 50, 35, 15))
                         {
                             rawEntry.BuildFromUT(CrewDate.UT - KSPDateStructure.EpochAsKSPDateTime.UT);
                         }
@@ -793,13 +838,13 @@ namespace KerbalAlarmClock
                     else
                     {
                         //interval
-                        if (DrawTimeEntry(ref CrewEntry, KACTimeStringArray.TimeEntryPrecisionEnum.Years, "Time:", 50, 35, 15))
+                        if (DrawTimeEntry(ref CrewEntry, KACTimeStringArray.TimeEntryPrecisionEnum.Years, Localizer.Format("#LOC_KAC_159"), 50, 35, 15))
                         {
 
                         }
                     }
                     GUILayout.BeginHorizontal();
-                    GUILayout.Label("UT (raw seconds):", KACResources.styleAddHeading, GUILayout.Width(100));
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_160"), KACResources.styleAddHeading, GUILayout.Width(100));
                     strCrewUT = GUILayout.TextField(strCrewUT, KACResources.styleAddField);
                     GUILayout.EndHorizontal();
                     GUILayout.EndVertical();
@@ -821,7 +866,8 @@ namespace KerbalAlarmClock
                         if (DrawAddAlarm(CrewTime, null, CrewTimeToAlarm))
                         {
                             //"VesselID, Name, Message, AlarmTime.UT, Type, Enabled,  HaltWarp, PauseGame, Maneuver"
-                            KACAlarm addAlarm = new KACAlarm(pCM[intSelectedCrew].name, strAlarmName, (blnRepeatingAlarmFlag ? "Alarm Repeats\r\n" : "") + strAlarmNotes, CrewTime.UT, 0, KACAlarm.AlarmTypeEnum.Crew,
+                            KACAlarm addAlarm = new KACAlarm(pCM[intSelectedCrew].name, strAlarmName, (blnRepeatingAlarmFlag ? Localizer.Format("#LOC_KAC_161") +
+                                "\r\n" : "") + strAlarmNotes, CrewTime.UT, 0, KACAlarm.AlarmTypeEnum.Crew, // NO_LOCALIZATION
                                 AddActions);
                             if (CrewAlarmStoreNode)
                             {
@@ -839,7 +885,7 @@ namespace KerbalAlarmClock
                     catch (Exception)
                     {
                         //    LogFormatted(ex.Message);
-                        GUILayout.Label("Unable to combine all text fields to date", GUILayout.ExpandWidth(true));
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_162"), GUILayout.ExpandWidth(true));
                     }
                 }
             }
@@ -856,11 +902,11 @@ namespace KerbalAlarmClock
         
         private void WindowLayout_AddPane_Contract()
         {
-            GUILayout.Label("Select Contract...", KACResources.styleAddSectionHeading);
+            GUILayout.Label(Localizer.Format("#LOC_KAC_169"), KACResources.styleAddSectionHeading);
             if (Contracts.ContractSystem.Instance == null)
             {
                 GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
-                GUILayout.Label("Jebediah digs around in the Sandbox, but can't\nfind any contracts in this game mode", KACResources.styleContent);
+                GUILayout.Label(Localizer.Format("#LOC_KAC_170"), KACResources.styleContent);
                 GUILayout.EndVertical();
             }
             else
@@ -869,7 +915,7 @@ namespace KerbalAlarmClock
                 if (lstContracts.Count == 0)
                 {
                     GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
-                    GUILayout.Label("No Contracts Offered or Active", KACResources.styleContent);
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_171"), KACResources.styleContent);
                     GUILayout.EndVertical();
                 }
                 else
@@ -899,9 +945,9 @@ namespace KerbalAlarmClock
                         //Appropriate icon
                         GUILayout.Space(5);
                         if (AlarmExists) {
-                            GUILayout.Label(new GUIContent(KACResources.iconRaw, "Alarm Exists"), GUILayout.Width(20), GUILayout.Height(25));
+                            GUILayout.Label(new GUIContent(KACResources.iconRaw, Localizer.Format("#LOC_KAC_172")), GUILayout.Width(20), GUILayout.Height(25));
                         } else if (c.ContractState == Contract.State.Active) {
-                            GUILayout.Label(new GUIContent(KACResources.iconContract, "Active"), GUILayout.Width(20), GUILayout.Height(25));
+                            GUILayout.Label(new GUIContent(KACResources.iconContract, Localizer.Format("#LOC_KAC_173")), GUILayout.Width(20), GUILayout.Height(25));
                         } else {
                             GUILayout.Space(24);
                         }
@@ -940,7 +986,7 @@ namespace KerbalAlarmClock
                     GUILayout.EndScrollView();
 
                     if (intSelectedContract < 0) {
-                        GUILayout.Label("All Contracts Have alarms set already", KACResources.styleContent);
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_174"), KACResources.styleContent);
                     } else { 
                         //Draw the Add Alarm details at the bottom
                         //If its an interval add the interval to the current time
@@ -970,7 +1016,7 @@ namespace KerbalAlarmClock
         }
 
         private int intSelectedScienceLab = 0;
-        private string strTargetScience = "500";
+        private string strTargetScience = Localizer.Format("#LOC_KAC_175");
         private int intAddScienceLabHeight = 150;
         private Part highlightedScienceLab;
         private bool blnClearScienceLabHighlight;
@@ -980,24 +1026,24 @@ namespace KerbalAlarmClock
             intAddScienceLabHeight = 150;
             if (KACWorkerGameState.CurrentVessel == null)
             {
-                GUILayout.Label("No Active Vessel.", KACResources.styleLabelWarning);
+                GUILayout.Label(Localizer.Format("#LOC_KAC_176"), KACResources.styleLabelWarning);
             }
             else
             {
-                GUILayout.Label("Select Science Lab...", KACResources.styleAddSectionHeading);
+                GUILayout.Label(Localizer.Format("#LOC_KAC_177"), KACResources.styleAddSectionHeading);
                 GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
                 var lstScienceLabs = KACWorkerGameState.CurrentVessel.FindPartModulesImplementing<ModuleScienceLab>();
                 if (lstScienceLabs.Count == 0)
                 {
-                    GUILayout.Label("No Science Labs on Active Vessel.", KACResources.styleLabelWarning);
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_178"), KACResources.styleLabelWarning);
                 }
                 else
                 {
                     intAddScienceLabHeight += (lstScienceLabs.Count * 30);
                     GUILayout.BeginHorizontal();
                     GUILayout.Space(20);
-                    GUILayout.Label("Science Lab", KACResources.styleAddSectionHeading, GUILayout.Width(240));
-                    GUILayout.Label("Select", KACResources.styleAddSectionHeading);
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_147"), KACResources.styleAddSectionHeading, GUILayout.Width(240));
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_179"), KACResources.styleAddSectionHeading);
                     GUILayout.EndHorizontal();
 
                     for (var i = 0; i < lstScienceLabs.Count; ++i)
@@ -1006,7 +1052,7 @@ namespace KerbalAlarmClock
                         GUILayout.Space(20);
                         GUILayout.Label(
                             string.Format(
-                                "Science Lab {0} (Science: {1:0}, Data: {2:0})",
+                                 "Science Lab" + " {0} " + "(Science:" + " {1}" + Localizer.Format("#LOC_KAC_180") + "}" +  " Data:" + " {2}" + Localizer.Format("#LOC_KAC_180") + "}",
                                 i + 1,
                                 lstScienceLabs[i].storedScience,
                                 lstScienceLabs[i].dataStored),
@@ -1050,19 +1096,19 @@ namespace KerbalAlarmClock
                     var converter = lab.Converter;
                     if (!converter.IsActivated)
                     {
-                        GUILayout.Label("Science Lab is not Active.", KACResources.styleLabelWarning);
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_181"), KACResources.styleLabelWarning);
                     }
                     else if (Mathf.Approximately(lab.dataStored, 0f))
                     {
-                        GUILayout.Label("Science Lab has no Data.", KACResources.styleLabelWarning);
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_182"), KACResources.styleLabelWarning);
                     }
-                    else if (!lab.part.protoModuleCrew.Any(c => c.trait == "Scientist"))
+                    else if (!lab.part.protoModuleCrew.Any(c => c.trait == Localizer.Format("#LOC_KAC_183")))
                     {
-                        GUILayout.Label("Science Lab has no Scientists.", KACResources.styleLabelWarning);
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_184"), KACResources.styleLabelWarning);
                     }
                     else if (Mathf.Approximately(lab.storedScience, converter.scienceCap))
                     {
-                        GUILayout.Label("Science Lab is already full.", KACResources.styleLabelWarning);
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_185"), KACResources.styleLabelWarning);
                     }
                     else
                     {
@@ -1071,22 +1117,22 @@ namespace KerbalAlarmClock
                         var intMinScience = (int)Math.Floor(lab.storedScience) + 1;
                         var intMaxScience = (int)Math.Floor(fltMaxScience);
 
-                        GUILayout.Label("Choose Target Science Amount...", KACResources.styleAddSectionHeading);
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_186"), KACResources.styleAddSectionHeading);
                         GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
                         GUILayout.BeginHorizontal();
-                        GUILayout.Label("Target Science:", KACResources.styleAddXferName);
-                        DrawTextField(ref strTargetScience, "[^\\d\\.]+", true);
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_187"), KACResources.styleAddXferName);
+                        DrawTextField(ref strTargetScience, "[^\\d\\.]+", true); // NO_LOCALIZATION
                         int intTargetScience;
                         if (!int.TryParse(strTargetScience, out intTargetScience))
                         {
                             intTargetScience = intMaxScience;
-                            GUILayout.Label(new GUIContent("*", "Invalid fields treated as Max"), KACResources.styleLabelError, GUILayout.Width(8));
+                            GUILayout.Label(new GUIContent("*", Localizer.Format("#LOC_KAC_188")), KACResources.styleLabelError, GUILayout.Width(8));
                         }
                         GUILayout.EndHorizontal();
-                        GUILayout.Label(string.Format("Min Target Science: {0}", intMinScience), GUILayout.Width(160));
+                        GUILayout.Label(string.Format( "Min Target Science:" + " {0}", intMinScience), GUILayout.Width(160));
                         GUILayout.BeginHorizontal();
-                        GUILayout.Label(string.Format("Max Target Science: {0}", intMaxScience), GUILayout.Width(160));
-                        if (GUILayout.Button("Set to Max"))
+                        GUILayout.Label(string.Format( "Max Target Science:" + " {0}", intMaxScience), GUILayout.Width(160));
+                        if (GUILayout.Button(Localizer.Format("#LOC_KAC_189")))
                         {
                             strTargetScience = intMaxScience.ToString();
                         }
@@ -1097,7 +1143,7 @@ namespace KerbalAlarmClock
                         if (intTargetScience != intTargetScienceClamped)
                         {
                             intAddScienceLabHeight += 25;
-                            GUILayout.Label("Selected Target is out of reach. Target Amount changed.", KACResources.styleLabelWarning);
+                            GUILayout.Label(Localizer.Format("#LOC_KAC_190"), KACResources.styleLabelWarning);
                         }
                         GUILayout.EndVertical();
 
@@ -1111,21 +1157,21 @@ namespace KerbalAlarmClock
                         var totalResearchTime = KSPTimeSpan.FromDays(dblDaysToProcess);
                         // var totalResearchTime = new KSPTimeSpan(converter.CalculateResearchTime(fltDataNeeded));
 
-                        GUILayout.Label("Target Details...", KACResources.styleAddSectionHeading);
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_191"), KACResources.styleAddSectionHeading);
                         GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
                         GUILayout.BeginHorizontal();
-                        GUILayout.Label("Target Science Amount:", KACResources.styleAddHeading, GUILayout.Width(150));
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_192"), KACResources.styleAddHeading, GUILayout.Width(150));
                         GUILayout.Label(intTargetScienceClamped.ToString() + "/" + converter.scienceCap, KACResources.styleAddXferName);
                         GUILayout.EndHorizontal();
 
                         GUILayout.BeginHorizontal();
-                        GUILayout.Label("Final Data Amount:", KACResources.styleAddHeading, GUILayout.Width(150));
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_193"), KACResources.styleAddHeading, GUILayout.Width(150));
                         GUILayout.Label(fltFinalData.ToString("0.00") + "/" + lab.dataStorage.ToString("0"), KACResources.styleAddXferName);
                         GUILayout.EndHorizontal();
 
                         GUILayout.BeginHorizontal();
-                        GUILayout.Label("Final Data Rate:", KACResources.styleAddHeading, GUILayout.Width(150));
-                        GUILayout.Label(dblRateEnd.ToString("0.00") + " sci/day", KACResources.styleAddXferName);
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_194"), KACResources.styleAddHeading, GUILayout.Width(150));
+                        GUILayout.Label(dblRateEnd.ToString("0.00") + Localizer.Format("#LOC_KAC_195"), KACResources.styleAddXferName);
                         GUILayout.EndHorizontal();
                         GUILayout.EndVertical();
 
@@ -1164,13 +1210,13 @@ namespace KerbalAlarmClock
             if (KACAlarm.AlarmTypeSupportsRepeat.Contains(AddType) || ForceShowRepeat)
             {
                 intHeight_AddWindowRepeat += 53;
-                GUILayout.Label("Alarm Repeat Options...", KACResources.styleAddSectionHeading);
+                GUILayout.Label(Localizer.Format("#LOC_KAC_196"), KACResources.styleAddSectionHeading);
                 GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
-                DrawCheckbox(ref blnRepeatingAlarmFlag, new GUIContent("Make this alarm repeat when triggered", "If enabled then when one alarm fires another will be created based on the existing alarm"));
+                DrawCheckbox(ref blnRepeatingAlarmFlag, new GUIContent(Localizer.Format("#LOC_KAC_197"), Localizer.Format("#LOC_KAC_198")));
                 if (KACAlarm.AlarmTypeSupportsRepeatPeriod.Contains(AddType))
                 {
                     intHeight_AddWindowRepeat += 24;
-                    DrawTimeEntry(ref timeRepeatPeriod, KACTimeStringArray.TimeEntryPrecisionEnum.Days, "Repeat After:", 90);
+                    DrawTimeEntry(ref timeRepeatPeriod, KACTimeStringArray.TimeEntryPrecisionEnum.Days, Localizer.Format("#LOC_KAC_199"), 90);
                 }
                 GUILayout.EndVertical();
             }
@@ -1180,20 +1226,20 @@ namespace KerbalAlarmClock
             GUILayout.BeginVertical();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Date:", KACResources.styleAddHeading, GUILayout.Height(intLineHeight), GUILayout.Width(40), GUILayout.MaxWidth(40));
+            GUILayout.Label(Localizer.Format("#LOC_KAC_200"), KACResources.styleAddHeading, GUILayout.Height(intLineHeight), GUILayout.Width(40), GUILayout.MaxWidth(40));
             GUILayout.Label(AlarmDate.ToStringStandard(DateStringFormatsEnum.DateTimeFormat), KACResources.styleContent, GUILayout.Height(intLineHeight));
             GUILayout.EndHorizontal();
             if (TimeToEvent != null)
             {
                 GUILayout.BeginHorizontal();
                 //GUILayout.Label("Time to " + strAlarmEventName + ":", KACResources.styleAddHeading, GUILayout.Height(intLineHeight), GUILayout.Width(120), GUILayout.MaxWidth(120));
-                GUILayout.Label("Time to " + strAlarmEventName + ":", KACResources.styleAddHeading, GUILayout.Height(intLineHeight));
+                GUILayout.Label(Localizer.Format("#LOC_KAC_201") + strAlarmEventName + ":", KACResources.styleAddHeading, GUILayout.Height(intLineHeight));
                 GUILayout.Label(TimeToEvent.ToStringStandard(settings.TimeSpanFormat), KACResources.styleContent, GUILayout.Height(intLineHeight));
                 GUILayout.EndHorizontal();
             }
             GUILayout.BeginHorizontal();
             //GUILayout.Label("Time to Alarm:", KACResources.styleAddHeading, GUILayout.Height(intLineHeight), GUILayout.Width(120), GUILayout.MaxWidth(120));
-            GUILayout.Label("Time to Alarm:", KACResources.styleAddHeading, GUILayout.Height(intLineHeight));
+            GUILayout.Label(Localizer.Format("#LOC_KAC_202"), KACResources.styleAddHeading, GUILayout.Height(intLineHeight));
             GUILayout.Label(TimeToAlarm.ToStringStandard(settings.TimeSpanFormat), KACResources.styleContent, GUILayout.Height(intLineHeight));
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
@@ -1201,7 +1247,7 @@ namespace KerbalAlarmClock
             GUILayout.Space(10);
             int intButtonHeight = 36;
             if (TimeToEvent != null) intButtonHeight += 22;
-            if (GUILayout.Button("Add Alarm", KACResources.styleButton, GUILayout.Width(75), GUILayout.Height(intButtonHeight)))
+            if (GUILayout.Button(Localizer.Format("#LOC_KAC_203"), KACResources.styleButton, GUILayout.Width(75), GUILayout.Height(intButtonHeight)))
             {
                 blnReturn = true;
             }
@@ -1226,57 +1272,57 @@ namespace KerbalAlarmClock
 
                 if (KACWorkerGameState.CurrentVessel == null)
                 {
-                    GUILayout.Label("No Active Vessel");
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_164"));
                 }
                 else
                 {
                     if (!KACWorkerGameState.ManeuverNodeExists)
                     {
-                        GUILayout.Label("No Maneuver Nodes Found", GUILayout.ExpandWidth(true));
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_204"), GUILayout.ExpandWidth(true));
                     }
                     else
                     {
                         if (KERWrapper.APIReady)
                         {
                             KERWrapper.KER.UpdateManNodeValues();
-                            GUILayout.Label("Kerbal Engineer Node Margin", KACResources.styleAddSectionHeading);
+                            GUILayout.Label(Localizer.Format("#LOC_KAC_205"), KACResources.styleAddSectionHeading);
                             GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
 
                             GUILayout.BeginHorizontal();
 
-                            GUILayout.Label("Add KER Burn Time: ", KACResources.styleAddHeading);
+                            GUILayout.Label(Localizer.Format("#LOC_KAC_206"), KACResources.styleAddHeading);
                             ddlKERNodeMargin.DrawButton();
                             GUILayout.EndHorizontal();
 
                             GUILayout.BeginHorizontal();
-                            GUILayout.Label("Enough Δv:", KACResources.styleAddHeading);
+                            GUILayout.Label(Localizer.Format("#LOC_KAC_207"), KACResources.styleAddHeading);
                             GUILayout.Label(KERWrapper.KER.HasDeltaV.ToString(), KACResources.styleAddXferName);
-                            GUILayout.Label("   Burn:", KACResources.styleAddHeading);
-                            GUILayout.Label(String.Format("{0:0.0}s", KERWrapper.KER.BurnTime), KACResources.styleAddXferName);
-                            GUILayout.Label("   ½ Burn:", KACResources.styleAddHeading);
-                            GUILayout.Label(String.Format("{0:0.0}s", KERWrapper.KER.HalfBurnTime), KACResources.styleAddXferName);
+                            GUILayout.Label(Localizer.Format("#LOC_KAC_208"), KACResources.styleAddHeading);
+                            GUILayout.Label(String.Format("{0}" + Localizer.Format("#LOC_KAC_209") + "}", KERWrapper.KER.BurnTime), KACResources.styleAddXferName);
+                            GUILayout.Label(Localizer.Format("#LOC_KAC_210"), KACResources.styleAddHeading);
+                            GUILayout.Label(String.Format("{0}" + Localizer.Format("#LOC_KAC_209") + "}", KERWrapper.KER.HalfBurnTime), KACResources.styleAddXferName);
                             GUILayout.EndHorizontal();
 
                             GUILayout.EndVertical();
                         }
                         else if (VOIDWrapper.APIReady)
                         {
-                            GUILayout.Label("VOID Node Margin", KACResources.styleAddSectionHeading);
+                            GUILayout.Label(Localizer.Format("#LOC_KAC_211"), KACResources.styleAddSectionHeading);
                             GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
 
                             GUILayout.BeginHorizontal();
 
-                            GUILayout.Label("Add VOID Burn Time: ", KACResources.styleAddHeading);
+                            GUILayout.Label(Localizer.Format("#LOC_KAC_212"), KACResources.styleAddHeading);
                             ddlKERNodeMargin.DrawButton();
                             GUILayout.EndHorizontal();
 
                             GUILayout.BeginHorizontal();
-                            GUILayout.Label("Enough Δv:", KACResources.styleAddHeading);
+                            GUILayout.Label(Localizer.Format("#LOC_KAC_207"), KACResources.styleAddHeading);
                             GUILayout.Label(VOIDWrapper.VOID.HasDeltaV.ToString(), KACResources.styleAddXferName);
-                            GUILayout.Label("   Burn:", KACResources.styleAddHeading);
-                            GUILayout.Label(String.Format("{0:0.0}s", VOIDWrapper.VOID.BurnTime), KACResources.styleAddXferName);
-                            GUILayout.Label("   ½ Burn:", KACResources.styleAddHeading);
-                            GUILayout.Label(String.Format("{0:0.0}s", VOIDWrapper.VOID.HalfBurnTime), KACResources.styleAddXferName);
+                            GUILayout.Label(Localizer.Format("#LOC_KAC_208"), KACResources.styleAddHeading);
+                            GUILayout.Label(String.Format("{0}" + Localizer.Format("#LOC_KAC_209") + "}", VOIDWrapper.VOID.BurnTime), KACResources.styleAddXferName);
+                            GUILayout.Label(Localizer.Format("#LOC_KAC_210"), KACResources.styleAddHeading);
+                            GUILayout.Label(String.Format("{0}" + Localizer.Format("#LOC_KAC_209") + "}", VOIDWrapper.VOID.HalfBurnTime), KACResources.styleAddXferName);
                             GUILayout.EndHorizontal();
 
                             GUILayout.EndVertical();
@@ -1290,17 +1336,17 @@ namespace KerbalAlarmClock
             }
 
             GUILayout.BeginVertical();
-            GUILayout.Label("Node Details...", KACResources.styleAddSectionHeading);
+            GUILayout.Label(Localizer.Format("#LOC_KAC_213"), KACResources.styleAddSectionHeading);
 
             if (KACWorkerGameState.CurrentVessel == null)
             {
-                GUILayout.Label("No Active Vessel");
+                GUILayout.Label(Localizer.Format("#LOC_KAC_164"));
             }
             else
             {
                 if (!KACWorkerGameState.ManeuverNodeExists)
                 {
-                    GUILayout.Label("No Maneuver Nodes Found", GUILayout.ExpandWidth(true));
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_204"), GUILayout.ExpandWidth(true));
                 }
                 else
                 {
@@ -1326,7 +1372,7 @@ namespace KerbalAlarmClock
                         {
                             nodeAlarm = null;
                             nodeAlarmInterval = null;
-                            strMarginConversion = "Unable to Add the Margin Minutes";
+                            strMarginConversion = Localizer.Format("#LOC_KAC_214");
                         }
 
                         if ((nodeTime.UT > KACWorkerGameState.CurrentTime.UT) && strMarginConversion == "")
@@ -1348,7 +1394,7 @@ namespace KerbalAlarmClock
                     if (strMarginConversion != "")
                         GUILayout.Label(strMarginConversion, GUILayout.ExpandWidth(true));
                     else if (!blnFoundNode)
-                        GUILayout.Label("No Future Maneuver Nodes Found", GUILayout.ExpandWidth(true));
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_215"), GUILayout.ExpandWidth(true));
                 }
             }
 
@@ -1387,30 +1433,30 @@ namespace KerbalAlarmClock
         private void WindowLayout_AddPane_NodeEvent(Boolean PointFound,Double timeToPoint)
         {
             GUILayout.BeginVertical();
-            GUILayout.Label(strAlarmEventName + " Details...", KACResources.styleAddSectionHeading);
+            GUILayout.Label(strAlarmEventName + Localizer.Format("#LOC_KAC_216"), KACResources.styleAddSectionHeading);
             if (lstAlarmsWithTarget.Contains(AddType))
             {
                 if (KACWorkerGameState.CurrentVesselTarget == null)
-                    GUILayout.Label("Equatorial Nodes (No Valid Target)", KACResources.styleAddXferName, GUILayout.Height(18));
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_217"), KACResources.styleAddXferName, GUILayout.Height(18));
                 else
                 {
                     if (KACWorkerGameState.CurrentVesselTarget is Vessel)
-                        GUILayout.Label("Target Vessel: " + KACWorkerGameState.CurrentVesselTarget.GetVessel().vesselName, KACResources.styleAddXferName,GUILayout.Height(18));
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_218") + KACWorkerGameState.CurrentVesselTarget.GetVessel().vesselName, KACResources.styleAddXferName,GUILayout.Height(18));
                     else if (KACWorkerGameState.CurrentVesselTarget is CelestialBody)
-                        GUILayout.Label("Target Body: " + ((CelestialBody)KACWorkerGameState.CurrentVesselTarget).bodyName, KACResources.styleAddXferName,GUILayout.Height(18));
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_219") + ((CelestialBody)KACWorkerGameState.CurrentVesselTarget).bodyName, KACResources.styleAddXferName,GUILayout.Height(18));
                     else
-                        GUILayout.Label("Object Targeted", KACResources.styleAddXferName, GUILayout.Height(18));
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_220"), KACResources.styleAddXferName, GUILayout.Height(18));
                         //GUILayout.Label("Target Vessel: " + KACWorkerGameState.CurrentVesselTarget.GetVessel().vesselName, KACResources.styleAddXferName, GUILayout.Height(18));
                 }
             }
 
             if (KACWorkerGameState.CurrentVessel == null)
-                GUILayout.Label("No Active Vessel");
+                GUILayout.Label(Localizer.Format("#LOC_KAC_164"));
             else
             {
                 if (!PointFound)
                 {
-                    GUILayout.Label("No " + strAlarmEventName + " Point Found on current plan", GUILayout.ExpandWidth(true));
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_221") + strAlarmEventName + Localizer.Format("#LOC_KAC_222"), GUILayout.ExpandWidth(true));
                 }
                 else
                 {
@@ -1429,7 +1475,7 @@ namespace KerbalAlarmClock
                     {
                         eventAlarm = null;
                         eventAlarmInterval = null;
-                        strMarginConversion = "Unable to Add the Margin Minutes";
+                        strMarginConversion = Localizer.Format("#LOC_KAC_214");
                     }
 
                     if ((eventTime.UT > KACWorkerGameState.CurrentTime.UT) && strMarginConversion == "")
@@ -1451,7 +1497,7 @@ namespace KerbalAlarmClock
                     }
                     else
                     {
-                        strMarginConversion = "No Future " + strAlarmEventName + "Points found";
+                        strMarginConversion = Localizer.Format("#LOC_KAC_223") + strAlarmEventName + Localizer.Format("#LOC_KAC_224");
                     }
 
                     if (strMarginConversion != "")
@@ -1536,10 +1582,10 @@ namespace KerbalAlarmClock
             intAddXferHeight = 304;// 317;
 
             if (settings.RSSActive) {
-                GUILayout.Label("RSS detected - it is recommended that you use the Transfer Window Planner Plugin to plan transfers", KACResources.styleAddXferName);
+                GUILayout.Label(Localizer.Format("#LOC_KAC_225"), KACResources.styleAddXferName);
                 GUILayout.Space(-8);
-                if (GUILayout.Button("Click here to open the TWP forum thread", KACResources.styleContent))
-                    Application.OpenURL("https://forum.kerbalspaceprogram.com/topic/84005-transfer-window-planner/");
+                if (GUILayout.Button(Localizer.Format("#LOC_KAC_226"), KACResources.styleContent))
+                    Application.OpenURL("https://forum.kerbalspaceprogram.com/topic/84005-transfer-window-planner/"); // NO_LOCALIZATION
                 intAddXferHeight += 58;
             }
 
@@ -1547,16 +1593,16 @@ namespace KerbalAlarmClock
             List<KSPDateTime> lstXferCurrentTargetEventTime = new List<KSPDateTime>();
             GUILayout.BeginVertical();
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Transfers", KACResources.styleAddSectionHeading, GUILayout.Width(60));
+            GUILayout.Label(Localizer.Format("#LOC_KAC_227"), KACResources.styleAddSectionHeading, GUILayout.Width(60));
             //add something here to select the modelled or formula values for Solar orbiting bodies
             if (settings.XferModelDataLoaded)
             {
                 GUILayout.FlexibleSpace();
-                GUILayout.Label("Calc by:", KACResources.styleAddHeading);
+                GUILayout.Label(Localizer.Format("#LOC_KAC_228"), KACResources.styleAddHeading);
                 if (intXferCurrentParent == 0)
                 {
                     //intAddXferHeight += 35;
-                    if (DrawRadioList(ref intXferType, "Model", "Formula"))
+                    if (DrawRadioList(ref intXferType, Localizer.Format("#LOC_KAC_229"), Localizer.Format("#LOC_KAC_230")))
                     {
                         settings.XferUseModelData = (intXferType == 0);
                         settings.Save();
@@ -1565,16 +1611,16 @@ namespace KerbalAlarmClock
                 else
                 {
                     int zero = 0;
-                    DrawRadioList(ref zero, "Formula");
+                    DrawRadioList(ref zero, Localizer.Format("#LOC_KAC_230"));
                 }
             }
             GUILayout.EndHorizontal();
             try
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Label("Xfer Parent:", KACResources.styleAddHeading, GUILayout.Width(80), GUILayout.Height(20));
+                GUILayout.Label(Localizer.Format("#LOC_KAC_231"), KACResources.styleAddHeading, GUILayout.Width(80), GUILayout.Height(20));
                 GUILayout.Label(XferParentBodies[intXferCurrentParent].bodyName, KACResources.styleAddXferName, GUILayout.ExpandWidth(true), GUILayout.Height(20));
-                if (GUILayout.Button(new GUIContent("Change", "Click to cycle through Parent Bodies"), KACResources.styleAddXferOriginButton))
+                if (GUILayout.Button(new GUIContent(Localizer.Format("#LOC_KAC_232"), Localizer.Format("#LOC_KAC_233")), KACResources.styleAddXferOriginButton))
                 {
                     intXferCurrentParent += 1;
                     if (intXferCurrentParent >= XferParentBodies.Count) intXferCurrentParent = 0;
@@ -1588,9 +1634,9 @@ namespace KerbalAlarmClock
                 GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal();
-                GUILayout.Label("Xfer Origin:", KACResources.styleAddHeading, GUILayout.Width(80),GUILayout.Height(20));
+                GUILayout.Label(Localizer.Format("#LOC_KAC_234"), KACResources.styleAddHeading, GUILayout.Width(80),GUILayout.Height(20));
                 GUILayout.Label(XferOriginBodies[intXferCurrentOrigin].bodyName, KACResources.styleAddXferName, GUILayout.ExpandWidth(true), GUILayout.Height(20));
-                if (GUILayout.Button(new GUIContent("Change", "Click to cycle through Origin Bodies"), KACResources.styleAddXferOriginButton))
+                if (GUILayout.Button(new GUIContent(Localizer.Format("#LOC_KAC_232"), Localizer.Format("#LOC_KAC_235")), KACResources.styleAddXferOriginButton))
                 {
                     intXferCurrentOrigin += 1;
                     if (intXferCurrentOrigin >= XferOriginBodies.Count) intXferCurrentOrigin = 0;
@@ -1602,7 +1648,7 @@ namespace KerbalAlarmClock
                 if (!settings.AlarmXferDisplayList)
                     GUILayout.Space(34);
                 else
-                    if (GUILayout.Button(new GUIContent(KACResources.btnChevronUp, "Hide Full List"), KACResources.styleSmallButton))
+                    if (GUILayout.Button(new GUIContent(KACResources.btnChevronUp, Localizer.Format("#LOC_KAC_236")), KACResources.styleSmallButton))
                     {
                         settings.AlarmXferDisplayList = !settings.AlarmXferDisplayList;
                         settings.Save();
@@ -1613,9 +1659,9 @@ namespace KerbalAlarmClock
                 {
                     //Simple single chosen target
                     GUILayout.BeginHorizontal();
-                    GUILayout.Label("Xfer Target:", KACResources.styleAddHeading, GUILayout.Width(80), GUILayout.Height(20));
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_237"), KACResources.styleAddHeading, GUILayout.Width(80), GUILayout.Height(20));
                     GUILayout.Label(XferTargetBodies[intXferCurrentTarget].Target.bodyName, KACResources.styleAddXferName, GUILayout.ExpandWidth(true), GUILayout.Height(20));
-                    if (GUILayout.Button(new GUIContent("Change", "Click to cycle through Target Bodies"), KACResources.styleAddXferOriginButton))
+                    if (GUILayout.Button(new GUIContent(Localizer.Format("#LOC_KAC_232"), Localizer.Format("#LOC_KAC_238")), KACResources.styleAddXferOriginButton))
                     {
                         intXferCurrentTarget += 1;
                         if (intXferCurrentTarget >= XferTargetBodies.Count) intXferCurrentTarget = 0;
@@ -1623,7 +1669,7 @@ namespace KerbalAlarmClock
                         BuildTransferStrings();
                         //strAlarmNotesNew = String.Format("{0} Transfer", XferTargetBodies[intXferCurrentTarget].Target.bodyName);
                     }
-                    if (GUILayout.Button(new GUIContent(KACResources.btnChevronDown, "Show Full List"), KACResources.styleSmallButton))
+                    if (GUILayout.Button(new GUIContent(KACResources.btnChevronDown, Localizer.Format("#LOC_KAC_239")), KACResources.styleSmallButton))
                     {
                         settings.AlarmXferDisplayList = !settings.AlarmXferDisplayList;
                         settings.Save();
@@ -1631,16 +1677,16 @@ namespace KerbalAlarmClock
                     GUILayout.EndHorizontal();
 
                     GUILayout.BeginHorizontal(); 
-                    GUILayout.Label("Phase Angle-Current:",  KACResources.styleAddHeading,GUILayout.Width(130));
-                    GUILayout.Label(String.Format("{0:0.00}", XferTargetBodies[intXferCurrentTarget].PhaseAngleCurrent), KACResources.styleContent, GUILayout.Width(67));
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_240"),  KACResources.styleAddHeading,GUILayout.Width(130));
+                    GUILayout.Label(String.Format("{0}" + Localizer.Format("#LOC_KAC_241") + "}", XferTargetBodies[intXferCurrentTarget].PhaseAngleCurrent), KACResources.styleContent, GUILayout.Width(67));
                     GUILayout.EndHorizontal();
 
                     GUILayout.BeginHorizontal();
-                    GUILayout.Label("Phase Angle-Target:", KACResources.styleAddHeading, GUILayout.Width(130));
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_242"), KACResources.styleAddHeading, GUILayout.Width(130));
                     if (intXferCurrentParent != 0 || (!settings.XferUseModelData && settings.XferModelDataLoaded))
                     {
                         //formula based
-                        GUILayout.Label(String.Format("{0:0.00}", XferTargetBodies[intXferCurrentTarget].PhaseAngleTarget), KACResources.styleContent, GUILayout.Width(67));
+                        GUILayout.Label(String.Format("{0}" + Localizer.Format("#LOC_KAC_241") + "}", XferTargetBodies[intXferCurrentTarget].PhaseAngleTarget), KACResources.styleContent, GUILayout.Width(67));
                     }
                     else
                     {
@@ -1654,17 +1700,17 @@ namespace KerbalAlarmClock
 
                             if (tmpModelPoint != null)
                             {
-                                GUILayout.Label(String.Format("{0:0.00}", tmpModelPoint.PhaseAngle), KACResources.styleContent, GUILayout.Width(67));
+                                GUILayout.Label(String.Format("{0}" + Localizer.Format("#LOC_KAC_241") + "}", tmpModelPoint.PhaseAngle), KACResources.styleContent, GUILayout.Width(67));
                                 XferCurrentTargetEventTime = new KSPDateTime(tmpModelPoint.UT);
                             }
                             else
                             {
-                                GUILayout.Label("No future model data available for this transfer", KACResources.styleContent, GUILayout.ExpandWidth(true));
+                                GUILayout.Label(Localizer.Format("#LOC_KAC_243"), KACResources.styleContent, GUILayout.ExpandWidth(true));
                             }
                         }
                         catch (Exception ex)
                         {
-                            GUILayout.Label("Unable to determine model data", KACResources.styleContent, GUILayout.ExpandWidth(true));
+                            GUILayout.Label(Localizer.Format("#LOC_KAC_244"), KACResources.styleContent, GUILayout.ExpandWidth(true));
                             LogFormatted("Error determining model data: {0}", ex.Message);
                         }
                     }
@@ -1702,7 +1748,7 @@ namespace KerbalAlarmClock
                     {
                         GUILayout.BeginHorizontal();
                         GUILayout.FlexibleSpace();
-                        if (GUILayout.Button(new GUIContent("Create Alarms for All", "Create Alarms for all listed transfers"), new GUIStyle(KACResources.styleAddXferOriginButton) { fixedWidth = 140 }))
+                        if (GUILayout.Button(new GUIContent(Localizer.Format("#LOC_KAC_245"), Localizer.Format("#LOC_KAC_246")), new GUIStyle(KACResources.styleAddXferOriginButton) { fixedWidth = 140 }))
                         {
                             for (int i = 0; i < XferTargetBodies.Count; i++)
                             {
@@ -1710,7 +1756,7 @@ namespace KerbalAlarmClock
                                 if (blnAlarmAttachToVessel) strVesselID = KACWorkerGameState.CurrentVessel.id.ToString();
 
                                 TransferStrings ts = BuildTransferStrings(i, false);
-                                alarms.Add(new KACAlarm(strVesselID, ts.AlarmName, ts.AlarmNotes + "\r\n\tMargin: " + new KSPTimeSpan(timeMargin.UT).ToStringStandard(TimeSpanStringFormatsEnum.IntervalLongTrimYears),
+                                alarms.Add(new KACAlarm(strVesselID, ts.AlarmName, ts.AlarmNotes + Localizer.Format("#LOC_KAC_247") + new KSPTimeSpan(timeMargin.UT).ToStringStandard(TimeSpanStringFormatsEnum.IntervalLongTrimYears),
                                 (KACWorkerGameState.CurrentTime.UT + XferTargetBodies[i].AlignmentTime.UT - timeMargin.UT), timeMargin.UT, KACAlarm.AlarmTypeEnum.Transfer,
                                 AddActions, XferTargetBodies[i]));
                             }
@@ -1722,7 +1768,7 @@ namespace KerbalAlarmClock
 
                         GUILayout.BeginHorizontal();
                         GUILayout.FlexibleSpace();
-                        if (GUILayout.Button(new GUIContent("Create Alarms for All", "Create Alarms for all listed transfers"), new GUIStyle(KACResources.styleAddXferOriginButton) { fixedWidth = 140 }))
+                        if (GUILayout.Button(new GUIContent(Localizer.Format("#LOC_KAC_245"), Localizer.Format("#LOC_KAC_246")), new GUIStyle(KACResources.styleAddXferOriginButton) { fixedWidth = 140 }))
                         {
                             for (int i = 0; i < XferTargetBodies.Count; i++)
                             {
@@ -1730,7 +1776,9 @@ namespace KerbalAlarmClock
                                 if (blnAlarmAttachToVessel) strVesselID = KACWorkerGameState.CurrentVessel.id.ToString();
 
                                 TransferStrings ts = BuildTransferStrings(i, false);
-                                KACAlarm alarmNew = new KACAlarm(strVesselID, ts.AlarmName, (blnRepeatingAlarmFlag ? "Alarm Repeats\r\n" : "") + ts.AlarmNotes + "\r\n\tMargin: " + new KSPTimeSpan(timeMargin.UT).ToStringStandard(TimeSpanStringFormatsEnum.IntervalLongTrimYears),
+                                KACAlarm alarmNew = new KACAlarm(strVesselID, ts.AlarmName, (blnRepeatingAlarmFlag ? Localizer.Format("#LOC_KAC_161") +
+                                    "\r\n" : "") + ts.AlarmNotes + "\r\n\t" + // NO_LOCALIZATION
+                                    Localizer.Format("#LOC_KAC_248") + new KSPTimeSpan(timeMargin.UT).ToStringStandard(TimeSpanStringFormatsEnum.IntervalLongTrimYears),
                                     (lstXferCurrentTargetEventTime[i].UT - timeMargin.UT), timeMargin.UT, KACAlarm.AlarmTypeEnum.TransferModelled,
                                     AddActions, XferTargetBodies[i]);
                                 alarmNew.RepeatAlarm = blnRepeatingAlarmFlag;
@@ -1746,11 +1794,11 @@ namespace KerbalAlarmClock
 
                     // And now the table of results
                     GUILayout.BeginHorizontal();
-                    GUILayout.Label("Target", KACResources.styleAddSectionHeading, GUILayout.Width(55));
-                    GUILayout.Label(new GUIContent("Phase Angle", "Displayed as \"Current Angle (Target Angle)\""), KACResources.styleAddSectionHeading, GUILayout.Width(105));
-                    GUILayout.Label("Time to Transfer", KACResources.styleAddSectionHeading, GUILayout.ExpandWidth(true));
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_249"), KACResources.styleAddSectionHeading, GUILayout.Width(55));
+                    GUILayout.Label(new GUIContent(Localizer.Format("#LOC_KAC_250"), Localizer.Format("#LOC_KAC_251")), KACResources.styleAddSectionHeading, GUILayout.Width(105));
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_252"), KACResources.styleAddSectionHeading, GUILayout.ExpandWidth(true));
                     //GUILayout.Label("Time to Alarm", KACResources.styleAddSectionHeading, GUILayout.ExpandWidth(true));
-                    GUILayout.Label("Add", KACResources.styleAddSectionHeading, GUILayout.Width(30));
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_166"), KACResources.styleAddSectionHeading, GUILayout.Width(30));
                     GUILayout.EndHorizontal();
 
                     for (int intTarget = 0; intTarget < XferTargetBodies.Count; intTarget++)
@@ -1760,7 +1808,7 @@ namespace KerbalAlarmClock
                         if (intXferCurrentParent != 0 || (!settings.XferUseModelData && settings.XferModelDataLoaded))
                         {
                             //formula based
-                            String strPhase = String.Format("{0:0.00}({1:0.00})", XferTargetBodies[intTarget].PhaseAngleCurrent, XferTargetBodies[intTarget].PhaseAngleTarget);
+                            String strPhase = String.Format("{0}" + Localizer.Format("#LOC_KAC_241") + "}" + "{1}" + Localizer.Format("#LOC_KAC_241") + "}", XferTargetBodies[intTarget].PhaseAngleCurrent, XferTargetBodies[intTarget].PhaseAngleTarget);
                             GUILayout.Label(strPhase, KACResources.styleAddHeading, GUILayout.Width(105), GUILayout.Height(20));
                             GUILayout.Label(XferTargetBodies[intTarget].AlignmentTime.ToStringStandard(settings.TimeSpanFormat), KACResources.styleAddHeading, GUILayout.ExpandWidth(true), GUILayout.Height(20));
                         }
@@ -1775,7 +1823,7 @@ namespace KerbalAlarmClock
                             
                                 if (tmpModelPoint != null)
                                 {
-                                    String strPhase = String.Format("{0:0.00}({1:0.00})", XferTargetBodies[intTarget].PhaseAngleCurrent, tmpModelPoint.PhaseAngle);
+                                    String strPhase = String.Format("{0}" + Localizer.Format("#LOC_KAC_241") + "}" + "{1}" + Localizer.Format("#LOC_KAC_241") + "}", XferTargetBodies[intTarget].PhaseAngleCurrent, tmpModelPoint.PhaseAngle);
                                     GUILayout.Label(strPhase, KACResources.styleAddHeading, GUILayout.Width(105), GUILayout.Height(20));
                                     KSPTimeSpan tmpTime = new KSPTimeSpan(tmpModelPoint.UT - KACWorkerGameState.CurrentTime.UT);
                                     GUILayout.Label(tmpTime.ToStringStandard(settings.TimeSpanFormat), KACResources.styleAddHeading, GUILayout.ExpandWidth(true), GUILayout.Height(20));                                
@@ -1788,12 +1836,12 @@ namespace KerbalAlarmClock
                                 }
                                 else
                                 {
-                                    GUILayout.Label("No future model data", KACResources.styleContent, GUILayout.ExpandWidth(true));
+                                    GUILayout.Label(Localizer.Format("#LOC_KAC_253"), KACResources.styleContent, GUILayout.ExpandWidth(true));
                                 }
                             }
                             catch (Exception ex)
                             {
-                                GUILayout.Label("Unable to determine model data", KACResources.styleContent, GUILayout.ExpandWidth(true));
+                                GUILayout.Label(Localizer.Format("#LOC_KAC_244"), KACResources.styleContent, GUILayout.ExpandWidth(true));
                                 LogFormatted("Error determining model data: {0}", ex.Message);
                             }
                         }
@@ -1849,7 +1897,7 @@ namespace KerbalAlarmClock
                     {
                         String strVesselID = "";
                         if (blnAlarmAttachToVessel) strVesselID = KACWorkerGameState.CurrentVessel.id.ToString();
-                        alarms.Add(new KACAlarm(strVesselID, strAlarmName, strAlarmNotes + "\r\n\tMargin: " + new KSPTimeSpan(timeMargin.UT).ToStringStandard(TimeSpanStringFormatsEnum.IntervalLongTrimYears),
+                        alarms.Add(new KACAlarm(strVesselID, strAlarmName, strAlarmNotes + Localizer.Format("#LOC_KAC_247") + new KSPTimeSpan(timeMargin.UT).ToStringStandard(TimeSpanStringFormatsEnum.IntervalLongTrimYears),
                             (KACWorkerGameState.CurrentTime.UT + XferTargetBodies[intXferCurrentTarget].AlignmentTime.UT - timeMargin.UT), timeMargin.UT, KACAlarm.AlarmTypeEnum.Transfer,
                             AddActions, XferTargetBodies[intXferCurrentTarget]));
                         //settings.Save();
@@ -1896,7 +1944,7 @@ namespace KerbalAlarmClock
                         {
                             String strVesselID = "";
                             if (blnAlarmAttachToVessel) strVesselID = KACWorkerGameState.CurrentVessel.id.ToString();
-                            KACAlarm alarmNew = new KACAlarm(strVesselID, strAlarmName, (blnRepeatingAlarmFlag ? "Alarm Repeats\r\n" : "") + strAlarmNotes + "\r\n\tMargin: " + new KSPTimeSpan(timeMargin.UT).ToStringStandard(TimeSpanStringFormatsEnum.IntervalLongTrimYears),
+                            KACAlarm alarmNew = new KACAlarm(strVesselID, strAlarmName, (blnRepeatingAlarmFlag ? Localizer.Format("#LOC_KAC_254") : "") + strAlarmNotes + Localizer.Format("#LOC_KAC_247") + new KSPTimeSpan(timeMargin.UT).ToStringStandard(TimeSpanStringFormatsEnum.IntervalLongTrimYears),
                                 (XferCurrentTargetEventTime.UT - timeMargin.UT), timeMargin.UT, KACAlarm.AlarmTypeEnum.TransferModelled,
                                 AddActions, XferTargetBodies[intXferCurrentTarget]); 
                             alarmNew.RepeatAlarm = blnRepeatingAlarmFlag;
@@ -1906,7 +1954,7 @@ namespace KerbalAlarmClock
                         }
                     }
                     else{
-                        GUILayout.Label("Selected a transfer with no event date",GUILayout.ExpandWidth(true));
+                        GUILayout.Label(Localizer.Format("#LOC_KAC_255"),GUILayout.ExpandWidth(true));
                     }
                 }
             }
@@ -1914,7 +1962,7 @@ namespace KerbalAlarmClock
             {
                 if (intXferCurrentTarget >= XferTargetBodies.Count) 
                     intXferCurrentTarget = 0;
-                GUILayout.Label("Something weird has happened");
+                GUILayout.Label(Localizer.Format("#LOC_KAC_256"));
                 LogFormatted(ex.Message);
                 LogFormatted(ex.StackTrace);
             }
@@ -1931,13 +1979,13 @@ namespace KerbalAlarmClock
         internal void FillAddMessagesWindow(int WindowID)
         {
             GUILayout.BeginVertical();
-            GUILayout.Label("Vessel:", KACResources.styleAddHeading);
-            String strVesselName = "Not Attached to Vessel";
+            GUILayout.Label(Localizer.Format("#LOC_KAC_257"), KACResources.styleAddHeading);
+            String strVesselName = Localizer.Format("#LOC_KAC_258");
             if (KACWorkerGameState.CurrentVessel != null && blnAlarmAttachToVessel) strVesselName = KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName);
             GUILayout.TextField(strVesselName, KACResources.styleAddFieldGreen);
-            GUILayout.Label("Alarm:", KACResources.styleAddHeading);
+            GUILayout.Label(Localizer.Format("#LOC_KAC_82"), KACResources.styleAddHeading);
             strAlarmName = GUILayout.TextField(strAlarmName, KACResources.styleAddField, GUILayout.MaxWidth(184)).Replace("|", "");
-            GUILayout.Label("Notes:", KACResources.styleAddHeading);
+            GUILayout.Label(Localizer.Format("#LOC_KAC_259"), KACResources.styleAddHeading);
             strAlarmNotes = GUILayout.TextArea(strAlarmNotes, KACResources.styleAddMessageField,
                                 GUILayout.Height(AddNotesHeight), GUILayout.MaxWidth(184)
                                 ).Replace("|", ""); 

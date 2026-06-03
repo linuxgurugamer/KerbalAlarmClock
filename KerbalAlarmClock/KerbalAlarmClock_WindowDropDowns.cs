@@ -1,4 +1,5 @@
-﻿using KSPPluginFramework;
+using KSP.Localization;
+using KSPPluginFramework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -41,7 +42,7 @@ namespace KerbalAlarmClock
 
         internal void InitDropDowns()
         {
-            String[] strChecksPerSecChoices = { "10", "20", "50", "100", "Custom (" + settings.BehaviourChecksPerSec_Custom.ToString() + ")" };
+            String[] strChecksPerSecChoices = { "#LOC_KAC_325", "#LOC_KAC_326", "#LOC_KAC_327", "#LOC_KAC_328", "#LOC_KAC_329" + settings.BehaviourChecksPerSec_Custom.ToString() + ")" };
 
             ddlChecksPerSec = new DropDownList(strChecksPerSecChoices, _WindowSettingsRect);
             ddlChecksPerSec.OnSelectionChanged += ddlChecksPerSec_OnSelectionChanged;
@@ -630,9 +631,9 @@ namespace KerbalAlarmClock
                         iPad = 1;
 
                         //Draw paging buttons
-                        GUI.Label(new Rect(rectListBox) { x = rectListBox.x + ListBoxPadding.left, height = 20 }, String.Format("Page {0}/{1:0}", ListPageNum + 1, Math.Floor((Single)Items.Count / ListPageLength) + 1), stylePager);
-                        GUI.Button(new Rect(rectListBox) { x = rectListBox.x + rectListBox.width - 80 - ListBoxPadding.right, y = rectListBox.y + 2, width = 40, height = 16 }, "Prev");
-                        GUI.Button(new Rect(rectListBox) { x = rectListBox.x + rectListBox.width - 40 - ListBoxPadding.right, y = rectListBox.y + 2, width = 40, height = 16 }, "Next");
+                        GUI.Label(new Rect(rectListBox) { x = rectListBox.x + ListBoxPadding.left, height = 20 }, String.Format( "Page" + " {0}" + "/" + "{1}" + Localizer.Format("#LOC_KAC_180") + "}", ListPageNum + 1, Math.Floor((Single)Items.Count / ListPageLength) + 1), stylePager);
+                        GUI.Button(new Rect(rectListBox) { x = rectListBox.x + rectListBox.width - 80 - ListBoxPadding.right, y = rectListBox.y + 2, width = 40, height = 16 }, Localizer.Format("#LOC_KAC_330"));
+                        GUI.Button(new Rect(rectListBox) { x = rectListBox.x + rectListBox.width - 40 - ListBoxPadding.right, y = rectListBox.y + 2, width = 40, height = 16 }, Localizer.Format("#LOC_KAC_331"));
                     }
 
                     //now draw each listitem

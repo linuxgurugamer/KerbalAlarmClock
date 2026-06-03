@@ -1,5 +1,6 @@
-﻿#if false
+#if false
 
+using KSP.Localization;
 using KerbalAlarmClock;
 using UnityEngine;
 
@@ -19,7 +20,7 @@ namespace YourModNamespace
                 WindowId,
                 windowRect,
                 DrawWindow,
-                "KAC Controls"
+                Localizer.Format("#LOC_KAC_517")
             );
         }
 
@@ -29,7 +30,7 @@ namespace YourModNamespace
 
             bool newValue = GUILayout.Toggle(
                 overrideStockToolbar,
-                "Override Stock Toolbar"
+                Localizer.Format("#LOC_KAC_518")
             );
 
             if (newValue != overrideStockToolbar)
@@ -38,7 +39,7 @@ namespace YourModNamespace
                 KACToolbarAPI.OverrideStockToolbar(overrideStockToolbar);
             }
 
-            if (GUILayout.Button("Toggle AppLauncher Button", GUILayout.Height(30)))
+            if (GUILayout.Button(Localizer.Format("#LOC_KAC_519"), GUILayout.Height(30)))
             {
                 KerbalAlarmClock.KerbalAlarmClock.ToggleAppLauncherButton();
             }

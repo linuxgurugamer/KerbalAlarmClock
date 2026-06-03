@@ -8,6 +8,8 @@ using System.Text;
 
 namespace KAC_VOIDWrapper
 {
+    #region NO_LOCALIZATION
+
     class VOIDWrapper
     {
         //protected static System.Type VOIDType;
@@ -197,7 +199,7 @@ namespace KAC_VOIDWrapper
 
     }
 
-
+    #endregion
 }
 
 

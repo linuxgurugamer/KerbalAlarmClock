@@ -11,6 +11,11 @@ Changelog
 	Added an option to disable the alarm clock from opening upon entry to scenes
 	Disabled some additional old code related to restoring maneuver nodes and/or targets
 
+	Localized the mod
+	Made Spanish translation using ChatGPT
+	Increased the size of the red X for deletion to make it easier to click on
+	Adjusted height of lines in scroll list to better fit content
+
 3.14.2.1
 	Thanks to github user @Clayell for these two changes:
 		Revert UI scaling changes

@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
@@ -16,7 +17,7 @@ namespace KerbalAlarmClock
 		{
 			AddType = KACAlarm.AlarmTypeEnum.EarthTime;
 
-			strAlarmName="Earth Calling...";
+			strAlarmName=Localizer.Format("#LOC_KAC_332");
 			strAlarmNotes="";
 
 			AddNotesHeight = 50;
@@ -36,11 +37,11 @@ namespace KerbalAlarmClock
 			intHeight_AddWindowCommon = 64;
 			WindowLayout_CommonFields3(ref strAlarmName, ref blnAlarmAttachToVessel, ref AddActions, ref timeMargin, AddType, intHeight_AddWindowCommon);
 
-			GUILayout.Label("Enter Time for reminder...", KACResources.styleAddSectionHeading);
+			GUILayout.Label(Localizer.Format("#LOC_KAC_333"), KACResources.styleAddSectionHeading);
 
 			GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
 			GUILayout.BeginHorizontal();
-			GUILayout.Label("Time for Alarm (24 hour):",KACResources.styleAddHeading);
+			GUILayout.Label(Localizer.Format("#LOC_KAC_334"),KACResources.styleAddHeading);
 			GUILayout.FlexibleSpace();
 			if (DrawTimeField(ref strAlarmEarthHour, "", 40, 0))
 			{
@@ -61,7 +62,7 @@ namespace KerbalAlarmClock
 			try 
 			{	        
 				DateTime dteWorking;
-				dteWorking=DateTime.ParseExact(strAlarmEarthHour + ":" + strAlarmEarthMin,"H:m",null);
+				dteWorking=DateTime.ParseExact(strAlarmEarthHour + ":" + strAlarmEarthMin,Localizer.Format("#LOC_KAC_335"),null);
 
 				TimeSpan tmAlarm = (dteWorking.TimeOfDay - DateTime.Now.TimeOfDay);
 				if (tmAlarm.TotalSeconds < 0) tmAlarm=tmAlarm.Add(new TimeSpan(24, 0, 0));
@@ -74,19 +75,19 @@ namespace KerbalAlarmClock
 				GUILayout.BeginVertical();
 
 				GUILayout.BeginHorizontal();
-				GUILayout.Label("Date:", KACResources.styleAddHeading, GUILayout.Height(intLineHeight), GUILayout.Width(40), GUILayout.MaxWidth(40));
+				GUILayout.Label(Localizer.Format("#LOC_KAC_200"), KACResources.styleAddHeading, GUILayout.Height(intLineHeight), GUILayout.Width(40), GUILayout.MaxWidth(40));
 				GUILayout.Label(dteWorking.ToLongTimeString(), KACResources.styleContentEarth, GUILayout.Height(intLineHeight));
 				GUILayout.EndHorizontal();
 
 				GUILayout.BeginHorizontal();
-				GUILayout.Label("Time to Alarm:", KACResources.styleAddHeading, GUILayout.Height(intLineHeight), GUILayout.Width(100), GUILayout.MaxWidth(100));
+				GUILayout.Label(Localizer.Format("#LOC_KAC_202"), KACResources.styleAddHeading, GUILayout.Height(intLineHeight), GUILayout.Width(100), GUILayout.MaxWidth(100));
                 GUILayout.Label(TimeToAlarm.ToStringStandard(TimeSpanStringFormatsEnum.DateTimeFormatLong), KACResources.styleContentEarth, GUILayout.Height(intLineHeight));
 				GUILayout.EndHorizontal();
 				GUILayout.EndVertical();
 
 				GUILayout.Space(10);
 				int intButtonHeight = 36;
-				if (GUILayout.Button("Add Alarm", KACResources.styleButton, GUILayout.Width(90), GUILayout.Height(intButtonHeight)))
+				if (GUILayout.Button(Localizer.Format("#LOC_KAC_203"), KACResources.styleButton, GUILayout.Width(90), GUILayout.Height(intButtonHeight)))
 				{
 					alarms.Add(
 						new KACAlarm(null,strAlarmName,strAlarmNotes,
@@ -101,7 +102,7 @@ namespace KerbalAlarmClock
 			}
 			catch (Exception)
 			{
-				GUILayout.Label("Unable to determine Earth Time", GUILayout.ExpandWidth(true));
+				GUILayout.Label(Localizer.Format("#LOC_KAC_336"), GUILayout.ExpandWidth(true));
 			}
 
 

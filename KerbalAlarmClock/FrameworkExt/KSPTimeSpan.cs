@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -176,7 +177,7 @@ namespace KSPPluginFramework
             switch (TimeSpanFormat)
             {
                 case TimeSpanStringFormatsEnum.TimeAsUT:
-                    return (UT < 0 ? "+ " : "") + string.Format("{0:N0}s", absUT);
+                    return (UT < 0 ? "+ " : "") + string.Format("{0}" + Localizer.Format("#LOC_KAC_560") + "}", absUT);
                 case TimeSpanStringFormatsEnum.KSPFormat:
                     return ToString(Precision);
                 case TimeSpanStringFormatsEnum.DateTimeFormat:
@@ -186,13 +187,13 @@ namespace KSPPluginFramework
                     {
                         return (UT < 0 ? "+ " : "") + KSPUtil.dateTimeFormatter.PrintDateDelta(absUT, false, false, false) + ", " + KSPUtil.dateTimeFormatter.PrintTimeStampCompact(absUT, false, false);
                     }
-                    return ToString((UT < 0?"+ ":"") + "y Year\\s, d Da\\y\\s, hh:mm:ss");
+                    return ToString((UT < 0?"+ ":"") + Localizer.Format("#LOC_KAC_566"));
                 case TimeSpanStringFormatsEnum.IntervalLongTrimYears:
                     if (KSPDateStructure.UseStockDateFormatters)
                     {
                         return (UT < 0 ? "+ " : "") + KSPUtil.dateTimeFormatter.PrintDateDelta(absUT, false, false, false) + ", " + KSPUtil.dateTimeFormatter.PrintTimeStampCompact(absUT, false, false);
                     }
-                    return ToString((UT < 0 ? "+ " : "") + "y Year\\s, d Da\\y\\s, hh:mm:ss").Replace("0 Years, ", "");
+                    return ToString((UT < 0 ? "+ " : "") + Localizer.Format("#LOC_KAC_566")).Replace(Localizer.Format("#LOC_KAC_567"), "");
                 case TimeSpanStringFormatsEnum.DateTimeFormatLong:
                     if (KSPDateStructure.UseStockDateFormatters)
                     {
@@ -200,10 +201,10 @@ namespace KSPPluginFramework
                     }
 
                     String strFormat = "";
-                    if (Years > 0) strFormat += "y\\y";
-                    if (Days > 0) strFormat += (strFormat.EndsWith("y") ? ", " : "") + "d\\d";
+                    if (Years > 0) strFormat += Localizer.Format("#LOC_KAC_568");
+                    if (Days > 0) strFormat += (strFormat.EndsWith(Localizer.Format("#LOC_KAC_100")) ? ", " : "") + Localizer.Format("#LOC_KAC_569");
                     if (strFormat != "") strFormat += " ";
-                    strFormat += "hh:mm:ss";
+                    strFormat += Localizer.Format("#LOC_KAC_570");
 
                     if (UT < 0) strFormat = "+ " + strFormat;
 
@@ -240,31 +241,31 @@ namespace KSPPluginFramework
             {
                 if ((Years != 0) && Displayed < Precision)
                 {
-                    format = "y\\y,";
+                    format = Localizer.Format("#LOC_KAC_571");
                     Displayed++;
                 }
             }
 
             if ((Days != 0 || format.EndsWith(",")) && Displayed < Precision)
             {
-                format += (format == "" ? "" : " ") + "d\\d,";
+                format += (format == "" ? "" : " ") + Localizer.Format("#LOC_KAC_572");
                 Displayed++;
             }
             if ((Hours != 0 || format.EndsWith(",")) && Displayed < Precision)
             {
-                format += (format == "" ? "" : " ") + "h\\h,";
+                format += (format == "" ? "" : " ") + Localizer.Format("#LOC_KAC_573");
                 Displayed++;
 
             }
             if ((Minutes != 0 || format.EndsWith(",")) && Displayed < Precision)
             {
-                format += (format == "" ? "" : " ") + "m\\m,";
+                format += (format == "" ? "" : " ") + Localizer.Format("#LOC_KAC_574");
                 Displayed++;
 
             }
             if (Displayed < Precision)
             {
-                format += (format == "" ? "" : " ") + "s\\s,";
+                format += (format == "" ? "" : " ") + Localizer.Format("#LOC_KAC_575");
                 Displayed++;
 
             }
@@ -319,31 +320,31 @@ namespace KSPPluginFramework
             {
                 if ((Years != 0) && Displayed < Precision)
                 {
-                    format = "y\\y,";
+                    format = Localizer.Format("#LOC_KAC_571");
                     Displayed++;
                 }
             }
 
             if ((Days != 0 || format.EndsWith(",")) && Displayed < Precision)
             {
-                format += (format == "" ? "" : " ") + "d\\d,";
+                format += (format == "" ? "" : " ") + Localizer.Format("#LOC_KAC_572");
                 Displayed++;
             }
             if ((Hours != 0 || format.EndsWith(",")) && Displayed < Precision)
             {
-                format += (format == "" ? "" : " ") + "hh:";
+                format += (format == "" ? "" : " ") + Localizer.Format("#LOC_KAC_576");
                 Displayed++;
 
             }
             if (Displayed < Precision)
             {
-                format += "mm:";
+                format += Localizer.Format("#LOC_KAC_577");
                 Displayed++;
 
             }
             if (Displayed < Precision)
             {
-                format += "ss";
+                format += Localizer.Format("#LOC_KAC_578");
                 Displayed++;
 
             }
@@ -366,7 +367,7 @@ namespace KSPPluginFramework
         public String ToString(String format, IFormatProvider provider)
         {
             //parse and replace the format stuff
-            MatchCollection matches = Regex.Matches(format, "([a-zA-z])\\1{0,}");
+            MatchCollection matches = Regex.Matches(format, "([a-zA-z])\\1{0,}"); // NO_LOCALIZATION
             for (int i = matches.Count - 1; i >= 0; i--)
             {
                 Match m = matches[i];
@@ -406,7 +407,7 @@ namespace KSPPluginFramework
             }
 
             //Now strip out the \ , but not multiple \\
-            format = Regex.Replace(format, "\\\\(?=[a-z])", "");
+            format = Regex.Replace(format, Localizer.Format("#LOC_KAC_565"), "");
 
             return format;
             //if (KSPDateStructure.CalendarType == CalendarTypeEnum.Earth)

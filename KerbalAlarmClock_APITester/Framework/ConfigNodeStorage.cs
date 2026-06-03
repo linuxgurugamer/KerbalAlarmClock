@@ -1,10 +1,11 @@
-﻿/* Part of KSPPluginFramework
+/* Part of KSPPluginFramework
 Version 1.2
 
 Forum Thread:https://forum.kerbalspaceprogram.com/topic/60381-ksp-plugin-framework-plugin-examples-and-structure/
 Author: TriggerAu, 2014
 License: The MIT License (MIT)
 */
+using KSP.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,7 @@ namespace KSPPluginFramework
             set
             {
                 //Combine the Location of the assembly and the provided string. This means we can use relative or absolute paths
-                _FilePath = System.IO.Path.Combine(_AssemblyFolder, value).Replace("\\","/");
+                _FilePath = System.IO.Path.Combine(_AssemblyFolder, value).Replace("\","/");
             }
         }
 
@@ -132,7 +133,7 @@ namespace KSPPluginFramework
             {
                 LogFormatted("Failed to Load ConfigNode from file({0})-Error:{1}", fileFullName, ex.Message);
                 LogFormatted("Storing old config - {0}", fileFullName + ".err-" + string.Format("ddMMyyyy-HHmmss", DateTime.Now));
-                System.IO.File.Copy(fileFullName, fileFullName + ".err-" + string.Format("ddMMyyyy-HHmmss", DateTime.Now),true);
+                System.IO.File.Copy(fileFullName, fileFullName + Localizer.Format("#LOC_KAC_557") + string.Format(Localizer.Format("#LOC_KAC_558"), DateTime.Now),true);
                 blnReturn = false;
             }
             return blnReturn;
@@ -254,7 +255,7 @@ namespace KSPPluginFramework
         internal static void LogFormatted(String Message, params object[] strParams)
         {
             Message = String.Format(Message, strParams);                  // This fills the params into the message
-            String strMessageLine = String.Format("{0},{2},{1}",
+            String strMessageLine = String.Format("{0}" + "," + "{2}" + "," + "{1}",
                 DateTime.Now, Message,
                 _AssemblyName);                                           // This adds our standardised wrapper to each line
             UnityEngine.Debug.Log(strMessageLine);                        // And this puts it in the log

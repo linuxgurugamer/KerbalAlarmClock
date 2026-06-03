@@ -1,4 +1,5 @@
-﻿using KSPPluginFramework;
+using KSP.Localization;
+using KSPPluginFramework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -344,8 +345,8 @@ namespace KerbalAlarmClock
             WindowPos_TrackingStation = WindowPos_TrackingStationStored.ToRect();
             WindowPos_EditorVAB = WindowPos_EditorVABStored.ToRect();
             WindowPos_EditorSPH = WindowPos_EditorSPHStored.ToRect();
-            DateTime.TryParseExact(VersionCheckDate_AttemptStored, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out VersionCheckDate_Attempt);
-            DateTime.TryParseExact(VersionCheckDate_SuccessStored, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out VersionCheckDate_Success);
+            DateTime.TryParseExact(VersionCheckDate_AttemptStored, Localizer.Format("#LOC_KAC_479"), null, System.Globalization.DateTimeStyles.None, out VersionCheckDate_Attempt);
+            DateTime.TryParseExact(VersionCheckDate_SuccessStored, Localizer.Format("#LOC_KAC_479"), null, System.Globalization.DateTimeStyles.None, out VersionCheckDate_Success);
 
             IconPos = IconPos_IconPosStored.ToRect();
             IconPos_SpaceCenter = IconPos_SpaceCenterStored.ToRect();
@@ -365,13 +366,13 @@ namespace KerbalAlarmClock
         }
 
         #region Version Checks
-        private String VersionCheckURL = "https://linuxgurugamer.github.io/KerbalAlarmClock/versioncheck.txt";
+        private String VersionCheckURL = "https://linuxgurugamer.github.io/KerbalAlarmClock/versioncheck.txt"; // NO_LOCALIZATION
         //Could use this one to see usage, but need to be very aware of data connectivity if its ever used "http://bit.ly/KACVersion";
 
         private String ConvertVersionCheckDateToString(DateTime Date)
         {
             if (Date < DateTime.Now.AddYears(-10))
-                return "No Date Recorded";
+                return Localizer.Format("#LOC_KAC_504");
             else
                 return String.Format("{0:yyyy-MM-dd}", Date);
         }
@@ -468,7 +469,7 @@ namespace KerbalAlarmClock
 
             //set initial stuff and save it
             VersionCheckRunning = true;
-            this.VersionCheckResult = "Unknown - check again later";
+            this.VersionCheckResult = Localizer.Format("#LOC_KAC_505");
             this.VersionCheckDate_Attempt = DateTime.Now;
             this.Save();
 
@@ -500,19 +501,19 @@ namespace KerbalAlarmClock
                 MonoBehaviourExtended.LogFormatted("File:{0}", strFile);
 
                 Match matchVersion;
-                matchVersion = Regex.Match(strFile, "(?<=\\|LATESTVERSION\\|).+(?=\\|LATESTVERSION\\|)", System.Text.RegularExpressions.RegexOptions.Singleline);
+                matchVersion = Regex.Match(strFile, "(?<=\\|LATESTVERSION\\|).+(?=\\|LATESTVERSION\\|)", System.Text.RegularExpressions.RegexOptions.Singleline); // NO_LOCALIZATION
                 MonoBehaviourExtended.LogFormatted("Got Version '" + matchVersion.ToString() + "'");
 
                 String strVersionWeb = matchVersion.ToString();
                 if (strVersionWeb != "")
                 {
-                    this.VersionCheckResult = "Success";
+                    this.VersionCheckResult = Localizer.Format("#LOC_KAC_506");
                     this.VersionCheckDate_Success = DateTime.Now;
                     this.VersionWeb = strVersionWeb;
                 }
                 else
                 {
-                    this.VersionCheckResult = "Unable to parse web service";
+                    this.VersionCheckResult = Localizer.Format("#LOC_KAC_507");
                 }
             }
             catch (Exception ex)
@@ -584,33 +585,33 @@ namespace KerbalAlarmClock
             {
                 Boolean NewTypeAdded = false;
 
-                Boolean RawTypeAdded = AddMissingSoundConfig("Raw", KACAlarm.AlarmTypeEnum.Raw);
+                Boolean RawTypeAdded = AddMissingSoundConfig(Localizer.Format("#LOC_KAC_452"), KACAlarm.AlarmTypeEnum.Raw);
                 NewTypeAdded = NewTypeAdded | RawTypeAdded;
 
                 //If we added the raw one then set the default sound
                 if (NewTypeAdded)
-                    AlarmSounds.First(s => s.Name == "Raw").SoundName = "Alarm1";
+                    AlarmSounds.First(s => s.Name == Localizer.Format("#LOC_KAC_452")).SoundName = Localizer.Format("#LOC_KAC_508");
 
-                NewTypeAdded = NewTypeAdded | AddMissingSoundConfig("Manuever", KACAlarm.AlarmTypeEnum.Maneuver, KACAlarm.AlarmTypeEnum.ManeuverAuto);
-                NewTypeAdded = NewTypeAdded | AddMissingSoundConfig("AP/Pe", KACAlarm.AlarmTypeEnum.Apoapsis, KACAlarm.AlarmTypeEnum.Periapsis);
-                NewTypeAdded = NewTypeAdded | AddMissingSoundConfig("AN/DN", KACAlarm.AlarmTypeEnum.AscendingNode, KACAlarm.AlarmTypeEnum.DescendingNode);
-                NewTypeAdded = NewTypeAdded | AddMissingSoundConfig("Distance", KACAlarm.AlarmTypeEnum.Closest, KACAlarm.AlarmTypeEnum.Distance);
-                NewTypeAdded = NewTypeAdded | AddMissingSoundConfig("Rendezvous", KACAlarm.AlarmTypeEnum.LaunchRendevous);
-                NewTypeAdded = NewTypeAdded | AddMissingSoundConfig("SOI", KACAlarm.AlarmTypeEnum.SOIChange, KACAlarm.AlarmTypeEnum.SOIChangeAuto);
-                NewTypeAdded = NewTypeAdded | AddMissingSoundConfig("Transfer", KACAlarm.AlarmTypeEnum.Transfer, KACAlarm.AlarmTypeEnum.TransferModelled);
-                NewTypeAdded = NewTypeAdded | AddMissingSoundConfig("Contract", KACAlarm.AlarmTypeEnum.Contract, KACAlarm.AlarmTypeEnum.ContractAuto);
-                NewTypeAdded = NewTypeAdded | AddMissingSoundConfig("Crew", KACAlarm.AlarmTypeEnum.Crew);
-                NewTypeAdded = NewTypeAdded | AddMissingSoundConfig("ScienceLab", KACAlarm.AlarmTypeEnum.ScienceLab);
+                NewTypeAdded = NewTypeAdded | AddMissingSoundConfig(Localizer.Format("#LOC_KAC_509"), KACAlarm.AlarmTypeEnum.Maneuver, KACAlarm.AlarmTypeEnum.ManeuverAuto);
+                NewTypeAdded = NewTypeAdded | AddMissingSoundConfig(Localizer.Format("#LOC_KAC_510"), KACAlarm.AlarmTypeEnum.Apoapsis, KACAlarm.AlarmTypeEnum.Periapsis);
+                NewTypeAdded = NewTypeAdded | AddMissingSoundConfig(Localizer.Format("#LOC_KAC_511"), KACAlarm.AlarmTypeEnum.AscendingNode, KACAlarm.AlarmTypeEnum.DescendingNode);
+                NewTypeAdded = NewTypeAdded | AddMissingSoundConfig(Localizer.Format("#LOC_KAC_274"), KACAlarm.AlarmTypeEnum.Closest, KACAlarm.AlarmTypeEnum.Distance);
+                NewTypeAdded = NewTypeAdded | AddMissingSoundConfig(Localizer.Format("#LOC_KAC_512"), KACAlarm.AlarmTypeEnum.LaunchRendevous);
+                NewTypeAdded = NewTypeAdded | AddMissingSoundConfig(Localizer.Format("#LOC_KAC_6"), KACAlarm.AlarmTypeEnum.SOIChange, KACAlarm.AlarmTypeEnum.SOIChangeAuto);
+                NewTypeAdded = NewTypeAdded | AddMissingSoundConfig(Localizer.Format("#LOC_KAC_513"), KACAlarm.AlarmTypeEnum.Transfer, KACAlarm.AlarmTypeEnum.TransferModelled);
+                NewTypeAdded = NewTypeAdded | AddMissingSoundConfig(Localizer.Format("#LOC_KAC_133"), KACAlarm.AlarmTypeEnum.Contract, KACAlarm.AlarmTypeEnum.ContractAuto);
+                NewTypeAdded = NewTypeAdded | AddMissingSoundConfig(Localizer.Format("#LOC_KAC_129"), KACAlarm.AlarmTypeEnum.Crew);
+                NewTypeAdded = NewTypeAdded | AddMissingSoundConfig(Localizer.Format("#LOC_KAC_514"), KACAlarm.AlarmTypeEnum.ScienceLab);
 
-                Boolean EarthTypeAdded = AddMissingSoundConfig("Earth", KACAlarm.AlarmTypeEnum.EarthTime);
+                Boolean EarthTypeAdded = AddMissingSoundConfig(Localizer.Format("#LOC_KAC_515"), KACAlarm.AlarmTypeEnum.EarthTime);
                 NewTypeAdded = NewTypeAdded | EarthTypeAdded;
 
                 //If we added earth type then set its default
                 if (EarthTypeAdded)
                 {
-                    AlarmSounds.First(s => s.Name == "Earth").SoundName = "Rooster";
-                    AlarmSounds.First(s => s.Name == "Earth").Enabled = true;
-                    AlarmSounds.First(s => s.Name == "Earth").RepeatCount = 2;
+                    AlarmSounds.First(s => s.Name == Localizer.Format("#LOC_KAC_515")).SoundName = Localizer.Format("#LOC_KAC_516");
+                    AlarmSounds.First(s => s.Name == Localizer.Format("#LOC_KAC_515")).Enabled = true;
+                    AlarmSounds.First(s => s.Name == Localizer.Format("#LOC_KAC_515")).RepeatCount = 2;
                 }
 
 

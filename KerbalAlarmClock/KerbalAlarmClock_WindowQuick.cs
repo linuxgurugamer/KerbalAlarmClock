@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
@@ -21,10 +22,10 @@ namespace KerbalAlarmClock
             if (KACWorkerGameState.CurrentVessel != null)
             {
                 if (KACWorkerGameState.ManeuverNodeExists && KACWorkerGameState.ManeuverNodeFuture != null)
-                    lstQuickButtons.Add(new QuickAddItem(String.Format("Maneuver Alarm ({0})", (new KSPTimeSpan(settings.AlarmAddManQuickMargin + GetBurnMarginSecs(settings.DefaultKERMargin)).ToString(6))), KACResources.iconMNode, QuickAddManNode));
+                    lstQuickButtons.Add(new QuickAddItem(String.Format( "Maneuver Alarm (" + "{0}" +")", (new KSPTimeSpan(settings.AlarmAddManQuickMargin + GetBurnMarginSecs(settings.DefaultKERMargin)).ToString(6))), KACResources.iconMNode, QuickAddManNode));
 
                 if (KACWorkerGameState.SOIPointExists )
-                    lstQuickButtons.Add(new QuickAddItem(String.Format("SOI Change Alarm ({0})", (new KSPTimeSpan(settings.AlarmAddSOIQuickMargin).ToString(6))), KACResources.iconSOI, QuickAddSOI));
+                    lstQuickButtons.Add(new QuickAddItem(String.Format( "SOI Change Alarm (" + "{0}" +")", (new KSPTimeSpan(settings.AlarmAddSOIQuickMargin).ToString(6))), KACResources.iconSOI, QuickAddSOI));
 
                 if (KACWorkerGameState.ApPointExists && !KACWorkerGameState.CurrentVessel.LandedOrSplashed)
                     lstQuickButtons.Add(new QuickAddItem(String.Format("Apoapsis Alarm ({0})", (new KSPTimeSpan(settings.AlarmAddNodeQuickMargin).ToString(6))), KACResources.iconAp, QuickAddAp));
@@ -40,9 +41,9 @@ namespace KerbalAlarmClock
                         lstQuickButtons.Add(new QuickAddItem(String.Format("Descending Node Alarm ({0})", (new KSPTimeSpan(settings.AlarmAddNodeQuickMargin).ToString(6))), KACResources.iconDN, QuickAddDN));
                 }
             }
-            lstQuickButtons.Add(new QuickAddItem("Raw Alarm (10 Min)", KACResources.iconRaw, QuickAddRaw));
+            lstQuickButtons.Add(new QuickAddItem(Localizer.Format("#LOC_KAC_337"), KACResources.iconRaw, QuickAddRaw));
 
-            QuickAddItem qkEarth = new QuickAddItem("Earth Alarm (1 Hr)", KACResources.iconEarth, QuickAddEarth60);
+            QuickAddItem qkEarth = new QuickAddItem(Localizer.Format("#LOC_KAC_338"), KACResources.iconEarth, QuickAddEarth60);
             qkEarth.AllowAddAndWarp = false;
             lstQuickButtons.Add(qkEarth);
 
@@ -89,7 +90,7 @@ namespace KerbalAlarmClock
             {
                 GUILayout.Space(-5);
 
-                GUIContent contButton = new GUIContent(">>", "Warp to " + item.Text);
+                GUIContent contButton = new GUIContent(">>", Localizer.Format("#LOC_KAC_10") + item.Text);
                 if (GUILayout.Button(contButton, KACResources.styleQAListButton, GUILayout.Width(30)))
                 {
                     if (item.ActionToCall != null)
@@ -120,7 +121,7 @@ namespace KerbalAlarmClock
         {
             KACAlarm tmpAlarm = new KACAlarm(KACWorkerGameState.CurrentTime.UT + 600);
             tmpAlarm.TypeOfAlarm= KACAlarm.AlarmTypeEnum.Raw;
-            tmpAlarm.Name = "Quick Raw";
+            tmpAlarm.Name = Localizer.Format("#LOC_KAC_339");
             if (KACWorkerGameState.IsVesselActive)
                 tmpAlarm.VesselID = KACWorkerGameState.CurrentVessel.id.ToString();
 
@@ -138,7 +139,7 @@ namespace KerbalAlarmClock
         {
             KACAlarm tmpAlarm = new KACAlarm(EarthTimeEncode(DateTime.Now.AddMinutes(Minutes)));
             tmpAlarm.TypeOfAlarm = KACAlarm.AlarmTypeEnum.EarthTime;
-            tmpAlarm.Name = "Quick Earth Alarm";
+            tmpAlarm.Name = Localizer.Format("#LOC_KAC_340");
 
             alarms.Add(tmpAlarm);
 
@@ -149,7 +150,7 @@ namespace KerbalAlarmClock
         {
             KACAlarm tmpAlarm = new KACAlarm(KACWorkerGameState.CurrentVessel.id.ToString(),
                 KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + " Maneuver",
-                "Quick Added Maneuver Alarm",
+                Localizer.Format("#LOC_KAC_341"),
                 KACWorkerGameState.ManeuverNodeFuture.UT - settings.AlarmAddManQuickMargin,
                 settings.AlarmAddManQuickMargin,
                 KACAlarm.AlarmTypeEnum.Maneuver,
@@ -165,7 +166,7 @@ namespace KerbalAlarmClock
         {
             KACAlarm tmpAlarm = new KACAlarm(KACWorkerGameState.CurrentVessel.id.ToString(),
                 KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + " SOI Change",
-                "Quick Added SOI Change Alarm",
+                Localizer.Format("#LOC_KAC_342"),
                 KACWorkerGameState.CurrentVessel.orbit.UTsoi - settings.AlarmAddSOIQuickMargin,
                 settings.AlarmAddSOIQuickMargin,
                 KACAlarm.AlarmTypeEnum.SOIChange,
@@ -180,7 +181,7 @@ namespace KerbalAlarmClock
         {
             KACAlarm tmpAlarm = new KACAlarm(KACWorkerGameState.CurrentVessel.id.ToString(),
                 KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + " Apopasis",
-                "Quick Added Apoapsis Alarm",
+                Localizer.Format("#LOC_KAC_343"),
                 KACWorkerGameState.CurrentTime.UT + KACWorkerGameState.CurrentVessel.orbit.timeToAp - settings.AlarmAddNodeQuickMargin,
                 settings.AlarmAddNodeQuickMargin,
                 KACAlarm.AlarmTypeEnum.Apoapsis,
@@ -194,7 +195,7 @@ namespace KerbalAlarmClock
         {
             KACAlarm tmpAlarm = new KACAlarm(KACWorkerGameState.CurrentVessel.id.ToString(),
                 KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + " Periapsis",
-                "Quick Added Periapsis Alarm",
+                Localizer.Format("#LOC_KAC_344"),
                 KACWorkerGameState.CurrentTime.UT + KACWorkerGameState.CurrentVessel.orbit.timeToPe - settings.AlarmAddNodeQuickMargin,
                 settings.AlarmAddNodeQuickMargin,
                 KACAlarm.AlarmTypeEnum.Periapsis,
@@ -208,7 +209,7 @@ namespace KerbalAlarmClock
         {
             KACAlarm tmpAlarm = new KACAlarm(KACWorkerGameState.CurrentVessel.id.ToString(),
                 KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + " Ascending",
-                "Quick Added Ascending Node",
+                Localizer.Format("#LOC_KAC_345"),
                 KACWorkerGameState.CurrentVessel.orbit.TimeOfAscendingNode(KACWorkerGameState.CurrentVesselTarget.GetOrbit(), KACWorkerGameState.CurrentTime.UT) - settings.AlarmAddNodeQuickMargin,
                 settings.AlarmAddNodeQuickMargin,
                 KACAlarm.AlarmTypeEnum.AscendingNode,
@@ -222,7 +223,7 @@ namespace KerbalAlarmClock
         {
             KACAlarm tmpAlarm = new KACAlarm(KACWorkerGameState.CurrentVessel.id.ToString(),
                 KSP.Localization.Localizer.Format(KACWorkerGameState.CurrentVessel.vesselName) + " Descending",
-                "Quick Added Descending Node",
+                Localizer.Format("#LOC_KAC_346"),
                 KACWorkerGameState.CurrentVessel.orbit.TimeOfDescendingNode(KACWorkerGameState.CurrentVesselTarget.GetOrbit(), KACWorkerGameState.CurrentTime.UT) - settings.AlarmAddNodeQuickMargin,
                 settings.AlarmAddNodeQuickMargin,
                 KACAlarm.AlarmTypeEnum.DescendingNode,

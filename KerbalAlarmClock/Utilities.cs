@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
@@ -13,6 +14,7 @@ namespace KerbalAlarmClock
 {
     internal static class KACUtils
     {
+        #region  NO_LOCALIZATION
         //public static String AppPath = KSPUtil.ApplicationRootPath.Replace("\\", "/");
         //public static String PlugInPath = AppPath + "PluginData/KerbalAlarmClock/";
         internal static String PathApp = KSPUtil.ApplicationRootPath.Replace("\\", "/");
@@ -33,6 +35,7 @@ namespace KerbalAlarmClock
         internal static String PathToolbarTexturePath = PathToolbarIcons.Replace("\\", "/").Substring(PathToolbarIcons.Replace("\\", "/").ToLower().IndexOf("/gamedata/") + 10);
 
         internal static String SavePath;
+
 
         internal static Boolean BackupSaves()
         {
@@ -78,7 +81,7 @@ namespace KerbalAlarmClock
                     }
                     catch (Exception ex)
                     {
-                        MonoBehaviourExtended.LogFormatted("Unable to backup: {0}/persistent.sfs\r\n\t{1}", SavePath,ex.Message);
+                        MonoBehaviourExtended.LogFormatted("Unable to backup: {0}/persistent.sfs\r\n\t{1}", SavePath,ex.Message); // NO_LOCALIZATION
                     }
                 }
             }
@@ -145,6 +148,7 @@ namespace KerbalAlarmClock
             return strReturn;
         }
 
+
         internal static String EncodeVarStrings(String Input)
         {
             String strReturn = Input;
@@ -166,7 +170,7 @@ namespace KerbalAlarmClock
             strReturn = strReturn.Replace("\\t", "\t");
             return strReturn;
         }
-
+        #endregion
         //public static Byte[] LoadFileToArray(String Filename)
         //{
         //    Byte[] arrBytes;
@@ -258,12 +262,12 @@ namespace KerbalAlarmClock
                 if (FolderPath == "") FolderPath = PathTextures;
 
                 //File Exists check
-                if (System.IO.File.Exists(String.Format("{0}/{1}", FolderPath, FileName)))
+                if (System.IO.File.Exists(String.Format("{0}" + "/" + "{1}", FolderPath, FileName)))
                 {
                     try
                     {
                         //MonoBehaviourExtended.LogFormatted_DebugOnly("Loading: {0}", String.Format("{0}/{1}", FolderPath, FileName));
-                        tex.LoadImage(System.IO.File.ReadAllBytes(String.Format("{0}/{1}", FolderPath, FileName)));
+                        tex.LoadImage(System.IO.File.ReadAllBytes(String.Format("{0}" + "/" + "{1}", FolderPath, FileName)));
                         blnReturn = true;
                     }
                     catch (Exception ex)
@@ -285,7 +289,7 @@ namespace KerbalAlarmClock
             return blnReturn;
         }
 
-        #region "offset building"
+        #region Localizer.Format("#LOC_KAC_520")
         internal static RectOffset SetWindowRectOffset(RectOffset tmpRectOffset, int intValue)
         {
             tmpRectOffset.left = intValue;
@@ -310,7 +314,7 @@ namespace KerbalAlarmClock
         }
         #endregion
 
-        #region "Math Stuff"
+        #region Localizer.Format("#LOC_KAC_521")
         internal static double Clamp(double x, double min, double max)
         {
             return Math.Min(Math.Max(x, min), max);
@@ -334,7 +338,7 @@ namespace KerbalAlarmClock
         }
         #endregion
 
-        #region "Orbital Math"
+        #region Localizer.Format("#LOC_KAC_522")
         /// <summary>
         /// Calculates the current phase angle between <paramref name="origin"/> and <paramref name="destination"/>.
         /// </summary>
@@ -468,7 +472,7 @@ namespace KerbalAlarmClock
         //}
         //#endregion
 
-        #region "timeOfClosestApproach Code - "
+        #region Localizer.Format("#LOC_KAC_523")
         internal static Vector3d getAbsolutePositionAtUT(Orbit orbit, double UT)
         {
             Vector3d pos = orbit.getRelativePositionAtUT(UT);

@@ -1,10 +1,11 @@
-﻿/* Part of KSPPluginFramework
+/* Part of KSPPluginFramework
 Version 1.2
 
 Forum Thread:https://forum.kerbalspaceprogram.com/topic/60381-ksp-plugin-framework-plugin-examples-and-structure/
 Author: TriggerAu, 2014
 License: The MIT License (MIT)
 */
+using KSP.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -136,9 +137,9 @@ namespace KSPPluginFramework
         private static void SetCurrentTooltip()
         {
             //Use the custom skin if it exists
-            if (StyleExists(_CurrentSkin, "Tooltip"))
+            if (StyleExists(_CurrentSkin, Localizer.Format("#LOC_KAC_588")))
             {
-                _CurrentTooltip = GetStyle(_CurrentSkin, "Tooltip");
+                _CurrentTooltip = GetStyle(_CurrentSkin, Localizer.Format("#LOC_KAC_588"));
             }
             else
             {
@@ -199,7 +200,7 @@ namespace KSPPluginFramework
             else
             {
                 MonoBehaviourExtended.LogFormatted("Unable to copy GUISkin to {0}, GUISkin not found", SkinID);
-                throw new SystemException(String.Format("Unable to copy GUISkin to {0}, GUISkin not found", SkinID));
+                throw new SystemException(String.Format( "Unable to copy GUISkin to" + " {0}" +Localizer.Format("#LOC_KAC_589"), SkinID));
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
@@ -15,12 +16,12 @@ namespace KerbalAlarmClock
         internal void WindowLayout_AddTypeANDN()
         {
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Node Type:", KACResources.styleAddHeading);
+            GUILayout.Label(Localizer.Format("#LOC_KAC_260"), KACResources.styleAddHeading);
 
             if (KACWorkerGameState.CurrentVessel.Landed && KACWorkerGameState.CurrentVesselTarget!=null &&KACWorkerGameState.CurrentVesselTarget is Vessel)
             {
                 int intTemp=0;
-                DrawRadioList(ref intTemp, "Launch Rendezvous");
+                DrawRadioList(ref intTemp, Localizer.Format("#LOC_KAC_261"));
                 if (AddType!= KACAlarm.AlarmTypeEnum.LaunchRendevous)
                 {
                     AddType = KACAlarm.AlarmTypeEnum.LaunchRendevous;
@@ -36,7 +37,7 @@ namespace KerbalAlarmClock
                     AddTypeChanged();
                 }
                 if (AddType != KACAlarm.AlarmTypeEnum.AscendingNode) intOption = 1;
-                if (DrawRadioList(ref intOption, "Ascending", "Descending"))
+                if (DrawRadioList(ref intOption, Localizer.Format("#LOC_KAC_262"), Localizer.Format("#LOC_KAC_263")))
                 {
                     if (intOption == 0)
                         AddType = KACAlarm.AlarmTypeEnum.AscendingNode;

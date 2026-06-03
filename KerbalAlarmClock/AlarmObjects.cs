@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -145,7 +146,7 @@ namespace KerbalAlarmClock
         }
 
 
-        #region "Constructors"
+        #region "#LOC_KAC_1"
         public KACAlarm()
         {
             ID = Guid.NewGuid().ToString("N");
@@ -650,7 +651,7 @@ namespace KerbalAlarmClock
             try {
                 KerbalAlarmClock.APIInstance.APIInstance_AlarmStateChanged(item, KerbalAlarmClock.AlarmStateEventsEnum.Created);
             } catch (Exception ex) {
-                MonoBehaviourExtended.LogFormatted("Error Raising API Event-Created Alarm: {0}\r\n{1}", ex.Message, ex.StackTrace);
+                MonoBehaviourExtended.LogFormatted("Error Raising API Event-Created Alarm: {0}\r\n{1}", ex.Message, ex.StackTrace); // NO_LOCALIZATION
             } 
             base.Add(item);
         }
@@ -662,7 +663,7 @@ namespace KerbalAlarmClock
             try {
                 KerbalAlarmClock.APIInstance.APIInstance_AlarmStateChanged(item, KerbalAlarmClock.AlarmStateEventsEnum.Deleted);
             } catch (Exception ex) {
-                MonoBehaviourExtended.LogFormatted("Error Raising API Event-Deleted Alarm: {0}\r\n{1}", ex.Message, ex.StackTrace);
+                MonoBehaviourExtended.LogFormatted("Error Raising API Event-Deleted Alarm: {0}\r\n{1}", ex.Message, ex.StackTrace); // NO_LOCALIZATION
             } 
             base.Remove(item);
         }

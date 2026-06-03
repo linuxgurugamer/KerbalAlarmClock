@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,16 +29,16 @@ namespace KerbalAlarmClock.Windows
         internal void FillWindow(Int32 windowID)
         {
             GUILayout.BeginVertical();
-            GUILayout.Label("Are you sure you want to delete?");
+            GUILayout.Label(Localizer.Format("#LOC_KAC_586"));
             GUILayout.Label(AlarmToConfirm.Name);
             GUILayout.Label(AlarmToConfirm.Remaining.ToStringStandard(TimeSpanStringFormatsEnum.IntervalLongTrimYears));
             
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button("Cancel")) {
+            if (GUILayout.Button(Localizer.Format("#LOC_KAC_587"))) {
                 Visible = false;
             }
-            if (GUILayout.Button(new GUIContent("Delete", KACResources.btnRedCross))) {
+            if (GUILayout.Button(new GUIContent(Localizer.Format("#LOC_KAC_528"), KACResources.btnRedCross), GUILayout.Width(20), GUILayout.Height(20))) {
                 Visible = false;
                 KerbalAlarmClock.alarms.Remove(AlarmToConfirm);
             }

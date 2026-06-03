@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
@@ -16,10 +17,10 @@ namespace KerbalAlarmClock
         internal void WindowLayout_AddTypeDistanceChoice()
         {
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Distance Type:", KACResources.styleAddHeading);
+            GUILayout.Label(Localizer.Format("#LOC_KAC_264"), KACResources.styleAddHeading);
             int intOption = 0;
             if (AddType != KACAlarm.AlarmTypeEnum.Closest) intOption = 1;
-            if (DrawRadioList(ref intOption, "Closest", "Target Distance"))
+            if (DrawRadioList(ref intOption, Localizer.Format("#LOC_KAC_265"), Localizer.Format("#LOC_KAC_266")))
             {
                 if (intOption == 0)
                     AddType = KACAlarm.AlarmTypeEnum.Closest;
@@ -35,15 +36,15 @@ namespace KerbalAlarmClock
         private void WindowLayout_AddPane_ClosestApproach()
         {
             GUILayout.BeginVertical();
-            GUILayout.Label(strAlarmEventName + " Details...", KACResources.styleAddSectionHeading);
+            GUILayout.Label(strAlarmEventName + Localizer.Format("#LOC_KAC_216"), KACResources.styleAddSectionHeading);
 
             if (KACWorkerGameState.CurrentVessel == null)
-                GUILayout.Label("No Active Vessel");
+                GUILayout.Label(Localizer.Format("#LOC_KAC_164"));
             else
             {
                 if (!(KACWorkerGameState.CurrentVesselTarget is Vessel) && !(KACWorkerGameState.CurrentVesselTarget is ModuleDockingNode))
                 {
-                    GUILayout.Label("No valid Vessel Target Selected", GUILayout.ExpandWidth(true));
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_267"), GUILayout.ExpandWidth(true));
                 }
                 else
                 {
@@ -52,7 +53,7 @@ namespace KerbalAlarmClock
                     GUILayout.BeginVertical(KACResources.styleAddFieldAreas);
 
                     GUILayout.BeginHorizontal();
-                    GUILayout.Label("Orbits to Search:", KACResources.styleAddHeading, GUILayout.Width(110));
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_268"), KACResources.styleAddHeading, GUILayout.Width(110));
                     GUILayout.Label(((int)Math.Round((Decimal)fltOrbits, 0)).ToString(), KACResources.styleAddXferName, GUILayout.Width(25));
                     fltOrbits = GUILayout.HorizontalSlider(fltOrbits, 1, 20);
                     fltOrbits = (float)Math.Floor((Decimal)fltOrbits);
@@ -85,11 +86,11 @@ namespace KerbalAlarmClock
 
 
                     GUILayout.BeginHorizontal();
-                    GUILayout.Label("Distance:", KACResources.styleAddHeading, GUILayout.Width(70));
-                    String strDistance = string.Format("{0:#}m", dblClosestDistance);
-                    if (dblClosestDistance > 999) strDistance = string.Format("{0:#.0}km", dblClosestDistance / 1000);
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_269"), KACResources.styleAddHeading, GUILayout.Width(70));
+                    String strDistance = string.Format("{0}" + "#" + "}", dblClosestDistance);
+                    if (dblClosestDistance > 999) strDistance = string.Format("{0}" + Localizer.Format("#LOC_KAC_270") + "}", dblClosestDistance / 1000);
                     GUILayout.Label(strDistance, KACResources.styleAddXferName, GUILayout.Width(90));
-                    GUILayout.Label("On Orbit:", KACResources.styleAddHeading);
+                    GUILayout.Label(Localizer.Format("#LOC_KAC_271"), KACResources.styleAddHeading);
                     GUILayout.Label(intClosestOrbitPass.ToString(), KACResources.styleAddXferName);
                     GUILayout.EndHorizontal();
                     GUILayout.EndVertical();
@@ -110,7 +111,7 @@ namespace KerbalAlarmClock
                     {
                         eventAlarm = null;
                         eventAlarmInterval = null;
-                        strMarginConversion = "Unable to Add the Margin Minutes";
+                        strMarginConversion = Localizer.Format("#LOC_KAC_214");
                     }
 
                     if ((eventTime.UT > KACWorkerGameState.CurrentTime.UT) && strMarginConversion == "")
@@ -130,7 +131,7 @@ namespace KerbalAlarmClock
                     }
                     else
                     {
-                        strMarginConversion = "No Future Closest Approach found";
+                        strMarginConversion = Localizer.Format("#LOC_KAC_272");
                     }
 
                     if (strMarginConversion != "")
@@ -158,7 +159,7 @@ namespace KerbalAlarmClock
         {
             intAddDistanceHeight = 262;// 272;
             GUILayout.BeginVertical();
-            GUILayout.Label(strAlarmEventName + " Details...", KACResources.styleAddSectionHeading);
+            GUILayout.Label(strAlarmEventName + Localizer.Format("#LOC_KAC_216"), KACResources.styleAddSectionHeading);
 
             //What are the possible targets??
             List<ITargetable> iTargets = new List<ITargetable>();
@@ -179,7 +180,7 @@ namespace KerbalAlarmClock
 
             //Now give the user the choice
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Select Target:",KACResources.styleAddXferName);
+            GUILayout.Label(Localizer.Format("#LOC_KAC_273"),KACResources.styleAddXferName);
             if (DrawRadioListVertical(ref intSelectediTarget, iTargets.Select(x => x.GetName()).ToArray()))
             {
                 LogFormatted("Distance Target is:{0}", iTargets[intSelectediTarget].GetName());
@@ -188,12 +189,12 @@ namespace KerbalAlarmClock
 
             //Set the tgt Object
             tgtSelectedDistance=iTargets[intSelectediTarget];
-            string strDistanceName = "Distance";
-            if (tgtSelectedDistance is CelestialBody) strDistanceName = "Altitude";
+            string strDistanceName = Localizer.Format("#LOC_KAC_274");
+            if (tgtSelectedDistance is CelestialBody) strDistanceName = Localizer.Format("#LOC_KAC_275");
 
             //Ask for the target distance/altitude
             GUILayout.BeginHorizontal();
-            GUILayout.Label(string.Format("Target {0} (m):",strDistanceName), KACResources.styleAddXferName);
+            GUILayout.Label(string.Format( "Target" + " {0} " +Localizer.Format("#LOC_KAC_276"),strDistanceName), KACResources.styleAddXferName);
             dblTargetDistance = Convert.ToDouble(GUILayout.TextField(dblTargetDistance.ToString(),KACResources.styleAddField));
             GUILayout.EndHorizontal();
 
@@ -203,8 +204,8 @@ namespace KerbalAlarmClock
                 if ((tgtSelectedDistance as CelestialBody).atmosphere)
                 {
                     GUILayout.BeginHorizontal();
-                    GUILayout.Label(string.Format("Atmosphere: {0}", (tgtSelectedDistance as CelestialBody).atmosphereDepth));
-                    if (GUILayout.Button("Set to Edge"))
+                    GUILayout.Label(string.Format( "Atmosphere:" + " {0}", (tgtSelectedDistance as CelestialBody).atmosphereDepth));
+                    if (GUILayout.Button(Localizer.Format("#LOC_KAC_277")))
                     {
                         dblTargetDistance = (tgtSelectedDistance as CelestialBody).atmosphereDepth;
                     }
@@ -218,7 +219,7 @@ namespace KerbalAlarmClock
             if (!(tgtSelectedDistance is CelestialBody))
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Label("Orbits to Search:", KACResources.styleAddHeading, GUILayout.Width(110));
+                GUILayout.Label(Localizer.Format("#LOC_KAC_268"), KACResources.styleAddHeading, GUILayout.Width(110));
                 GUILayout.Label(((int)Math.Round((Decimal)fltOrbits_Distance, 0)).ToString(), KACResources.styleAddXferName, GUILayout.Width(25));
                 fltOrbits_Distance = GUILayout.HorizontalSlider(fltOrbits_Distance, 1, 20);
                 fltOrbits_Distance = (float)Math.Floor((Decimal)fltOrbits_Distance);
@@ -280,13 +281,13 @@ namespace KerbalAlarmClock
 
             //Now display what we got            
             GUILayout.BeginHorizontal();
-            GUILayout.Label(String.Format("{0}:",strDistanceName), KACResources.styleAddHeading, GUILayout.Width(70));
-            String strDistance = string.Format("{0:#}m", dblClosestDistance);
-            if (dblClosestDistance > 999) strDistance = string.Format("{0:#.0}km", dblClosestDistance / 1000);
+            GUILayout.Label(String.Format("{0}" +":",strDistanceName), KACResources.styleAddHeading, GUILayout.Width(70));
+            String strDistance = string.Format("{0}" + "#" + "}", dblClosestDistance);
+            if (dblClosestDistance > 999) strDistance = string.Format("{0}" + Localizer.Format("#LOC_KAC_270") + "}", dblClosestDistance / 1000);
             GUILayout.Label(strDistance, KACResources.styleAddXferName, GUILayout.Width(90));
             if (!(tgtSelectedDistance is CelestialBody))
             {
-                GUILayout.Label("On Orbit:", KACResources.styleAddHeading);
+                GUILayout.Label(Localizer.Format("#LOC_KAC_271"), KACResources.styleAddHeading);
                 GUILayout.Label(intDistanceOrbitPass.ToString(), KACResources.styleAddXferName);
             }
             GUILayout.EndHorizontal();
@@ -308,7 +309,7 @@ namespace KerbalAlarmClock
             {
                 eventAlarm = null;
                 eventAlarmInterval = null;
-                strMarginConversion = "Unable to Add the Margin Minutes";
+                strMarginConversion = Localizer.Format("#LOC_KAC_214");
             }
 
             if ((eventTime.UT > KACWorkerGameState.CurrentTime.UT) && strMarginConversion == "")
@@ -328,7 +329,7 @@ namespace KerbalAlarmClock
             }
             else
             {
-                strMarginConversion = "No Target Distance Approach found";
+                strMarginConversion = Localizer.Format("#LOC_KAC_278");
             }
 
             if (strMarginConversion != "")
