@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Linq;
-using UnityEngine;
 
 namespace KerbalAlarmClock
 {
@@ -17,8 +15,6 @@ namespace KerbalAlarmClock
         /// </summary>
         public static KerbalAlarmClock APIInstance;
         public static Boolean APIReady = false;
-        private static KACAlarm alarmToDelete;
-        private static KACAlarm alarmToAdd;
 
         //Init the API Hooks
         private void APIAwake()
@@ -90,8 +86,7 @@ namespace KerbalAlarmClock
             tmpAlarm.TypeOfAlarm=AlarmType;
             tmpAlarm.Name=Name;
 
-            alarmToAdd = tmpAlarm;
-            StartCoroutine(CreateAlarm());
+            alarms.Add(tmpAlarm);
 
             return tmpAlarm.ID;
         }
@@ -110,8 +105,7 @@ namespace KerbalAlarmClock
                 if (tmpAlarm != null)
                 {
                     LogFormatted("API-DeleteAlarm-Deleting:{0}", AlarmID);
-                    alarmToDelete = tmpAlarm;
-                    StartCoroutine(DeleteAlarm());
+                    alarms.Remove(tmpAlarm);
                     blnReturn = true;
                 }
                 else
@@ -131,26 +125,6 @@ namespace KerbalAlarmClock
             KACAlarm.AlarmActionEnum actionChoice = (KACAlarm.AlarmActionEnum)Choice;
             DrawAlarmActionChoice3(ref actionChoice, LabelText, LabelWidth, ButtonWidth);
             return (Int32)actionChoice;
-        }
-
-        private IEnumerator CreateAlarm()
-        {
-            yield return new WaitForEndOfFrame();
-
-            if (alarms.FirstOrDefault(a => a.ID == alarmToAdd.ID) == null) // to ensure the api user did not try to make the same alarm while this was waiting
-            {
-                alarms.Add(alarmToAdd);
-            }
-        }
-
-        private IEnumerator DeleteAlarm()
-        {
-            yield return new WaitForEndOfFrame();
-
-            if (alarms.FirstOrDefault(a => a.ID == alarmToDelete.ID) != null) // to ensure the api user did not try to delete the same alarm while this was waiting
-            {
-                alarms.Remove(alarmToDelete);
-            }
         }
 
         //public Double DrawTimeEntryAPI(ref Double time, Int32 Prec, String LabelText, Int32 LabelWidth)

@@ -94,9 +94,11 @@ namespace KerbalAlarmClock
 
 		internal void FillAlarmWindow(int windowID)
 		{
-			KACAlarm tmpAlarm = alarms.GetByWindowID(windowID);
+            KACAlarm tmpAlarm = alarms.GetByWindowID(windowID);
 
-			GUILayout.BeginVertical();
+			if (tmpAlarm == null) return;
+
+            GUILayout.BeginVertical();
 
 			GUILayout.BeginVertical(GUI.skin.textArea);
 
