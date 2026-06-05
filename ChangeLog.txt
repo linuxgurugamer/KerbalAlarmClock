@@ -1,5 +1,12 @@
 Changelog
 
+3.14.2.3
+	Fixed the Checks Per Sec dropdown in the General settings
+	Fixed a large number of issues related to localization
+	Fixed some windows not displaying properly when localized
+	Deleted spanish translation.  Will recreate once localization is working properly
+		
+
 3.14.2.2 
 	Implemented an API to allow other mods to control the button.  This will be used by the Stock Alarm Clock Disabler mod:
 		public static void SetToolbarButtonVisible(bool visible)	

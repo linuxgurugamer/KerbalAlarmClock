@@ -133,7 +133,7 @@ namespace KSPPluginFramework
             {
                 LogFormatted("Failed to Load ConfigNode from file({0})-Error:{1}", fileFullName, ex.Message);
                 LogFormatted("Storing old config - {0}", fileFullName + ".err-" + string.Format("ddMMyyyy-HHmmss", DateTime.Now));
-                System.IO.File.Copy(fileFullName, fileFullName + Localizer.Format("#LOC_KAC_557") + string.Format(Localizer.Format("#LOC_KAC_558"), DateTime.Now),true);
+                System.IO.File.Copy(fileFullName, fileFullName + ".err-" + string.Format("ddMMyyyy-HHmmss", DateTime.Now), true);
                 blnReturn = false;
             }
             return blnReturn;

@@ -571,7 +571,8 @@ namespace KerbalAlarmClock
                     AddWindowHeight = Mathf.Clamp(AddWindowHeight, 0, Screen.height);
                 }
 
-                _WindowAddRect = ClickThruBlocker.GUILayoutWindow(_WindowAddID, GetChildWindowRect(WindowPosByActiveScene, WindowPosByActiveScene.y, intAddPaneWindowWidth, AddWindowHeight, ref _ShowAddPaneOnLeft, settings.WindowChildPosBelow), FillAddWindow, Localizer.Format("#LOC_KAC_31"), KACResources.styleWindow);                //switch (AddInterfaceType)
+                _WindowAddRect = ClickThruBlocker.GUILayoutWindow(_WindowAddID, 
+                    GetChildWindowRect(WindowPosByActiveScene, WindowPosByActiveScene.y, intAddPaneWindowWidth, AddWindowHeight, ref _ShowAddPaneOnLeft, settings.WindowChildPosBelow), FillAddWindow, Localizer.Format("#LOC_KAC_31"), KACResources.styleWindow);                //switch (AddInterfaceType)
 
                 if (_ShowAddMessages)
                 {
@@ -582,7 +583,8 @@ namespace KerbalAlarmClock
             {
                 float _WindowEarthTop = WindowPosByActiveScene.y + WindowPosByActiveScene.height - EarthWindowHeight;
                 if (EarthWindowHeight > MainWindowPos.height) _WindowEarthTop = WindowPosByActiveScene.y;
-                _WindowEarthAlarmRect = ClickThruBlocker.GUILayoutWindow(_WindowEarthAlarmID, GetChildWindowRect(WindowPosByActiveScene, _WindowEarthTop, intAddPaneWindowWidth, EarthWindowHeight, ref _ShowEarthAlarmOnLeft, settings.WindowChildPosBelow), FillEarthAlarmWindow, Localizer.Format("#LOC_KAC_32"), KACResources.styleWindow);                //switch (AddInterfaceType)
+                _WindowEarthAlarmRect = ClickThruBlocker.GUILayoutWindow(_WindowEarthAlarmID, 
+                    GetChildWindowRect(WindowPosByActiveScene, _WindowEarthTop, intAddPaneWindowWidth, EarthWindowHeight, ref _ShowEarthAlarmOnLeft, settings.WindowChildPosBelow), FillEarthAlarmWindow, Localizer.Format("#LOC_KAC_32"), KACResources.styleWindow);                //switch (AddInterfaceType)
                 if (_ShowAddMessages)
                 {
                     _WindowAddMessagesRect = ClickThruBlocker.GUILayoutWindow(_WindowAddMessagesID, new Rect(_WindowEarthAlarmRect.x + _WindowEarthAlarmRect.width, _WindowEarthAlarmRect.y, 200, EarthWindowHeight), FillAddMessagesWindow, "");
@@ -590,7 +592,8 @@ namespace KerbalAlarmClock
             }
             else if (_ShowEditPane)
             {
-                _WindowEditRect = ClickThruBlocker.GUILayoutWindow(_WindowEditID, GetChildWindowRect(WindowPosByActiveScene, WindowPosByActiveScene.y, intPaneWindowWidth, intAlarmEditHeight, ref _ShowEditPaneOnLeft, settings.WindowChildPosBelow), FillEditWindow, Localizer.Format("#LOC_KAC_33"), KACResources.styleWindow);
+                _WindowEditRect = ClickThruBlocker.GUILayoutWindow(_WindowEditID, 
+                    GetChildWindowRect(WindowPosByActiveScene, WindowPosByActiveScene.y, intPaneWindowWidth, intAlarmEditHeight, ref _ShowEditPaneOnLeft, settings.WindowChildPosBelow), FillEditWindow, Localizer.Format("#LOC_KAC_33"), KACResources.styleWindow);
             }
             else if (_ShowQuickAdd)
             {
@@ -1562,7 +1565,8 @@ namespace KerbalAlarmClock
                 case KACAlarm.AlarmTypeEnum.ScienceLab: strTitle = "Science Lab"; break;
                 default: strTitle = Localizer.Format("#LOC_KAC_78"); break;
             }
-            strTitle += Localizer.Format("#LOC_KAC_79");
+
+            strTitle += " " + Localizer.Format("#LOC_KAC_79");
             GUILayout.Label(strTitle, KACResources.styleAddSectionHeading);
             GUILayout.BeginVertical(KACResources.styleAddFieldAreas, GUILayout.Height(WindowHeight));
 
@@ -1758,8 +1762,9 @@ namespace KerbalAlarmClock
         {
             Boolean blnReturn = false;
             GUILayout.BeginHorizontal();
-            blnReturn = blnReturn || DrawTextField(ref strYear, Localizer.Format("#LOC_KAC_90"), true, Localizer.Format("#LOC_KAC_91"), 50, 40);
-            blnReturn = blnReturn || DrawTextField(ref strDay, Localizer.Format("#LOC_KAC_90"), true, Localizer.Format("#LOC_KAC_92"), 50, 40);
+            blnReturn = blnReturn || DrawTextField(ref strYear, "[^\\d\\.]+", true, Localizer.Format("#LOC_KAC_91"), 50, 40);
+            blnReturn = blnReturn || DrawTextField(ref strDay, "[^\\d\\.]+", true, Localizer.Format("#LOC_KAC_92"), 50, 40);
+
             GUILayout.EndHorizontal();
             return blnReturn;
         }
@@ -1768,9 +1773,9 @@ namespace KerbalAlarmClock
         {
             Boolean blnReturn = false;
             GUILayout.BeginHorizontal();
-            blnReturn = blnReturn || DrawTextField(ref strYear, Localizer.Format("#LOC_KAC_90"), true, Localizer.Format("#LOC_KAC_93"), 40, 20);
-            blnReturn = blnReturn || DrawTextField(ref strMonth, Localizer.Format("#LOC_KAC_90"), true, Localizer.Format("#LOC_KAC_94"), 30, 20);
-            blnReturn = blnReturn || DrawTextField(ref strDay, Localizer.Format("#LOC_KAC_90"), true, Localizer.Format("#LOC_KAC_95"), 30, 20);
+            blnReturn = blnReturn || DrawTextField(ref strYear, "[^\\d\\.]+", true, Localizer.Format("#LOC_KAC_93"), 40, 20);
+            blnReturn = blnReturn || DrawTextField(ref strMonth, "[^\\d\\.]+", true, Localizer.Format("#LOC_KAC_94"), 30, 20);
+            blnReturn = blnReturn || DrawTextField(ref strDay, "[^\\d\\.]+", true, Localizer.Format("#LOC_KAC_95"), 30, 20);
             GUILayout.EndHorizontal();
             return blnReturn;
         }

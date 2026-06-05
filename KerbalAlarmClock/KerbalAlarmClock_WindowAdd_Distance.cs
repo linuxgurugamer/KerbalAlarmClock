@@ -88,7 +88,7 @@ namespace KerbalAlarmClock
                     GUILayout.BeginHorizontal();
                     GUILayout.Label(Localizer.Format("#LOC_KAC_269"), KACResources.styleAddHeading, GUILayout.Width(70));
                     String strDistance = string.Format("{0}" + "#" + "}", dblClosestDistance);
-                    if (dblClosestDistance > 999) strDistance = string.Format("{0}" + Localizer.Format("#LOC_KAC_270") + "}", dblClosestDistance / 1000);
+                    if (dblClosestDistance > 999) strDistance = string.Format("{0:#.0}km", dblClosestDistance / 1000);
                     GUILayout.Label(strDistance, KACResources.styleAddXferName, GUILayout.Width(90));
                     GUILayout.Label(Localizer.Format("#LOC_KAC_271"), KACResources.styleAddHeading);
                     GUILayout.Label(intClosestOrbitPass.ToString(), KACResources.styleAddXferName);
@@ -281,9 +281,9 @@ namespace KerbalAlarmClock
 
             //Now display what we got            
             GUILayout.BeginHorizontal();
-            GUILayout.Label(String.Format("{0}" +":",strDistanceName), KACResources.styleAddHeading, GUILayout.Width(70));
-            String strDistance = string.Format("{0}" + "#" + "}", dblClosestDistance);
-            if (dblClosestDistance > 999) strDistance = string.Format("{0}" + Localizer.Format("#LOC_KAC_270") + "}", dblClosestDistance / 1000);
+            GUILayout.Label(String.Format("{0}" +":",strDistanceName), KACResources.styleAddHeading, GUILayout.Width(70));        
+            String strDistance = string.Format("{0:#}m", dblClosestDistance);
+            if (dblClosestDistance > 999) strDistance = string.Format("{0:#.0}km", dblClosestDistance / 1000);
             GUILayout.Label(strDistance, KACResources.styleAddXferName, GUILayout.Width(90));
             if (!(tgtSelectedDistance is CelestialBody))
             {

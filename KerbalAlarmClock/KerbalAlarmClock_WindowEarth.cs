@@ -35,7 +35,7 @@ namespace KerbalAlarmClock
 			GUILayout.BeginVertical();
 
 			intHeight_AddWindowCommon = 64;
-			WindowLayout_CommonFields3(ref strAlarmName, ref blnAlarmAttachToVessel, ref AddActions, ref timeMargin, AddType, intHeight_AddWindowCommon);
+            WindowLayout_CommonFields3(ref strAlarmName, ref blnAlarmAttachToVessel, ref AddActions, ref timeMargin, AddType, intHeight_AddWindowCommon);
 
 			GUILayout.Label(Localizer.Format("#LOC_KAC_333"), KACResources.styleAddSectionHeading);
 

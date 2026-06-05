@@ -534,9 +534,9 @@ namespace KerbalAlarmClock
 					{
 						strRestoretext = Localizer.Format("#LOC_KAC_313");
 						if (KACWorkerGameState.CurrentVesselTarget != tmpAlarm.TargetObject)
-							strRestoretext += Localizer.Format("#LOC_KAC_314");
+							strRestoretext += "\n" +Localizer.Format("#LOC_KAC_314");
 						else
-							strRestoretext += Localizer.Format("#LOC_KAC_315");
+							strRestoretext += "\n" +Localizer.Format("#LOC_KAC_315");
 						NoOfDoubleLineButtons++;
 					}
 					intReturnNoOfButtons++;

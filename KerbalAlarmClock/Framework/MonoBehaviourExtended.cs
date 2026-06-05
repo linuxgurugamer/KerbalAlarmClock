@@ -169,7 +169,7 @@ namespace KSPPluginFramework
             try
             {
                 LogFormatted_DebugOnly("Invoking the repeating function");
-                this.InvokeRepeating(Localizer.Format("#LOC_KAC_559"), _RepeatInitialWait, RepeatingWorkerRate);
+                this.InvokeRepeating("RepeatingWorkerWrapper", _RepeatInitialWait, RepeatingWorkerRate);
                 _RepeatRunning = true;
             }
             catch (Exception)
@@ -189,7 +189,7 @@ namespace KSPPluginFramework
             try
             {
                 LogFormatted_DebugOnly("Cancelling the repeating function");
-                this.CancelInvoke(Localizer.Format("#LOC_KAC_559"));
+                this.CancelInvoke("RepeatingWorkerWrapper");
                 _RepeatRunning = false;
             }
             catch (Exception)
