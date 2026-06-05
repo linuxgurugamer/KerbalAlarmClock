@@ -87,7 +87,7 @@ namespace KerbalAlarmClock
 
                     GUILayout.BeginHorizontal();
                     GUILayout.Label(Localizer.Format("#LOC_KAC_269"), KACResources.styleAddHeading, GUILayout.Width(70));
-                    String strDistance = string.Format("{0}" + "#" + "}", dblClosestDistance);
+                    String strDistance = string.Format("{0:#}m", dblClosestDistance);
                     if (dblClosestDistance > 999) strDistance = string.Format("{0:#.0}km", dblClosestDistance / 1000);
                     GUILayout.Label(strDistance, KACResources.styleAddXferName, GUILayout.Width(90));
                     GUILayout.Label(Localizer.Format("#LOC_KAC_271"), KACResources.styleAddHeading);
@@ -194,7 +194,7 @@ namespace KerbalAlarmClock
 
             //Ask for the target distance/altitude
             GUILayout.BeginHorizontal();
-            GUILayout.Label(string.Format( "Target" + " {0} " +Localizer.Format("#LOC_KAC_276"),strDistanceName), KACResources.styleAddXferName);
+            GUILayout.Label(string.Format("Target {0} (m):", strDistanceName), KACResources.styleAddXferName);
             dblTargetDistance = Convert.ToDouble(GUILayout.TextField(dblTargetDistance.ToString(),KACResources.styleAddField));
             GUILayout.EndHorizontal();
 
@@ -281,7 +281,7 @@ namespace KerbalAlarmClock
 
             //Now display what we got            
             GUILayout.BeginHorizontal();
-            GUILayout.Label(String.Format("{0}" +":",strDistanceName), KACResources.styleAddHeading, GUILayout.Width(70));        
+            GUILayout.Label(String.Format("{0}:", strDistanceName), KACResources.styleAddHeading, GUILayout.Width(70));        
             String strDistance = string.Format("{0:#}m", dblClosestDistance);
             if (dblClosestDistance > 999) strDistance = string.Format("{0:#.0}km", dblClosestDistance / 1000);
             GUILayout.Label(strDistance, KACResources.styleAddXferName, GUILayout.Width(90));
