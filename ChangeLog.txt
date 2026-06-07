@@ -1,5 +1,8 @@
 Changelog
 
+3.14.2.5
+	Fixed another error caused by localization, in the science window
+
 3.14.2.4
 	Fixed another error caused by locatization, in the closest/target distance" alarm type window
 

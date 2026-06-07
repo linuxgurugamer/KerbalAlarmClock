@@ -1063,7 +1063,7 @@ namespace KerbalAlarmClock
                         GUILayout.Space(20);
                         GUILayout.Label(
                             string.Format(
-                                 "Science Lab" + " {0} " + "(Science:" + " {1}" + Localizer.Format("#LOC_KAC_180") + "}" + " Data:" + " {2}" + Localizer.Format("#LOC_KAC_180") + "}",
+                                "Science Lab {0} (Science: {1:0}, Data: {2:0})",
                                 i + 1,
                                 lstScienceLabs[i].storedScience,
                                 lstScienceLabs[i].dataStored),
